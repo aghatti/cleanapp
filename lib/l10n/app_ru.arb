@@ -1,0 +1,20 @@
+{
+    "order": "порядок",
+
+    "logIn": "Войти",
+
+    "logOut": "Выйти",
+
+    "auth": "Аутентификация",
+
+    "logInPrompt": "Email или логин",
+
+    "passwordPrompt": "Пароль",
+
+    "reportProblem": "Сообщить о проблеме",
+
+    "problemDescription": "Описание проблемы",
+
+    "allTasks": "Все задачи"
+}
+

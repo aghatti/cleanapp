@@ -1,0 +1,48 @@
+{
+  "order": "order",
+  "@order": {
+    "description": "Application title"
+  },
+
+  "logIn": "Log in",
+  "@logIn": {
+    "description": "Log in phrase"
+  },
+
+  "logOut": "Log out",
+    "@logOut": {
+      "description": "Log out phrase"
+    },
+
+  "auth": "Authentication",
+       "@auth": {
+         "description": "Authentication title"
+  },
+
+  "logInPrompt": "Email or login",
+    "@logInPrompt": {
+      "description": "Login field prompt"
+   },
+
+   "passwordPrompt": "Password",
+       "@passwordPrompt": {
+         "description": "Password field prompt"
+   },
+
+   "reportProblem": "Report problem",
+          "@reportProblem": {
+            "description": "Report problem"
+   },
+
+   "problemDescription": "Problem description",
+             "@problemDescription": {
+               "description": "Problem description"
+   },
+
+   "allTasks": "All tasks",
+                "@allTasks": {
+                  "description": "All tasks"
+   }
+}
+
+
