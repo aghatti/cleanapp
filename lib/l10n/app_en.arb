@@ -42,6 +42,10 @@
    "allTasks": "All tasks",
                 "@allTasks": {
                   "description": "All tasks"
+   },
+   "currentTask": "Current task",
+                   "@currentTask": {
+                     "description": "Current task"
    }
 }
 

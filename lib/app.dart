@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:user_repository/user_repository.dart';
@@ -145,12 +144,12 @@ class _CleaningAppViewState extends State<CleaningAppView> {
         useMaterial3: true,
         brightness: Brightness.light,
 
-        /*textTheme: const TextTheme(
+        textTheme: const TextTheme(
           displayLarge: TextStyle(fontSize: 72, fontWeight: FontWeight.bold),
-          titleLarge: TextStyle(fontSize: 36, fontStyle: FontStyle.italic),
+          titleLarge: TextStyle(fontSize: 36, fontStyle: FontStyle.normal),
           bodyMedium: TextStyle(fontSize: 14, fontFamily: 'Hind'),
           headlineMedium: TextStyle(fontSize: 32, fontWeight: FontWeight.normal, color: Colors.white),
-        ),*/
+        ),
       ),
 
     );

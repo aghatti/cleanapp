@@ -15,6 +15,9 @@
 
     "problemDescription": "Описание проблемы",
 
-    "allTasks": "Все задачи"
+    "allTasks": "Все задачи",
+
+    "currentTasks": "Текущая задача"
+
 }
 
