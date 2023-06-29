@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:authentication_repository/authentication_repository.dart';
+import 'package:tasks_repository/tasks_repository.dart';
 import 'package:user_repository/user_repository.dart';
 import 'package:cleanapp/common_widgets/topbar.dart';
+import 'package:cleanapp/utils/utils.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -14,12 +17,23 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   UserRepository _userRepo = UserRepository();
+  TasksRepository _tasksRepo = TasksRepository();
   User _usr = User.empty;
+  DateTime _curDt = DateTime.now();
+  final String _curDtStr = DateFormat('MMMM dd').format(DateTime.now());
+  int _numTasks = 0;
+  Task _curTask = Task.empty;
 
   @override
   void initState() {
     _userRepo.getUser().then(
             (User usr) => setState(() {_usr = usr;})
+    );
+    _tasksRepo.getNumTasks(DateTime.now()).then(
+        (int numTasks) => setState(() {_numTasks = numTasks;})
+    );
+    _tasksRepo.getCurrentTask().then(
+        (Task task) => setState(() {_curTask = task;})
     );
     super.initState();
   }
@@ -91,41 +105,89 @@ class _HomePageState extends State<HomePage> {
           child:
           Expanded(child:
           Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
             SizedBox(height: 10),
-            Text(_usr!.uName.toString() + ' ' + _usr!.uSurname.toString(), textAlign: TextAlign.left,
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 7),
+              child:Text(_usr!.uName.toString() + ' ' + _usr!.uSurname.toString(), textAlign: TextAlign.left,
                 style: Theme.of(context).textTheme.bodyLarge,),
-
-            Expanded(
-              child:        Row(
+            ),
+            SizedBox(height: 10),
+            Padding(
+                padding: EdgeInsets.symmetric(horizontal: 7),
+                child:
+            Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 //crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
+                children: <Widget>[
+                  Expanded(
+                    flex: 3,
+                  child:
                   Container(
-                    child:
-                       Text('24 января'),
+                    child: Text(_curDtStr),
                   ),
-                  Flexible(child: Text('Сегодня', style: TextStyle(fontWeight: FontWeight.bold)),),
+                  ),
+              Expanded(
+                flex: 3,
+                child:
+                  Text(AppLocalizations.of(context)!.today,  textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, ),),
+              ),
+              Expanded(
+                flex: 3,
+                child:
                   Container(
-                    child: Text('18 заданий'),
+                    child: Text(AppLocalizations.of(context)!.tasks + ': ' + _numTasks.toString(), softWrap: false, textAlign: TextAlign.right,),
                   ),
+              ),
                 ],
               ),
             ),
-
+            SizedBox(height: 10),
             ColorGroup(children: [
               ColorChip(
                 label: AppLocalizations.of(context)!.currentTask,
                 color: colorScheme.primary,
                 onColor: colorScheme.onPrimary,
               ),
-              ColorChip(
+              Row(
+                  //crossAxisAlignment: CrossAxisAlignment.baseline,
+                  //textBaseline: TextBaseline.alphabetic,
+                  children: <Widget>[
+
+                Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Text(Utils.getTimeFromDate(_curTask.tDate), style: TextStyle(fontWeight: FontWeight.bold)),
+                ),
+                    Expanded(
+                      child:
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(_curTask.tName, style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text(_curTask.tDesc),
+                    ],
+                  ),
+                ),
+                    ),
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child:
+                  IconButton(
+                    icon: const Icon(Icons.arrow_forward_ios),
+                    //color: Colors.white,
+                    onPressed: () {},
+                  ),
+                ),
+              ]),
+              /*ColorChip(
                   label: 'onPrimary',
                   color: colorScheme.onPrimary,
-                  onColor: colorScheme.primary),
-              ColorChip(
+                  onColor: colorScheme.primary),*/
+              /*ColorChip(
                 label: 'primaryContainer',
                 color: colorScheme.primaryContainer,
                 onColor: colorScheme.onPrimaryContainer,
@@ -134,7 +196,7 @@ class _HomePageState extends State<HomePage> {
                 label: 'onPrimaryContainer',
                 color: colorScheme.onPrimaryContainer,
                 onColor: colorScheme.primaryContainer,
-              ),
+              ),*/
             ]),
                 Flexible(
                   child: Container(
@@ -199,56 +261,9 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Add your onPressed code here!
+          Navigator.pushNamed(context, '/qrscan');
         },
         child: const Icon(Icons.qr_code),
-      ),
-    );
-  }
-}
-
-class CurrentTaskCard extends StatelessWidget {
-  const CurrentTaskCard({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-
-    return Center(
-      child: Card(
-            shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                bottomRight: Radius.circular(10),
-                topRight: Radius.circular(10)),
-                side: BorderSide(width: 15, color: Colors.green)
-                //side: BorderSide.none
-            ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-
-            const ListTile(
-              //leading: Icon(Icons.album),
-              title: Text('The Enchanted Nightingale'),
-              subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
-
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                TextButton(
-                  child: const Text('BUY TICKETS'),
-                  onPressed: () {/* ... */},
-                ),
-                const SizedBox(width: 8),
-                TextButton(
-                  child: const Text('LISTEN'),
-                  onPressed: () {/* ... */},
-                ),
-                const SizedBox(width: 8),
-              ],
-            ),
-          ],
-        ),
       ),
     );
   }

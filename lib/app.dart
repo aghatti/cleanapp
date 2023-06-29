@@ -8,6 +8,7 @@ import 'login.dart';
 import 'home.dart';
 import 'splash_start.dart';
 import 'report_problem.dart';
+import 'qrscan.dart';
 
 // TODO: Convert ShrineApp to stateful widget (104)
 class CleaningApp extends StatefulWidget {
@@ -114,6 +115,30 @@ class _CleaningAppViewState extends State<CleaningAppView> {
               settings: settings, // Pass this to make popUntil(), pushNamedAndRemoveUntil(), works
               //pageBuilder: (_, __, ___) => const LoginPage(),
               pageBuilder: (context, animation, secondaryAnimation) => const ReportProblemPage(),
+              //transitionsBuilder: (_, a, __, c) => FadeTransition(opacity: a, child: c)
+              transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                const begin = Offset(0.0, 1.0);
+                const end = Offset.zero;
+                const curve = Curves.ease;
+
+                final tween = Tween(begin: begin, end: end);
+                final curvedAnimation = CurvedAnimation(
+                  parent: animation,
+                  curve: curve,
+                );
+
+                return SlideTransition(
+                  position: tween.animate(curvedAnimation),
+                  child: child,
+                );
+              }
+          );
+        }
+        else if(settings.name == "/qrscan") {
+          return PageRouteBuilder(
+              settings: settings, // Pass this to make popUntil(), pushNamedAndRemoveUntil(), works
+              //pageBuilder: (_, __, ___) => const LoginPage(),
+              pageBuilder: (context, animation, secondaryAnimation) => const QrScanPage(),
               //transitionsBuilder: (_, a, __, c) => FadeTransition(opacity: a, child: c)
               transitionsBuilder: (context, animation, secondaryAnimation, child) {
                 const begin = Offset(0.0, 1.0);

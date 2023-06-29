@@ -46,7 +46,15 @@
    "currentTask": "Current task",
                    "@currentTask": {
                      "description": "Current task"
-   }
+   },
+   "today": "Today",
+                 "@today": {
+                  "description": "Today"
+   },
+  "tasks": "Tasks",
+                "@tasks": {
+                  "description": "Tasks"
+  }
 }
 
 
