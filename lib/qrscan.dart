@@ -28,6 +28,7 @@ class _QrScanPageState extends State<QrScanPage> {
 
   @override
   void initState() {
+    _tasksRepo.generateDemoTasks();
     _userRepo.getUser().then(
             (User usr) => setState(() {_usr = usr;})
     );
@@ -99,19 +100,42 @@ class _QrScanPageState extends State<QrScanPage> {
         controller: MobileScannerController(
           detectionSpeed: DetectionSpeed.normal,
           facing: CameraFacing.back,
+          detectionTimeoutMs: 500,
           //torchEnabled: true,
         ),
+        startDelay: true,
         onDetect: (capture) {
           final List<Barcode> barcodes = capture.barcodes;
           final Uint8List? image = capture.image;
+          Task task = Task.empty;
           for (final barcode in barcodes) {
             debugPrint('Barcode found! ${barcode.rawValue}');
-            ScaffoldMessenger.of(context).removeCurrentSnackBar();
-            ScaffoldMessenger.of(context).showSnackBar(
+            if(barcode.rawValue==null) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('No QR found.'),
+                  )
+              );
+            } else {
+                task = _tasksRepo.getTaskByQr(barcode.rawValue!);
+                if(task.isEmpty()) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('No task found for QR: ' + (barcode.rawValue ?? '')),
+                      )
+                  );
+                }
+                else  {
+                  Navigator.pushReplacementNamed(context, '/task', arguments: task!);
+                  break;
+                }
+            }
+
+            /*ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text('QR: ' + (barcode.rawValue ?? '')),
                 )
-            );
+            );*/
           }
         },
       ),

@@ -54,6 +54,14 @@
   "tasks": "Tasks",
                 "@tasks": {
                   "description": "Tasks"
+  },
+  "beginTask": "Begin task",
+  "@beginTask": {
+    "description": "Begin task"
+  },
+  "cancelTask": "Cancel task",
+  "@cancelTask": {
+    "description": "Cancel task"
   }
 }
 

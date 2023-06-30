@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:authentication_repository/authentication_repository.dart';
+import 'package:tasks_repository/tasks_repository.dart';
 import 'package:user_repository/user_repository.dart';
 
 import 'start.dart';
@@ -9,6 +10,8 @@ import 'home.dart';
 import 'splash_start.dart';
 import 'report_problem.dart';
 import 'qrscan.dart';
+import 'tasklist.dart';
+import 'task.dart';
 
 // TODO: Convert ShrineApp to stateful widget (104)
 class CleaningApp extends StatefulWidget {
@@ -139,6 +142,54 @@ class _CleaningAppViewState extends State<CleaningAppView> {
               settings: settings, // Pass this to make popUntil(), pushNamedAndRemoveUntil(), works
               //pageBuilder: (_, __, ___) => const LoginPage(),
               pageBuilder: (context, animation, secondaryAnimation) => const QrScanPage(),
+              //transitionsBuilder: (_, a, __, c) => FadeTransition(opacity: a, child: c)
+              transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                const begin = Offset(0.0, 1.0);
+                const end = Offset.zero;
+                const curve = Curves.ease;
+
+                final tween = Tween(begin: begin, end: end);
+                final curvedAnimation = CurvedAnimation(
+                  parent: animation,
+                  curve: curve,
+                );
+
+                return SlideTransition(
+                  position: tween.animate(curvedAnimation),
+                  child: child,
+                );
+              }
+          );
+        }
+        else if(settings.name == "/tasklist") {
+          return PageRouteBuilder(
+              settings: settings, // Pass this to make popUntil(), pushNamedAndRemoveUntil(), works
+              //pageBuilder: (_, __, ___) => const LoginPage(),
+              pageBuilder: (context, animation, secondaryAnimation) => TasksList(),
+              //transitionsBuilder: (_, a, __, c) => FadeTransition(opacity: a, child: c)
+              transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                const begin = Offset(0.0, 1.0);
+                const end = Offset.zero;
+                const curve = Curves.ease;
+
+                final tween = Tween(begin: begin, end: end);
+                final curvedAnimation = CurvedAnimation(
+                  parent: animation,
+                  curve: curve,
+                );
+
+                return SlideTransition(
+                  position: tween.animate(curvedAnimation),
+                  child: child,
+                );
+              }
+          );
+        }
+        else if(settings.name == "/task") {
+          return PageRouteBuilder(
+              settings: settings, // Pass this to make popUntil(), pushNamedAndRemoveUntil(), works
+              //pageBuilder: (_, __, ___) => const LoginPage(),
+              pageBuilder: (context, animation, secondaryAnimation) => TaskPage(task: settings.arguments as Task),
               //transitionsBuilder: (_, a, __, c) => FadeTransition(opacity: a, child: c)
               transitionsBuilder: (context, animation, secondaryAnimation, child) {
                 const begin = Offset(0.0, 1.0);

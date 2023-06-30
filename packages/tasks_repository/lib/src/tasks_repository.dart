@@ -23,7 +23,7 @@ class TasksRepository {
     return _task;
   }
 
-  Future<Task> getTaskByQr(String qr_code) async {
+  Task getTaskByQr(String qr_code) {
     Task _foundTask = Task.empty;
     for(Task task in _tasks)  {
       if(task.id == qr_code)  {
@@ -38,7 +38,7 @@ class TasksRepository {
       Task(
       id: '1',
       tName: 'Уборка холла',
-      tDesc: 'Филевский б-р, 1, Коридор 1 этаж',
+      tDesc: 'Филевский б-р, 1, Коридор 1 этаж\nОчистить урны\nВымыть пол',
       tStatus: 'не выполнено',
       tDate: DateTime.parse('2023-06-01 10:15:00Z'),
       ),
@@ -108,7 +108,15 @@ class TasksRepository {
     _tasks = _tasks..addAll(_v_tasks);
   }
 
-  Future<int> getNumTasks(DateTime dt) async  {
+  Future<List<Task>> getTasks() async {
+    return _tasks;
+  }
+
+  /*Future<int> getNumTasks(DateTime dt) async  {
+    return _tasks.length;
+  }*/
+
+  Future<int> getNumTasks() async  {
     return _tasks.length;
   }
 }

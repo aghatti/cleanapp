@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage> {
             (User usr) => setState(() {_usr = usr;})
     );
     _tasksRepo.generateDemoTasks();
-    _tasksRepo.getNumTasks(DateTime.now()).then(
+    _tasksRepo.getNumTasks().then(
         (int numTasks) => setState(() {_numTasks = numTasks;})
     );
     _tasksRepo.getCurrentTask().then(
@@ -107,7 +107,7 @@ class _HomePageState extends State<HomePage> {
           padding:
             const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0),
           child:
-          Expanded(child:
+          //Expanded(child:
           Column(
             //mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -183,7 +183,9 @@ class _HomePageState extends State<HomePage> {
                   IconButton(
                     icon: const Icon(Icons.arrow_forward_ios),
                     //color: Colors.white,
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/task', arguments: _curTask);
+                    },
                   ),
                 ),
               ]),
@@ -211,7 +213,7 @@ class _HomePageState extends State<HomePage> {
             //const CurrentTaskCard(),
             OutlinedButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/tasks');
+                Navigator.pushNamed(context, '/tasklist');
               },
               //child: Text(AppLocalizations.of(context)!.reportProblem),
               child: Row(
@@ -261,7 +263,8 @@ class _HomePageState extends State<HomePage> {
               child: Text(AppLocalizations.of(context)!.logOut),
             ),
           ]
-        ),),
+        ),
+      //),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
