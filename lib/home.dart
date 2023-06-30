@@ -18,6 +18,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   UserRepository _userRepo = UserRepository();
   TasksRepository _tasksRepo = TasksRepository();
+
+
   User _usr = User.empty;
   DateTime _curDt = DateTime.now();
   final String _curDtStr = DateFormat('MMMM dd').format(DateTime.now());
@@ -29,12 +31,14 @@ class _HomePageState extends State<HomePage> {
     _userRepo.getUser().then(
             (User usr) => setState(() {_usr = usr;})
     );
+    _tasksRepo.generateDemoTasks();
     _tasksRepo.getNumTasks(DateTime.now()).then(
         (int numTasks) => setState(() {_numTasks = numTasks;})
     );
     _tasksRepo.getCurrentTask().then(
         (Task task) => setState(() {_curTask = task;})
     );
+
     super.initState();
   }
 

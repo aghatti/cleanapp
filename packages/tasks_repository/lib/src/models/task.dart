@@ -1,11 +1,11 @@
 import 'package:equatable/equatable.dart';
 
 class Task extends Equatable {
-  const Task(this.id,
-              this.tName,
-               this.tDesc,
-               this.tStatus,
-               this.tDate);
+  const Task({required this.id,
+    required this.tName,
+    required this.tDesc,
+    required this.tStatus,
+    required this.tDate});
   /*Task.empty():
         id = '',
         tName = '',
@@ -21,7 +21,7 @@ class Task extends Equatable {
   @override
   List<Object> get props => [id];
 
-  static var empty = Task('-', ' ', ' ', ' ', DateTime.now());
+  static var empty = Task(id: '-', tName: ' ', tDesc: ' ', tStatus: ' ', tDate: DateTime.now());
 
   bool isEmpty()  {return this.id=='-';}
 }
