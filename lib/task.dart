@@ -95,7 +95,12 @@ class TaskPage extends StatelessWidget {
             ),
           ]),
       ListTile(
-        leading: Icon(Icons.description),
+          leading: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Icon(Icons.description, color: Color(0xFF85C3FF),),
+            ],
+          ),
         title: Text(task.tDesc)
       ),
       SizedBox(height: 10),
@@ -107,24 +112,47 @@ class TaskPage extends StatelessWidget {
       ),*/
       //const CurrentTaskCard(),
       FilledButton(
+        style: FilledButton.styleFrom(
+          backgroundColor: Color(0xFF7ACB82),
+          foregroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          //elevation: 5.0,
+        ),
         onPressed: () {
-          //Navigator.pushNamed(context, '/be');
         },
         //child: Text(AppLocalizations.of(context)!.reportProblem),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(AppLocalizations.of(context)!.beginTask),
+            Text(
+              AppLocalizations.of(context)!.beginTask,
+              //style: TextStyle(color: Color(0xFF7B7B7B))
+            ),
           ],
         ),
       ),
+
       OutlinedButton(
+        style: OutlinedButton.styleFrom(
+          foregroundColor: Color(0xFF85C3FF),
+          side: BorderSide(width: 1.0, color: Color(0xFF85C3FF)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          //elevation: 5.0,
+        ),
         onPressed: () {
         },
+        //child: Text(AppLocalizations.of(context)!.reportProblem),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(AppLocalizations.of(context)!.cancelTask),
+            Text(
+                AppLocalizations.of(context)!.cancelTask,
+                style: TextStyle(color: Color(0xFF7B7B7B))
+            ),
           ],
         ),
       ),

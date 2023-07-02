@@ -30,17 +30,19 @@ class _ReportProblemState extends State<ReportProblemPage> {
       appBar: AppBar(
         centerTitle: true,
         title:
-              Row(
-                children: [
-                  Spacer(flex: 2),
-                  Image.asset('assets/cleanapp_logo.png'),
-                  Spacer(),
-                  Text('CleanApp',
-                    style: TextStyle(fontStyle: FontStyle.normal, fontSize: 27, color: Colors.white),
-                  ),
-                  Spacer(flex: 2),
-                ],
-              ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            //Spacer(),
+            Image.asset('assets/cleanapp_logo.png', height: 24),
+            SizedBox(width: 10),
+            Text(AppLocalizations.of(context)!.order,
+              style: TextStyle(fontStyle: FontStyle.normal, fontSize: 27, color: Colors.white),
+            ),
+            SizedBox(width: 20),
+            //Spacer(flex: 2),
+          ],),
         // disable leading button (back button)
         //automaticallyImplyLeading: false,
         iconTheme: IconThemeData(
@@ -77,10 +79,10 @@ class _ReportProblemState extends State<ReportProblemPage> {
       //backgroundColor: Theme.of(context).primaryColor,
       body: Center(
           child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0),
+              padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
             child:
             LimitedBox(
               maxHeight: 200,
@@ -104,8 +106,15 @@ class _ReportProblemState extends State<ReportProblemPage> {
               ),
             ),
             ),
-            SizedBox(height: 10),
+            //SizedBox(height: 10),
             FilledButton(
+              style: FilledButton.styleFrom(
+                backgroundColor: Color(0xFF7E7BF4),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                //elevation: 5.0,
+              ),
               onPressed: () {
                   Navigator.pop(context);
               },

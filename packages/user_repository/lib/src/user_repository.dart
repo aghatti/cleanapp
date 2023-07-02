@@ -22,4 +22,14 @@ class UserRepository {
           () => _user = User(_uToken, _uName, _uSurname, _uCompany),
     );
   }
+
+  String getUserLabel() {
+    String res='';
+    if(_user == null) return 'A';
+    else {
+      if(_user!=null && !_user!.uName.isEmpty) res += _user!.uName[0];
+      if(_user!=null && !_user!.uSurname.isEmpty) res += _user!.uSurname[0];
+      return res;
+    }
+  }
 }

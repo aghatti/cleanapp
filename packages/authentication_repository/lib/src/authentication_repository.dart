@@ -20,8 +20,8 @@ class AuthenticationRepository {
     // TODO web api auth
     if(username == 'user' && password == '123') {
       String _uToken = '123';
-      String _uName = 'Иван';
-      String _uSurname = 'Иванов';
+      String _uName = 'Вячеслав';
+      String _uSurname = 'Простаков';
       String _uCompany = 'Тимкорд';
 
       final storage = new FlutterSecureStorage();

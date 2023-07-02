@@ -32,17 +32,24 @@ class StartPage extends StatelessWidget {
               style: Theme.of(context).textTheme.headlineMedium,
             ),
         ),
-            const SizedBox(height: 20.0),
+            const SizedBox(height: 60.0),
 
               Padding(
               padding:
               const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0),
 
               child:
-              FilledButton.tonal(
+              FilledButton(
                 /*style: FilledButton.styleFrom(
                   minimumSize: const Size.fromHeight(50), // NEW
                 ),*/
+                style: FilledButton.styleFrom(
+                  backgroundColor: Color(0xFF7E7BF4),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  //elevation: 5.0,
+                ),
                 onPressed: () {
                   Navigator.pushNamed(context, '/login');
                 },

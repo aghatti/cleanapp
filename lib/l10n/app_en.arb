@@ -1,5 +1,5 @@
 {
-  "order": "order",
+  "order": "TeamCoord",
   "@order": {
     "description": "Application title"
   },
@@ -29,9 +29,9 @@
          "description": "Password field prompt"
    },
 
-   "reportProblem": "Report problem",
+   "reportProblem": "Report a problem",
           "@reportProblem": {
-            "description": "Report problem"
+            "description": "Report a problem"
    },
 
    "problemDescription": "Problem description",
@@ -58,6 +58,10 @@
   "beginTask": "Begin task",
   "@beginTask": {
     "description": "Begin task"
+  },
+  "beginTaskQR": "Begin task by QR",
+  "@beginTaskQR": {
+    "description": "Begin task by QR"
   },
   "cancelTask": "Cancel task",
   "@cancelTask": {

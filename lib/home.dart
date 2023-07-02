@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:io';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -22,14 +23,19 @@ class _HomePageState extends State<HomePage> {
 
   User _usr = User.empty;
   DateTime _curDt = DateTime.now();
-  final String _curDtStr = DateFormat('MMMM dd').format(DateTime.now());
+  String localeName = Platform.localeName;//Localizations.localeOf(context).languageCode;
+
+  //final String _curDtStr = DateFormat('d MMMM', localeName).format(DateTime.now());
+  final String _curDtStr = DateFormat.MMMMd(Platform.localeName).format(DateTime.now());
   int _numTasks = 0;
   Task _curTask = Task.empty;
 
   @override
   void initState() {
     _userRepo.getUser().then(
-            (User usr) => setState(() {_usr = usr;})
+            (User usr) => setState(() {
+              _usr = usr;
+            })
     );
     _tasksRepo.generateDemoTasks();
     _tasksRepo.getNumTasks().then(
@@ -115,8 +121,19 @@ class _HomePageState extends State<HomePage> {
             SizedBox(height: 10),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 7),
-              child:Text(_usr!.uName.toString() + ' ' + _usr!.uSurname.toString(), textAlign: TextAlign.left,
+              child:
+              Row(
+                children: [
+                  CircleAvatar(
+                    backgroundColor: Color(0xFF85C3FF),
+                    foregroundColor: Colors.white,
+                    child: Text(_userRepo.getUserLabel()),
+                  ),
+                  SizedBox(width: 10),
+                  Text(_usr!.uName.toString() + ' ' + _usr!.uSurname.toString(), textAlign: TextAlign.left,
                 style: Theme.of(context).textTheme.bodyLarge,),
+                ]
+              ),
             ),
             SizedBox(height: 10),
             Padding(
@@ -152,12 +169,14 @@ class _HomePageState extends State<HomePage> {
             ColorGroup(children: [
               ColorChip(
                 label: AppLocalizations.of(context)!.currentTask,
-                color: colorScheme.primary,
+                color: Color(0xFF85C3FF),//colorScheme.primary,
                 onColor: colorScheme.onPrimary,
               ),
               Row(
                   //crossAxisAlignment: CrossAxisAlignment.baseline,
                   //textBaseline: TextBaseline.alphabetic,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
 
                 Padding(
@@ -172,11 +191,14 @@ class _HomePageState extends State<HomePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(_curTask.tName, style: TextStyle(fontWeight: FontWeight.bold)),
-                      Text(_curTask.tDesc),
+                      Text(_curTask.tDesc, style: TextStyle(color: Color(0xFF66727F))),
                     ],
                   ),
                 ),
                     ),
+                Visibility(
+                  visible: false,
+                  child:
                 Padding(
                   padding: const EdgeInsets.all(16),
                   child:
@@ -188,7 +210,39 @@ class _HomePageState extends State<HomePage> {
                     },
                   ),
                 ),
+    ),
               ]),
+              Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Divider(color: Color(0xFFC2E1FF)),
+              ),
+              OutlinedButton(
+                style: OutlinedButton.styleFrom(
+                  side: BorderSide(width: 2.0, color: Color.fromRGBO(126, 123, 244, 1.0)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  //elevation: 5.0,
+                ),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/tasklist');
+                },
+                //child: Text(AppLocalizations.of(context)!.reportProblem),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(AppLocalizations.of(context)!.allTasks),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Icon( // <-- Icon
+                      Icons.arrow_forward_ios,
+                      size: 24.0,
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 10),
               /*ColorChip(
                   label: 'onPrimary',
                   color: colorScheme.onPrimary,
@@ -211,26 +265,45 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
             //const CurrentTaskCard(),
+                FilledButton(
+                  style: FilledButton.styleFrom(
+                    backgroundColor: Color(0xFF7ACB82),
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    //elevation: 5.0,
+                  ),
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/qrscan');
+                  },
+                  //child: Text(AppLocalizations.of(context)!.reportProblem),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                          AppLocalizations.of(context)!.beginTaskQR,
+                          //style: TextStyle(color: Color(0xFF7B7B7B))
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Icon( // <-- Icon
+                        Icons.qr_code_scanner,
+                        size: 24.0,
+                      ),
+                    ],
+                  ),
+                ),
             OutlinedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/tasklist');
-              },
-              //child: Text(AppLocalizations.of(context)!.reportProblem),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(AppLocalizations.of(context)!.allTasks),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Icon( // <-- Icon
-                    Icons.arrow_forward,
-                    size: 24.0,
-                  ),
-                ],
+              style: OutlinedButton.styleFrom(
+                foregroundColor: Color(0xFF85C3FF),
+                side: BorderSide(width: 1.0, color: Color(0xFF85C3FF)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                //elevation: 5.0,
               ),
-            ),
-            OutlinedButton(
               onPressed: () {
                   Navigator.pushNamed(context, '/report_problem');
               },
@@ -238,7 +311,10 @@ class _HomePageState extends State<HomePage> {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(AppLocalizations.of(context)!.reportProblem),
+                  Text(
+                      AppLocalizations.of(context)!.reportProblem,
+                      style: TextStyle(color: Color(0xFF7B7B7B))
+                  ),
                   SizedBox(
                     width: 10,
                   ),
@@ -250,6 +326,10 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             TextButton(
+              style: TextButton.styleFrom(
+                foregroundColor: Color(0xFF7B7B7B),
+                //elevation: 5.0,
+              ),
               onPressed: () {
                 try {
                   Provider.of<AuthenticationRepository>(context, listen: false).logOut();
@@ -266,12 +346,12 @@ class _HomePageState extends State<HomePage> {
         ),
       //),
       ),
-      floatingActionButton: FloatingActionButton(
+      /*floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.pushNamed(context, '/qrscan');
         },
         child: const Icon(Icons.qr_code),
-      ),
+      ),*/
     );
   }
 }

@@ -127,9 +127,17 @@ class _LoginPageState extends State<LoginPage> {
               padding:
                   const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0),
               child:
-              Opacity(
+              /*Opacity(
                 opacity: 0.7,
-                child: FilledButton(
+                child:*/
+                FilledButton(
+                  style: FilledButton.styleFrom(
+                    backgroundColor: Color(0xFF7E7BF4),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    //elevation: 5.0,
+                  ),
                   onPressed: () {
                     try {
                       Provider.of<AuthenticationRepository>(context, listen: false).logIn(username: loginController.text, password: passwordController.text);
@@ -146,12 +154,11 @@ class _LoginPageState extends State<LoginPage> {
                     }
                     catch (_) {
                     }
-
                   },
                   child: Text(AppLocalizations.of(context)!.logIn),
                 ),
               ),
-            ),
+            //),
               ]
             ),
         ),

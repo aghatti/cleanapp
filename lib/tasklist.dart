@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:io';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:tasks_repository/tasks_repository.dart';
@@ -21,11 +22,16 @@ class _TasksListState extends State<TasksList> {
 
   User _usr = User.empty;
   DateTime _curDt = DateTime.now();
-  final String _curDtStr = DateFormat('MMMM dd').format(DateTime.now());
+  final String _curDtStr = DateFormat.MMMMd(Platform.localeName).format(DateTime.now());
 
 
   @override
   void initState() {
+    _userRepo.getUser().then(
+            (User usr) => setState(() {
+          _usr = usr;
+        })
+    );
     _tasksRepo.generateDemoTasks();
     _tasksRepo.getTasks().then(
         (List<Task> tasks) => setState(() {_tasks = tasks;})
@@ -39,6 +45,13 @@ class _TasksListState extends State<TasksList> {
   }
   @override
   Widget build(BuildContext context) {
+    Color selectedColor = Theme.of(context).primaryColor;
+    ThemeData lightTheme = ThemeData(
+      colorSchemeSeed: selectedColor,
+      brightness: Brightness.light,
+    );
+    ColorScheme colorScheme = lightTheme.colorScheme;
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -102,8 +115,19 @@ class _TasksListState extends State<TasksList> {
             SizedBox(height: 10),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 7),
-          child:Text(_usr!.uName.toString() + ' ' + _usr!.uSurname.toString(), textAlign: TextAlign.left,
-            style: Theme.of(context).textTheme.bodyLarge,),
+          child:
+            Row(
+              children: [
+                CircleAvatar(
+                  backgroundColor: Color(0xFF85C3FF),
+                  foregroundColor: Colors.white,
+                  child: Text(_userRepo.getUserLabel()),
+                ),
+                SizedBox(width: 10),
+                Text(_usr!.uName.toString() + ' ' + _usr!.uSurname.toString(), textAlign: TextAlign.left,
+                  style: Theme.of(context).textTheme.bodyLarge,),
+              ],
+            ),
         ),
         SizedBox(height: 10),
         Padding(
@@ -135,6 +159,7 @@ class _TasksListState extends State<TasksList> {
             ],
           ),
         ),
+              Divider(color: Color(0xFFC2E1FF)),
         SizedBox(height: 10),
       Expanded(
         child:
@@ -148,7 +173,7 @@ class _TasksListState extends State<TasksList> {
                 Navigator.pushNamed(context, '/task', arguments: _tasks[index]);
               },
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 0),
                 child:
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -156,6 +181,8 @@ class _TasksListState extends State<TasksList> {
                    Row(
                       //crossAxisAlignment: CrossAxisAlignment.baseline,
                       //textBaseline: TextBaseline.alphabetic,
+                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                       crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
 
                           Padding(
@@ -170,20 +197,26 @@ class _TasksListState extends State<TasksList> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(_tasks[index].tName, style: TextStyle(fontWeight: FontWeight.bold)),
-                                  Text(_tasks[index].tDesc),
+                                  Text(_tasks[index].tDesc, style: TextStyle(color: Color(0xFF66727F))),
                                 ],
                               ),
                             ),
                           ),
-                          /*Padding(
+                          Padding(
                             padding: const EdgeInsets.all(16),
                             child:
-                            IconButton(
-                              icon: const Icon(Icons.arrow_forward_ios),
+                            IconButton.filled(
+                              icon: const Icon(Icons.qr_code_scanner),
+                              style: IconButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                backgroundColor: Color(0xFF7ACB82),
+                              ),
                               //color: Colors.white,
-                              onPressed: () {},
+                              onPressed: () {Navigator.pushNamed(context, '/qrscan');},
                             ),
-                          ),*/
+                          ),
                         ]),
                   ],
                 ),
@@ -191,17 +224,17 @@ class _TasksListState extends State<TasksList> {
             );
           },
          separatorBuilder: (BuildContext context, int index) {
-          return const Divider();
+          return const Padding(padding: const EdgeInsets.symmetric(horizontal: 8), child: Divider(color: Color(0xFFC2E1FF)));
         },
       ),),
     ]),
     ),
-      floatingActionButton: FloatingActionButton(
+      /*floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.pushNamed(context, '/qrscan');
         },
         child: const Icon(Icons.qr_code),
-      ),
+      ),*/
     );
   }
 }
