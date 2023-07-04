@@ -56,16 +56,20 @@
                   "description": "Tasks"
   },
   "beginTask": "Begin task",
-  "@beginTask": {
-    "description": "Begin task"
+                "@beginTask": {
+                  "description": "Begin task"
   },
   "beginTaskQR": "Begin task by QR",
-  "@beginTaskQR": {
-    "description": "Begin task by QR"
+                "@beginTaskQR": {
+                  "description": "Begin task by QR"
+  },
+  "beginTaskNoQR": "Begin task without QR",
+  "@beginTaskNoQR": {
+    "description": "Begin task without QR"
   },
   "cancelTask": "Cancel task",
-  "@cancelTask": {
-    "description": "Cancel task"
+                "@cancelTask": {
+                  "description": "Cancel task"
   }
 }
 

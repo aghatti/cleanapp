@@ -6,8 +6,8 @@ import 'package:provider/provider.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:tasks_repository/tasks_repository.dart';
 import 'package:user_repository/user_repository.dart';
-import 'package:cleanapp/common_widgets/topbar.dart';
-import 'package:cleanapp/utils/utils.dart';
+import 'utils/utils.dart';
+import 'supplemental/screenarguments.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -197,7 +197,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                     ),
                 Visibility(
-                  visible: false,
+                  visible: true,
                   child:
                 Padding(
                   padding: const EdgeInsets.all(16),
@@ -206,7 +206,7 @@ class _HomePageState extends State<HomePage> {
                     icon: const Icon(Icons.arrow_forward_ios),
                     //color: Colors.white,
                     onPressed: () {
-                      Navigator.pushNamed(context, '/task', arguments: _curTask);
+                      Navigator.pushNamed(context, '/task', arguments: ScreenArguments(_curTask, 'entertask'));
                     },
                   ),
                 ),
@@ -216,32 +216,42 @@ class _HomePageState extends State<HomePage> {
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Divider(color: Color(0xFFC2E1FF)),
               ),
-              OutlinedButton(
-                style: OutlinedButton.styleFrom(
-                  side: BorderSide(width: 2.0, color: Color.fromRGBO(126, 123, 244, 1.0)),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child:
+                Column(
+                  //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    side: BorderSide(width: 2.0, color: Color.fromRGBO(126, 123, 244, 1.0)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    //elevation: 5.0,
                   ),
-                  //elevation: 5.0,
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/tasklist');
+                  },
+                  //child: Text(AppLocalizations.of(context)!.reportProblem),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(AppLocalizations.of(context)!.allTasks),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Icon( // <-- Icon
+                        Icons.arrow_forward_ios,
+                        size: 24.0,
+                      ),
+                    ],
+                  ),
                 ),
-                onPressed: () {
-                  Navigator.pushNamed(context, '/tasklist');
-                },
-                //child: Text(AppLocalizations.of(context)!.reportProblem),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(AppLocalizations.of(context)!.allTasks),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Icon( // <-- Icon
-                      Icons.arrow_forward_ios,
-                      size: 24.0,
-                    ),
-                  ],
-                ),
+    ],),
               ),
+
               SizedBox(height: 10),
               /*ColorChip(
                   label: 'onPrimary',

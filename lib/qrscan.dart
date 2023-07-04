@@ -7,8 +7,9 @@ import 'package:provider/provider.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:tasks_repository/tasks_repository.dart';
 import 'package:user_repository/user_repository.dart';
-import 'package:cleanapp/utils/utils.dart';
+import 'utils/utils.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import 'supplemental/screenarguments.dart';
 
 class QrScanPage extends StatefulWidget {
   const QrScanPage({Key? key}) : super(key: key);
@@ -126,7 +127,7 @@ class _QrScanPageState extends State<QrScanPage> {
                   );
                 }
                 else  {
-                  Navigator.pushReplacementNamed(context, '/task', arguments: task!);
+                  Navigator.pushReplacementNamed(context, '/task', arguments: ScreenArguments(task!, 'entertaskbyqr'));
                   break;
                 }
             }

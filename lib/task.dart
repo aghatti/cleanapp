@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tasks_repository/tasks_repository.dart';
-import 'package:cleanapp/utils/utils.dart';
+import 'utils/utils.dart';
 
 class TaskPage extends StatelessWidget {
-  TaskPage({super.key, required this.task});
+  TaskPage({super.key, required this.task, required this.par});
 
   Task task = Task.empty;
+  String par = '';
 
   @override
   Widget build(BuildContext context) {
@@ -111,6 +112,7 @@ class TaskPage extends StatelessWidget {
         ),
       ),*/
       //const CurrentTaskCard(),
+      if(par=='entertaskbyqr')
       FilledButton(
         style: FilledButton.styleFrom(
           backgroundColor: Color(0xFF7ACB82),
@@ -133,7 +135,7 @@ class TaskPage extends StatelessWidget {
           ],
         ),
       ),
-
+      if(par=='entertaskbyqr')
       OutlinedButton(
         style: OutlinedButton.styleFrom(
           foregroundColor: Color(0xFF85C3FF),
@@ -156,6 +158,52 @@ class TaskPage extends StatelessWidget {
           ],
         ),
       ),
+      if(par=='entertask')
+        FilledButton(
+          style: FilledButton.styleFrom(
+            backgroundColor: Color(0xFF7ACB82),
+            foregroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            //elevation: 5.0,
+          ),
+          onPressed: () {
+          },
+          //child: Text(AppLocalizations.of(context)!.reportProblem),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                AppLocalizations.of(context)!.beginTaskQR,
+                //style: TextStyle(color: Color(0xFF7B7B7B))
+              ),
+            ],
+          ),
+        ),
+      if(par=='entertask')
+        OutlinedButton(
+          style: OutlinedButton.styleFrom(
+            foregroundColor: Color(0xFF85C3FF),
+            side: BorderSide(width: 1.0, color: Color(0xFF85C3FF)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            //elevation: 5.0,
+          ),
+          onPressed: () {
+          },
+          //child: Text(AppLocalizations.of(context)!.reportProblem),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                  AppLocalizations.of(context)!.beginTaskNoQR,
+                  style: TextStyle(color: Color(0xFF7B7B7B))
+              ),
+            ],
+          ),
+        ),
         ]),
       ),
     );

@@ -3,8 +3,9 @@ import 'dart:io';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:tasks_repository/tasks_repository.dart';
-import 'package:cleanapp/utils/utils.dart';
+import 'utils/utils.dart';
 import 'package:user_repository/user_repository.dart';
+import 'supplemental/screenarguments.dart';
 
 class TasksList extends StatefulWidget {
 
@@ -170,7 +171,7 @@ class _TasksListState extends State<TasksList> {
             return GestureDetector(
               onTap: (){
                 print('Tapped on item #$index');
-                Navigator.pushNamed(context, '/task', arguments: _tasks[index]);
+                Navigator.pushNamed(context, '/task', arguments: ScreenArguments(_tasks[index], 'entertask'));
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 0),

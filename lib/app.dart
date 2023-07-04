@@ -12,6 +12,7 @@ import 'report_problem.dart';
 import 'qrscan.dart';
 import 'tasklist.dart';
 import 'task.dart';
+import 'supplemental/screenarguments.dart';
 
 // TODO: Convert ShrineApp to stateful widget (104)
 class CleaningApp extends StatefulWidget {
@@ -186,10 +187,11 @@ class _CleaningAppViewState extends State<CleaningAppView> {
           );
         }
         else if(settings.name == "/task") {
+          final args = settings.arguments as ScreenArguments;
           return PageRouteBuilder(
               settings: settings, // Pass this to make popUntil(), pushNamedAndRemoveUntil(), works
               //pageBuilder: (_, __, ___) => const LoginPage(),
-              pageBuilder: (context, animation, secondaryAnimation) => TaskPage(task: settings.arguments as Task),
+              pageBuilder: (context, animation, secondaryAnimation) => TaskPage(task: args.obj as Task, par: args.par),
               //transitionsBuilder: (_, a, __, c) => FadeTransition(opacity: a, child: c)
               transitionsBuilder: (context, animation, secondaryAnimation, child) {
                 const begin = Offset(0.0, 1.0);

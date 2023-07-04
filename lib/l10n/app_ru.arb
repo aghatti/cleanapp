@@ -27,6 +27,8 @@
 
     "beginTaskQR": "Начать задание по QR",
 
+    "beginTaskNoQR": "Начать задание без QR",
+
     "cancelTask": "Отменить"
 }
 
