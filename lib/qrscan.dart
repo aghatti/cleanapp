@@ -96,50 +96,90 @@ class _QrScanPageState extends State<QrScanPage> {
         ],
       ),
       //backgroundColor: Theme.of(context).primaryColor,
-      body: MobileScanner(
-        // fit: BoxFit.contain,
-        controller: MobileScannerController(
-          detectionSpeed: DetectionSpeed.normal,
-          facing: CameraFacing.back,
-          detectionTimeoutMs: 500,
-          //torchEnabled: true,
-        ),
-        startDelay: true,
-        onDetect: (capture) {
-          final List<Barcode> barcodes = capture.barcodes;
-          final Uint8List? image = capture.image;
-          Task task = Task.empty;
-          for (final barcode in barcodes) {
-            debugPrint('Barcode found! ${barcode.rawValue}');
-            if(barcode.rawValue==null) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('No QR found.'),
-                  )
-              );
-            } else {
-                task = _tasksRepo.getTaskByQr(barcode.rawValue!);
-                if(task.isEmpty()) {
+      body:
+      Stack(
+        alignment: FractionalOffset.center,
+        children: <Widget>[
+          MobileScanner(
+            // fit: BoxFit.contain,
+            controller: MobileScannerController(
+              detectionSpeed: DetectionSpeed.normal,
+              facing: CameraFacing.back,
+              detectionTimeoutMs: 500,
+              //torchEnabled: true,
+            ),
+            startDelay: true,
+            onDetect: (capture) {
+              final List<Barcode> barcodes = capture.barcodes;
+              final Uint8List? image = capture.image;
+              Task task = Task.empty;
+              for (final barcode in barcodes) {
+                debugPrint('Barcode found! ${barcode.rawValue}');
+                if(barcode.rawValue==null) {
                   ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('No task found for QR: ' + (barcode.rawValue ?? '')),
+                        content: Text('No QR found.'),
                       )
                   );
+                } else {
+                  task = _tasksRepo.getTaskByQr(barcode.rawValue!);
+                  if(task.isEmpty()) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('No task found for QR: ' + (barcode.rawValue ?? '')),
+                        )
+                    );
+                  }
+                  else  {
+                    Navigator.pushReplacementNamed(context, '/task', arguments: ScreenArguments(task!, 'entertaskbyqr'));
+                    break;
+                  }
                 }
-                else  {
-                  Navigator.pushReplacementNamed(context, '/task', arguments: ScreenArguments(task!, 'entertaskbyqr'));
-                  break;
-                }
-            }
 
-            /*ScaffoldMessenger.of(context).showSnackBar(
+                /*ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text('QR: ' + (barcode.rawValue ?? '')),
                 )
             );*/
-          }
-        },
+              }
+            },
+          ),
+           OutlinedButton(
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: Color(0xFF85C3FF),
+                  side: BorderSide(width: 1.0, color: Color(0xFF85C3FF)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  //elevation: 5.0,
+                ),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/report_problem');
+                },
+                //child: Text(AppLocalizations.of(context)!.reportProblem),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                        AppLocalizations.of(context)!.reportProblem,
+                        style: TextStyle(color: Color(0xFF7B7B7B))
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Icon( // <-- Icon
+                      Icons.error_outline,
+                      size: 24.0,
+                    ),
+                  ],
+                ),
+              ),
+
+
+        ],
       ),
+
+
 
     );
   }

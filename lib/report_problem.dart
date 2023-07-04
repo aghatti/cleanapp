@@ -135,12 +135,7 @@ class _ReportProblemState extends State<ReportProblemPage> {
           ]
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Add your onPressed code here!
-        },
-        child: const Icon(Icons.qr_code),
-      ),
+
     );
   }
 }
