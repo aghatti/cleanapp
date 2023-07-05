@@ -59,16 +59,15 @@ class _TasksListState extends State<TasksList> {
       body:
       Padding(
         padding:
-        const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0),
+        const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
         child:
         //Expanded(child:
         Column(
           //mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-            SizedBox(height: 10),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 7),
+          padding: EdgeInsets.symmetric(horizontal: 6),
           child:
             Row(
               children: [
@@ -85,7 +84,7 @@ class _TasksListState extends State<TasksList> {
         ),
         SizedBox(height: 10),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 7),
+          padding: EdgeInsets.symmetric(horizontal: 6),
           child:
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -126,9 +125,9 @@ class _TasksListState extends State<TasksList> {
                 print('Tapped on item #$index');
                 Navigator.pushNamed(context, '/task', arguments: ScreenArguments(_tasks[index], 'entertask'));
               },
-              child: Padding(
+              child: /*Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 0),
-                child:
+                child:*/
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -140,13 +139,13 @@ class _TasksListState extends State<TasksList> {
                         children: <Widget>[
 
                           Padding(
-                            padding: const EdgeInsets.all(16),
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
                             child: Text(Utils.getTimeFromDate(_tasks[index].tDate), style: TextStyle(fontWeight: FontWeight.bold)),
                           ),
                           Expanded(
                             child:
                             Padding(
-                              padding: const EdgeInsets.all(16),
+                              padding: const EdgeInsets.symmetric(horizontal: 16),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -157,7 +156,7 @@ class _TasksListState extends State<TasksList> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.all(16),
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
                             child:
                             IconButton.filled(
                               icon: const Icon(Icons.qr_code_scanner),
@@ -174,7 +173,7 @@ class _TasksListState extends State<TasksList> {
                         ]),
                   ],
                 ),
-              ),
+              //),
             );
           },
          separatorBuilder: (BuildContext context, int index) {

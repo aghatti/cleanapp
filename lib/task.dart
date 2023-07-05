@@ -17,38 +17,74 @@ class TaskPage extends StatelessWidget {
       body:
         Padding(
         padding:
-    const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0),
+    const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
     child:
     //Expanded(child:
     Column(
     //mainAxisAlignment: MainAxisAlignment.spaceBetween,
     crossAxisAlignment: CrossAxisAlignment.stretch,
     children: [
-    SizedBox(height: 10),
+      SizedBox(height: 10),
 
-      Row(
-        //crossAxisAlignment: CrossAxisAlignment.baseline,
-        //textBaseline: TextBaseline.alphabetic,
-          children: <Widget>[
+      Card(
+        clipBehavior: Clip.antiAlias,
+        shadowColor: Colors.black,
 
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Text(Utils.getTimeFromDate(task.tDate), style: TextStyle(fontWeight: FontWeight.bold)),
-            ),
-            Expanded(
-              child:
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(task.tName, style: TextStyle(fontWeight: FontWeight.bold)),
-                  ],
-                ),
+        elevation: 5,
+        child: Column(
+            children: [
+              Container(
+                color: Color(0xDD7ACB82),
+                child:
+                    Padding(
+                      padding: EdgeInsets.all(16),
+                      child:
+              Row(
+                children: [
+                  SizedBox(height: 10),
+                  Text(Utils.getTimeFromDate(task.tDate), style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child:
+                  Text(task.tName, style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+                  ),
+                ],
               ),
-            ),
-          ]),
-      ListTile(
+                    ),
+              ),
+            ]
+        ),
+      ),
+
+      SizedBox(height: 10),
+      Padding(
+        padding: EdgeInsets.all(10),
+        child:
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(Icons.location_pin, color: Color(0xFF85C3FF),),
+            SizedBox(width: 10),
+            Text(task.tAddress + '\n' + task.tZone),
+          ],
+        ),
+      ),
+          Padding(
+              padding: EdgeInsets.all(10),
+              child:
+      Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(Icons.description, color: Color(0xFF85C3FF),),
+          SizedBox(width: 10),
+          Text(task.tDesc)
+        ],
+      ),
+          ),
+
+/*      ListTile(
           leading: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
@@ -56,7 +92,7 @@ class TaskPage extends StatelessWidget {
             ],
           ),
         title: Text(task.tDesc)
-      ),
+      ),*/
       SizedBox(height: 10),
       /*Flexible(
         child: Container(
@@ -65,6 +101,12 @@ class TaskPage extends StatelessWidget {
         ),
       ),*/
       //const CurrentTaskCard(),
+      Padding(
+      padding: EdgeInsets.symmetric(horizontal: 6),
+        child:
+        Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
       if(par=='entertaskbyqr')
       FilledButton(
         style: FilledButton.styleFrom(
@@ -132,6 +174,13 @@ class TaskPage extends StatelessWidget {
                 AppLocalizations.of(context)!.beginTaskQR,
                 //style: TextStyle(color: Color(0xFF7B7B7B))
               ),
+              SizedBox(
+                width: 10,
+              ),
+              Icon( // <-- Icon
+                Icons.qr_code_scanner,
+                size: 24.0,
+              ),
             ],
           ),
         ),
@@ -158,6 +207,7 @@ class TaskPage extends StatelessWidget {
             ],
           ),
         ),
+    ]),),
         ]),
       ),
     );

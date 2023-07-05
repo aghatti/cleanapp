@@ -114,7 +114,7 @@ class _HomePageState extends State<HomePage> {
       //backgroundColor: Theme.of(context).primaryColor,
       body: Padding(
           padding:
-            const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0),
+            const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
           child:
           //Expanded(child:
           CustomScrollView(
@@ -127,9 +127,9 @@ class _HomePageState extends State<HomePage> {
             //mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-            SizedBox(height: 10),
+            //SizedBox(height: 10),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 7),
+              padding: EdgeInsets.symmetric(horizontal: 6),
               child:
               Row(
                 children: [
@@ -146,7 +146,7 @@ class _HomePageState extends State<HomePage> {
             ),
             SizedBox(height: 10),
             Padding(
-                padding: EdgeInsets.symmetric(horizontal: 7),
+                padding: EdgeInsets.symmetric(horizontal: 6),
                 child:
             Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -200,7 +200,9 @@ class _HomePageState extends State<HomePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(_curTask.tName, style: TextStyle(fontWeight: FontWeight.bold)),
-                      Text(_curTask.tDesc, style: TextStyle(color: Color(0xFF66727F))),
+                      Text(_curTask.tAddress, style: TextStyle(color: Color(0xFF66727F))),
+                      Text(_curTask.tZone, style: TextStyle(color: Color(0xFF66727F))),
+                      //Text(_curTask.tDesc, style: TextStyle(color: Color(0xFF66727F))),
                     ],
                   ),
                 ),
@@ -277,13 +279,20 @@ class _HomePageState extends State<HomePage> {
                 onColor: colorScheme.primaryContainer,
               ),*/
             ]),
-                Flexible(
+
+            Flexible(
                   child: Container(
                     width: double.infinity,
                     //color: Colors.orange,
                   ),
                 ),
             //const CurrentTaskCard(),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 6),
+              child:
+                  Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
                 FilledButton(
                   style: FilledButton.styleFrom(
                     backgroundColor: Color(0xFF7ACB82),
@@ -361,6 +370,8 @@ class _HomePageState extends State<HomePage> {
               },
               child: Text(AppLocalizations.of(context)!.logOut),
             ),
+              ]),
+            ),
           ]
         ),
           ),
@@ -389,6 +400,7 @@ class ColorGroup extends StatelessWidget {
     return RepaintBoundary(
       child: Card(
         clipBehavior: Clip.antiAlias,
+        elevation: 5,
         child: Column(
           children: children,
         ),

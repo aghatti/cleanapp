@@ -5,7 +5,7 @@ class CustomAppBar extends AppBar {
   final bool autoLeading;
   final BuildContext context;
 
-  CustomAppBar({required this.autoLeading, required this.context}):super(
+  CustomAppBar({super.key, required this.autoLeading, required this.context}):super(
     centerTitle: true,
     automaticallyImplyLeading: autoLeading,
     elevation: 5,

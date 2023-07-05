@@ -29,13 +29,13 @@ class _ReportProblemState extends State<ReportProblemPage> {
     return Scaffold(
       appBar: CustomAppBar(autoLeading: true, context: context),
       //backgroundColor: Theme.of(context).primaryColor,
-      body: Center(
+      body: Padding(
+          padding: EdgeInsets.all(16),
           child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
-            child:
+            SizedBox(height: 10),
             LimitedBox(
               maxHeight: 200,
               child:
@@ -57,7 +57,7 @@ class _ReportProblemState extends State<ReportProblemPage> {
                 ),
               ),
             ),
-            ),
+            SizedBox(height: 10),
             //SizedBox(height: 10),
             FilledButton(
               style: FilledButton.styleFrom(
