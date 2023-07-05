@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:user_repository/user_repository.dart';
+import 'common_widgets/customappbar.dart';
 
 class ReportProblemPage extends StatefulWidget {
   const ReportProblemPage({Key? key}) : super(key: key);
@@ -26,55 +27,7 @@ class _ReportProblemState extends State<ReportProblemPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title:
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            //Spacer(),
-            Image.asset('assets/cleanapp_logo.png', height: 24),
-            SizedBox(width: 10),
-            Text(AppLocalizations.of(context)!.order,
-              style: TextStyle(fontStyle: FontStyle.normal, fontSize: 27, color: Colors.white),
-            ),
-            SizedBox(width: 20),
-            //Spacer(flex: 2),
-          ],),
-        // disable leading button (back button)
-        //automaticallyImplyLeading: false,
-        iconTheme: IconThemeData(
-          color: Colors.white, //change your color here
-        ),
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(30),
-          ),
-        ),
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(
-              Icons.notifications,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              // do something
-            },
-          ),
-          IconButton(
-            icon: const Icon(
-              Icons.account_circle,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              // do something
-            },
-          ),
-          SizedBox(width: 10),
-        ],
-      ),
+      appBar: CustomAppBar(autoLeading: true, context: context),
       //backgroundColor: Theme.of(context).primaryColor,
       body: Center(
           child: Column(

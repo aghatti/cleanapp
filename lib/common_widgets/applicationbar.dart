@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class ApplicationBar extends AppBar implements PreferredSizeWidget {
+class ApplicationBar extends AppBar {
 
   final bool autoLeading;
   @override
-  final Size preferredSize;
+  //final Size preferredSize;
 
   ApplicationBar({super.key,
   required this.autoLeading,
-  }) : preferredSize = Size.fromHeight(56.0), super(automaticallyImplyLeading: autoLeading);
+  }) : super(automaticallyImplyLeading: autoLeading);
+  //preferredSize = Size.fromHeight(56.0)
 
   @override
   Widget build(BuildContext context) {
@@ -38,11 +39,11 @@ class ApplicationBar extends AppBar implements PreferredSizeWidget {
       ),
       backgroundColor: Colors.black,
       //Theme.of(context).colorScheme.primary,
-      shape: const RoundedRectangleBorder(
+      /*shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
           bottom: Radius.circular(30),
         ),
-      ),
+      ),*/
       actions: <Widget>[
         IconButton(
           icon: const Icon(

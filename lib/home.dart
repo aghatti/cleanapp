@@ -8,6 +8,7 @@ import 'package:tasks_repository/tasks_repository.dart';
 import 'package:user_repository/user_repository.dart';
 import 'utils/utils.dart';
 import 'supplemental/screenarguments.dart';
+import 'common_widgets/customappbar.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -58,7 +59,9 @@ class _HomePageState extends State<HomePage> {
     ColorScheme colorScheme = lightTheme.colorScheme;
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: CustomAppBar(autoLeading: false, context: context),
+
+      /*AppBar(
         centerTitle: true,
         automaticallyImplyLeading: false,
         title:
@@ -107,14 +110,20 @@ class _HomePageState extends State<HomePage> {
           ),
           SizedBox(width: 10),
         ],
-      ),
+      ),*/
       //backgroundColor: Theme.of(context).primaryColor,
       body: Padding(
           padding:
             const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0),
           child:
           //Expanded(child:
-          Column(
+          CustomScrollView(
+            slivers: [
+            SliverFillRemaining(
+            hasScrollBody: false,
+            child:
+            Column(
+              mainAxisSize: MainAxisSize.min,
             //mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -354,7 +363,10 @@ class _HomePageState extends State<HomePage> {
             ),
           ]
         ),
+          ),
       //),
+            ],
+          ),
       ),
       /*floatingActionButton: FloatingActionButton(
         onPressed: () {

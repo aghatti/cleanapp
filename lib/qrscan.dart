@@ -10,7 +10,7 @@ import 'package:user_repository/user_repository.dart';
 import 'utils/utils.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'supplemental/screenarguments.dart';
-import 'common_widgets/applicationbar.dart';
+import 'common_widgets/customappbar.dart';
 
 class QrScanPage extends StatefulWidget {
   const QrScanPage({Key? key}) : super(key: key);
@@ -47,7 +47,7 @@ class _QrScanPageState extends State<QrScanPage> {
     ColorScheme colorScheme = lightTheme.colorScheme;
 
     return Scaffold(
-      appBar: ApplicationBar(autoLeading: true),
+      appBar: CustomAppBar(autoLeading: true, context: context),
       //backgroundColor: Theme.of(context).primaryColor,
       body:
       Stack(
@@ -111,6 +111,7 @@ class _QrScanPageState extends State<QrScanPage> {
                           Text(
                               AppLocalizations.of(context)!.scanQrMessage,
                               style: TextStyle(color: Color(0xFFFFFFFF)),
+                              textAlign: TextAlign.center,
                           ),
                 ),
               Flexible(

@@ -1,3 +1,4 @@
+import 'package:TeamCoord/common_widgets/customappbar.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -54,55 +55,7 @@ class _TasksListState extends State<TasksList> {
     ColorScheme colorScheme = lightTheme.colorScheme;
 
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title:
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            //Spacer(),
-            Image.asset('assets/cleanapp_logo.png', height: 24),
-            SizedBox(width: 10),
-            Text(AppLocalizations.of(context)!.order,
-              style: TextStyle(fontStyle: FontStyle.normal, fontSize: 27, color: Colors.white),
-            ),
-            SizedBox(width: 20),
-            //Spacer(flex: 2),
-          ],),
-        // disable leading button (back button)
-        //automaticallyImplyLeading: false,
-        iconTheme: IconThemeData(
-          color: Colors.white, //change your color here
-        ),
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(30),
-          ),
-        ),
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(
-              Icons.notifications,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              // do something
-            },
-          ),
-          IconButton(
-            icon: const Icon(
-              Icons.account_circle,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              // do something
-            },
-          ),
-          SizedBox(width: 10),
-        ],
-      ),
+      appBar: CustomAppBar(autoLeading: true, context: context),
       body:
       Padding(
         padding:
