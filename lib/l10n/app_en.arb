@@ -70,6 +70,14 @@
   "cancelTask": "Cancel task",
                 "@cancelTask": {
                   "description": "Cancel task"
+  },
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Cancel"
+  },
+  "scanQrMessage": "Scan QR-code\nand we will find the task",
+  "@scanQrMessage": {
+    "description": "Cancel task"
   }
 }
 

@@ -10,6 +10,7 @@ import 'package:user_repository/user_repository.dart';
 import 'utils/utils.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'supplemental/screenarguments.dart';
+import 'common_widgets/applicationbar.dart';
 
 class QrScanPage extends StatefulWidget {
   const QrScanPage({Key? key}) : super(key: key);
@@ -46,55 +47,7 @@ class _QrScanPageState extends State<QrScanPage> {
     ColorScheme colorScheme = lightTheme.colorScheme;
 
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title:
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            //Spacer(),
-            Image.asset('assets/cleanapp_logo.png', height: 24),
-            SizedBox(width: 10),
-            Text(AppLocalizations.of(context)!.order,
-              style: TextStyle(fontStyle: FontStyle.normal, fontSize: 27, color: Colors.white),
-            ),
-            SizedBox(width: 20),
-            //Spacer(flex: 2),
-          ],),
-        // disable leading button (back button)
-        //automaticallyImplyLeading: false,
-        iconTheme: IconThemeData(
-          color: Colors.white, //change your color here
-        ),
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(30),
-          ),
-        ),
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(
-              Icons.notifications,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              // do something
-            },
-          ),
-          IconButton(
-            icon: const Icon(
-              Icons.account_circle,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              // do something
-            },
-          ),
-          SizedBox(width: 10),
-        ],
-      ),
+      appBar: ApplicationBar(autoLeading: true),
       //backgroundColor: Theme.of(context).primaryColor,
       body:
       Stack(
@@ -144,42 +97,88 @@ class _QrScanPageState extends State<QrScanPage> {
               }
             },
           ),
-           OutlinedButton(
+
+          Padding(
+          padding: EdgeInsets.all(16),
+          child:
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+                SizedBox(height: 30),
+                Center(
+                child:
+                          Text(
+                              AppLocalizations.of(context)!.scanQrMessage,
+                              style: TextStyle(color: Color(0xFFFFFFFF)),
+                          ),
+                ),
+              Flexible(
+                child: Container(
+                  width: double.infinity,
+                  //color: Colors.orange,
+                ),
+              ),
+
+              OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: Color(0xFFFFFFFF),
+                      side: BorderSide(width: 1.0, color: Color(0xFFFFFFFF)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      //elevation: 5.0,
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/report_problem');
+                    },
+                    //child: Text(AppLocalizations.of(context)!.reportProblem),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                            AppLocalizations.of(context)!.reportProblem,
+                            style: TextStyle(color: Color(0xFFFFFFFF))
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Icon( // <-- Icon
+                          Icons.error_outline,
+                          size: 24.0,
+                        ),
+                      ],
+                    ),
+                  ),
+              OutlinedButton(
                 style: OutlinedButton.styleFrom(
-                  foregroundColor: Color(0xFF85C3FF),
-                  side: BorderSide(width: 1.0, color: Color(0xFF85C3FF)),
+                  foregroundColor: Color(0xFFFFFFFF),
+                  side: BorderSide(width: 1.0, color: Color(0xFFFFFFFF)),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
                   //elevation: 5.0,
                 ),
                 onPressed: () {
-                  Navigator.pushNamed(context, '/report_problem');
+                  Navigator.pop(context);
                 },
                 //child: Text(AppLocalizations.of(context)!.reportProblem),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                        AppLocalizations.of(context)!.reportProblem,
-                        style: TextStyle(color: Color(0xFF7B7B7B))
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Icon( // <-- Icon
-                      Icons.error_outline,
-                      size: 24.0,
+                        AppLocalizations.of(context)!.cancel,
+                        style: TextStyle(color: Color(0xFFFFFFFF))
                     ),
                   ],
                 ),
               ),
+              SizedBox(height: 30),
+            ],
+          ),
+          ),
 
-
-        ],
-      ),
-
-
+      ],),
 
     );
   }
