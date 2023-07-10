@@ -59,7 +59,7 @@ class _TasksListState extends State<TasksList> {
       body:
       Padding(
         padding:
-        const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+        const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
         child:
         //Expanded(child:
         Column(
@@ -128,6 +128,11 @@ class _TasksListState extends State<TasksList> {
               child: /*Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 0),
                 child:*/
+              Card(
+                child:
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                      child:
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -137,7 +142,6 @@ class _TasksListState extends State<TasksList> {
                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 16),
                             child: Text(Utils.getTimeFromDate(_tasks[index].tDate), style: TextStyle(fontWeight: FontWeight.bold)),
@@ -173,11 +177,14 @@ class _TasksListState extends State<TasksList> {
                         ]),
                   ],
                 ),
+                    ),
+              ),
               //),
             );
           },
          separatorBuilder: (BuildContext context, int index) {
-          return const Padding(padding: const EdgeInsets.symmetric(horizontal: 8), child: Divider(color: Color(0xFFC2E1FF)));
+          //return const Padding(padding: const EdgeInsets.symmetric(horizontal: 8), child: Divider(color: Color(0xFFC2E1FF)));
+           return const Padding(padding: const EdgeInsets.symmetric(horizontal: 8), child: SizedBox(height: 5));
         },
       ),),
     ]),

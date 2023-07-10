@@ -29,8 +29,6 @@ class TaskPage extends StatelessWidget {
       Card(
         clipBehavior: Clip.antiAlias,
         shadowColor: Colors.black,
-
-        elevation: 5,
         child: Column(
             children: [
               Container(
@@ -57,6 +55,16 @@ class TaskPage extends StatelessWidget {
       ),
 
       SizedBox(height: 10),
+          Expanded(
+            child:
+          CustomScrollView(
+            shrinkWrap: true,
+              slivers: [
+              SliverFillRemaining(
+              hasScrollBody: true,
+              child:
+                  Column(
+    children: [
       Padding(
         padding: EdgeInsets.all(10),
         child:
@@ -94,6 +102,12 @@ class TaskPage extends StatelessWidget {
         title: Text(task.tDesc)
       ),*/
       SizedBox(height: 10),
+          ]),
+        ),
+      //),
+      ],
+    ),
+          ),
       /*Flexible(
         child: Container(
           width: double.infinity,
@@ -102,7 +116,7 @@ class TaskPage extends StatelessWidget {
       ),*/
       //const CurrentTaskCard(),
       Padding(
-      padding: EdgeInsets.symmetric(horizontal: 6),
+      padding: EdgeInsets.symmetric(horizontal: 16),
         child:
         Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -115,6 +129,7 @@ class TaskPage extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
+          minimumSize: Size(100, 56),
           //elevation: 5.0,
         ),
         onPressed: () {
@@ -138,6 +153,7 @@ class TaskPage extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
+          minimumSize: Size(100, 56),
           //elevation: 5.0,
         ),
         onPressed: () {
@@ -158,9 +174,11 @@ class TaskPage extends StatelessWidget {
           style: FilledButton.styleFrom(
             backgroundColor: Color(0xFF7ACB82),
             foregroundColor: Colors.white,
+            elevation: 5,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),
+            minimumSize: Size(100, 56),
             //elevation: 5.0,
           ),
           onPressed: () {
@@ -184,6 +202,7 @@ class TaskPage extends StatelessWidget {
             ],
           ),
         ),
+      SizedBox(height: 10),
       if(par=='entertask')
         OutlinedButton(
           style: OutlinedButton.styleFrom(
@@ -192,6 +211,7 @@ class TaskPage extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),
+            minimumSize: Size(100, 56),
             //elevation: 5.0,
           ),
           onPressed: () {

@@ -11,19 +11,25 @@ class CustomAppBar extends AppBar {
     elevation: 5,
     shadowColor: Colors.black,
     title:
-    Row(
+  InkWell(
+  onTap: () {
+  Navigator.of(context!).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
+  },
+  child:
+  Row(
       mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: [
 //Spacer(),
         Image.asset('assets/cleanapp_logo_blue.png', height: 24),
-        SizedBox(width: 10),
+        SizedBox(width: 5),
         Text(AppLocalizations.of(context)!.order,
           style: TextStyle(fontStyle: FontStyle.normal, fontSize: 27, color: Color(0xFF0B1F33)),
         ),
-        SizedBox(width: 20),
+        //SizedBox(width: 20),
 //Spacer(flex: 2),
       ],),
+  ),
 // disable leading button (back button)
 //automaticallyImplyLeading: false,
     iconTheme: IconThemeData(
@@ -46,7 +52,7 @@ class CustomAppBar extends AppBar {
 // do something
         },
       ),
-      IconButton(
+      /*IconButton(
         icon: const Icon(
           Icons.account_circle,
           color: Color(0xFF0B1F33),
@@ -54,7 +60,7 @@ class CustomAppBar extends AppBar {
         onPressed: () {
 // do something
         },
-      ),
+      ),*/
       SizedBox(width: 10),
     ],
   );

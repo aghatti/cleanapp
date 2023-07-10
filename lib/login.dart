@@ -1,4 +1,4 @@
-import 'dart:ffi';
+//import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'supplemental/ellipseclipper.dart';
@@ -133,6 +133,7 @@ class _LoginPageState extends State<LoginPage> {
                 FilledButton(
                   style: FilledButton.styleFrom(
                     backgroundColor: Color(0xFF7E7BF4),
+                    minimumSize: Size(100, 56),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),

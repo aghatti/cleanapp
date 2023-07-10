@@ -48,6 +48,7 @@ class StartPage extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
+                  minimumSize: Size(100, 56),
                   //elevation: 5.0,
                 ),
                 onPressed: () {

@@ -19,25 +19,31 @@ class ApplicationBar extends AppBar {
       centerTitle: true,
       automaticallyImplyLeading: autoLeading,
       title:
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: [
+      InkWell(
+        onTap: () {
+          Navigator.of(context!).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
 //Spacer(),
-          Image.asset('assets/cleanapp_logo_blue.png', height: 24),
-          SizedBox(width: 10),
-          Text(AppLocalizations.of(context)!.order,
-            style: TextStyle(fontStyle: FontStyle.normal, fontSize: 27, color: Color(0xFF0B1F33)),
-          ),
-          SizedBox(width: 20),
+            Image.asset('assets/cleanapp_logo_blue.png', height: 24),
+            SizedBox(width: 10),
+            Text(AppLocalizations.of(context)!.order,
+              style: TextStyle(fontStyle: FontStyle.normal, fontSize: 27, color: Color(0xFF0B1F33)),
+            ),
+            SizedBox(width: 10),
 //Spacer(flex: 2),
-        ],),
+          ],),
+      ),
+
 // disable leading button (back button)
 //automaticallyImplyLeading: false,
       iconTheme: IconThemeData(
         color: Color(0xFF0B1F33), //change your color here
       ),
-      backgroundColor: Colors.black,
+      //backgroundColor: Colors.black,
       //Theme.of(context).colorScheme.primary,
       /*shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
@@ -54,7 +60,7 @@ class ApplicationBar extends AppBar {
 // do something
           },
         ),
-        IconButton(
+        /*IconButton(
           icon: const Icon(
             Icons.account_circle,
             color: Color(0xFF0B1F33),
@@ -62,8 +68,8 @@ class ApplicationBar extends AppBar {
           onPressed: () {
 // do something
           },
-        ),
-        SizedBox(width: 10),
+        ),*/
+        //SizedBox(width: 10),
       ],
     );
   }

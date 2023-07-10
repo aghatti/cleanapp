@@ -114,7 +114,7 @@ class _HomePageState extends State<HomePage> {
       //backgroundColor: Theme.of(context).primaryColor,
       body: Padding(
           padding:
-            const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+            const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
           child:
           //Expanded(child:
           CustomScrollView(
@@ -240,6 +240,7 @@ class _HomePageState extends State<HomePage> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
+                    minimumSize: Size(100, 56),
                     //elevation: 5.0,
                   ),
                   onPressed: () {
@@ -293,10 +294,12 @@ class _HomePageState extends State<HomePage> {
                   Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
+
                 FilledButton(
                   style: FilledButton.styleFrom(
                     backgroundColor: Color(0xFF7ACB82),
                     foregroundColor: Colors.white,
+                    minimumSize: Size(100, 56),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -323,10 +326,12 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                 ),
+            SizedBox(height: 10),
             OutlinedButton(
               style: OutlinedButton.styleFrom(
                 foregroundColor: Color(0xFF85C3FF),
                 side: BorderSide(width: 1.0, color: Color(0xFF85C3FF)),
+                minimumSize: Size(100, 56),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -356,6 +361,7 @@ class _HomePageState extends State<HomePage> {
             TextButton(
               style: TextButton.styleFrom(
                 foregroundColor: Color(0xFF7B7B7B),
+                minimumSize: Size(100, 56),
                 //elevation: 5.0,
               ),
               onPressed: () {

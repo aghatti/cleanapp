@@ -128,6 +128,7 @@ class _QrScanPageState extends State<QrScanPage> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
+                      minimumSize: Size(100, 56),
                       //elevation: 5.0,
                     ),
                     onPressed: () {
@@ -151,6 +152,7 @@ class _QrScanPageState extends State<QrScanPage> {
                       ],
                     ),
                   ),
+              SizedBox(height: 10),
               OutlinedButton(
                 style: OutlinedButton.styleFrom(
                   foregroundColor: Color(0xFFFFFFFF),
@@ -158,6 +160,7 @@ class _QrScanPageState extends State<QrScanPage> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
+                  minimumSize: Size(100, 56),
                   //elevation: 5.0,
                 ),
                 onPressed: () {

@@ -65,6 +65,7 @@ class _ReportProblemState extends State<ReportProblemPage> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
+                minimumSize: Size(100, 56),
                 //elevation: 5.0,
               ),
               onPressed: () {
