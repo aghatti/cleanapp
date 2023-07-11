@@ -156,7 +156,11 @@ class _LoginPageState extends State<LoginPage> {
                     catch (_) {
                     }
                   },
-                  child: Text(AppLocalizations.of(context)!.logIn),
+                  child: Text(AppLocalizations.of(context)!.logIn,
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        color: Colors.white, fontWeight: FontWeight.bold
+                    ),
+                  ),
                 ),
               ),
             //),

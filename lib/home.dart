@@ -250,7 +250,11 @@ class _HomePageState extends State<HomePage> {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(AppLocalizations.of(context)!.allTasks),
+                      Text(AppLocalizations.of(context)!.allTasks,
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            color: Theme.of(context).primaryColor, fontWeight: FontWeight.bold
+                        ),
+                      ),
                       SizedBox(
                         width: 10,
                       ),
@@ -315,6 +319,9 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       Text(
                           AppLocalizations.of(context)!.beginTaskQR,
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            color: Colors.white, fontWeight: FontWeight.bold
+                        ),
                           //style: TextStyle(color: Color(0xFF7B7B7B))
                       ),
                       SizedBox(
@@ -331,7 +338,7 @@ class _HomePageState extends State<HomePage> {
             OutlinedButton(
               style: OutlinedButton.styleFrom(
                 foregroundColor: Color(0xFF85C3FF),
-                side: BorderSide(width: 1.0, color: Color(0xFF85C3FF)),
+                side: BorderSide(width: 2.0, color: Color(0xFF85C3FF)),
                 minimumSize: Size(100, 56),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
@@ -347,7 +354,9 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   Text(
                       AppLocalizations.of(context)!.reportProblem,
-                      style: TextStyle(color: Color(0xFF7B7B7B))
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                color: Color(0xFF7B7B7B), fontWeight: FontWeight.bold
+                ),
                   ),
                   SizedBox(
                     width: 10,
@@ -375,7 +384,11 @@ class _HomePageState extends State<HomePage> {
                 }
 
               },
-              child: Text(AppLocalizations.of(context)!.logOut),
+              child: Text(AppLocalizations.of(context)!.logOut,
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                    color: Color(0xFF7B7B7B), fontWeight: FontWeight.bold
+                ),
+              ),
             ),
               ]),
             ),

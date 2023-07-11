@@ -75,7 +75,11 @@ class _ReportProblemState extends State<ReportProblemPage> {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(AppLocalizations.of(context)!.reportProblem),
+                  Text(AppLocalizations.of(context)!.reportProblem,
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        color: Colors.white, fontWeight: FontWeight.bold
+                    ),
+                  ),
                   SizedBox(
                     width: 10,
                   ),

@@ -89,7 +89,7 @@ class _TaskPageState extends State<TaskPage> {
             children: [
               Container(
                 color: this.statusBg,
-                constraints: BoxConstraints(minHeight: 80),
+                constraints: BoxConstraints(minHeight: 100),
                 child:
                     Padding(
                       padding: EdgeInsets.all(16),
@@ -252,6 +252,9 @@ class _TaskPageState extends State<TaskPage> {
           children: [
             Text(
               AppLocalizations.of(context)!.beginTask,
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                  color: Colors.white, fontWeight: FontWeight.bold
+              ),
               //style: TextStyle(color: Color(0xFF7B7B7B))
             ),
           ],
@@ -261,7 +264,7 @@ class _TaskPageState extends State<TaskPage> {
         OutlinedButton(
         style: OutlinedButton.styleFrom(
           foregroundColor: Color(0xFF85C3FF),
-          side: BorderSide(width: 1.0, color: Color(0xFF85C3FF)),
+          side: BorderSide(width: 2.0, color: Color(0xFF85C3FF)),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
@@ -276,7 +279,9 @@ class _TaskPageState extends State<TaskPage> {
           children: [
             Text(
                 AppLocalizations.of(context)!.cancelTask,
-                style: TextStyle(color: Color(0xFF7B7B7B))
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                color: Color(0xFF7B7B7B), fontWeight: FontWeight.bold
+                ),
             ),
           ],
         ),
@@ -303,6 +308,7 @@ class _TaskPageState extends State<TaskPage> {
             children: [
               Text(
                 AppLocalizations.of(context)!.beginTaskQR,
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
                 //style: TextStyle(color: Color(0xFF7B7B7B))
               ),
               SizedBox(
@@ -319,7 +325,7 @@ class _TaskPageState extends State<TaskPage> {
         OutlinedButton(
           style: OutlinedButton.styleFrom(
             foregroundColor: Color(0xFF85C3FF),
-            side: BorderSide(width: 1.0, color: Color(0xFF85C3FF)),
+            side: BorderSide(width: 2.0, color: Color(0xFF85C3FF)),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),
@@ -334,7 +340,9 @@ class _TaskPageState extends State<TaskPage> {
             children: [
               Text(
                   AppLocalizations.of(context)!.beginTaskNoQR,
-                  style: TextStyle(color: Color(0xFF7B7B7B))
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      color: Color(0xFF7B7B7B), fontWeight: FontWeight.bold
+                  ),
               ),
             ],
           ),
@@ -344,7 +352,7 @@ class _TaskPageState extends State<TaskPage> {
         OutlinedButton(
             style: OutlinedButton.styleFrom(
               foregroundColor: Color(0xFF85C3FF),
-              side: BorderSide(width: 1.0, color: Color(0xFF85C3FF)),
+              side: BorderSide(width: 2.0, color: Color(0xFF85C3FF)),
               minimumSize: Size(100, 56),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
@@ -360,7 +368,9 @@ class _TaskPageState extends State<TaskPage> {
               children: [
                 Text(
                     AppLocalizations.of(context)!.reportProblem,
-                    style: TextStyle(color: Color(0xFF7B7B7B))
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      color: Color(0xFF7B7B7B), fontWeight: FontWeight.bold
+                  ),
                 ),
                 SizedBox(
                   width: 10,
@@ -392,6 +402,9 @@ class _TaskPageState extends State<TaskPage> {
                   children: [
                     Text(
                       AppLocalizations.of(context)!.confirmCompletion,
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          color: Colors.white, fontWeight: FontWeight.bold
+                      ),
                       //style: TextStyle(color: Color(0xFF7B7B7B))
                     ),
                   ],
@@ -401,7 +414,7 @@ class _TaskPageState extends State<TaskPage> {
         OutlinedButton(
                 style: OutlinedButton.styleFrom(
                   foregroundColor: Color(0xFF85C3FF),
-                  side: BorderSide(width: 1.0, color: Color(0xFF85C3FF)),
+                  side: BorderSide(width: 2.0, color: Color(0xFF85C3FF)),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
@@ -416,7 +429,9 @@ class _TaskPageState extends State<TaskPage> {
                   children: [
                     Text(
                         AppLocalizations.of(context)!.cancelTask,
-                        style: TextStyle(color: Color(0xFF7B7B7B))
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            color: Color(0xFF7B7B7B), fontWeight: FontWeight.bold
+                        ),
                     ),
                   ],
                 ),

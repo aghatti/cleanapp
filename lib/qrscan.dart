@@ -124,7 +124,7 @@ class _QrScanPageState extends State<QrScanPage> {
               OutlinedButton(
                     style: OutlinedButton.styleFrom(
                       foregroundColor: Color(0xFFFFFFFF),
-                      side: BorderSide(width: 1.0, color: Color(0xFFFFFFFF)),
+                      side: BorderSide(width: 2.0, color: Color(0xFFFFFFFF)),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -140,7 +140,9 @@ class _QrScanPageState extends State<QrScanPage> {
                       children: [
                         Text(
                             AppLocalizations.of(context)!.reportProblem,
-                            style: TextStyle(color: Color(0xFFFFFFFF))
+                          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              color: Colors.white, fontWeight: FontWeight.bold
+                          ),
                         ),
                         SizedBox(
                           width: 10,
@@ -156,7 +158,7 @@ class _QrScanPageState extends State<QrScanPage> {
               OutlinedButton(
                 style: OutlinedButton.styleFrom(
                   foregroundColor: Color(0xFFFFFFFF),
-                  side: BorderSide(width: 1.0, color: Color(0xFFFFFFFF)),
+                  side: BorderSide(width: 2.0, color: Color(0xFFFFFFFF)),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
@@ -172,7 +174,9 @@ class _QrScanPageState extends State<QrScanPage> {
                   children: [
                     Text(
                         AppLocalizations.of(context)!.cancel,
-                        style: TextStyle(color: Color(0xFFFFFFFF))
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          color: Colors.white, fontWeight: FontWeight.bold
+                      ),
                     ),
                   ],
                 ),

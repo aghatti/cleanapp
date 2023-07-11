@@ -57,7 +57,10 @@ class StartPage extends StatelessWidget {
                 //style: FilledButton.styleFrom(
                 //  backgroundColor: Color.fromRGBO(126, 123, 244, 1.0),
                 //),
-                child: Text(AppLocalizations.of(context)!.logIn),
+                child: Text(AppLocalizations.of(context)!.logIn,
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                    color: Colors.white, fontWeight: FontWeight.bold
+                ),),
               ),
               ),
 

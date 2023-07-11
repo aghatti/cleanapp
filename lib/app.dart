@@ -227,7 +227,10 @@ class _CleaningAppViewState extends State<CleaningAppView> {
           titleLarge: TextStyle(fontSize: 36, fontStyle: FontStyle.normal),
           bodyMedium: TextStyle(fontSize: 14, fontFamily: 'Hind'),
           headlineMedium: TextStyle(fontSize: 32, fontWeight: FontWeight.normal, color: Colors.white),
-        ),
+        ).apply(fontSizeFactor: 1.1,
+          fontSizeDelta: 2.0,),
+
+
       ),
 
     );
