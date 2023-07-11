@@ -71,6 +71,10 @@
                 "@cancelTask": {
                   "description": "Cancel task"
   },
+  "confirmCompletion": "Confirm completion",
+  "@confirmCompletion": {
+    "description": "Confirm completion"
+  },
   "cancel": "Cancel",
   "@cancel": {
     "description": "Cancel"

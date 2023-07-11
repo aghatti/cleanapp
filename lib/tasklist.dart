@@ -143,7 +143,7 @@ class _TasksListState extends State<TasksList> {
                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            padding: const EdgeInsets.fromLTRB(16,0,0,0),
                             child: Text(Utils.getTimeFromDate(_tasks[index].tDate), style: TextStyle(fontWeight: FontWeight.bold)),
                           ),
                           Expanded(
@@ -154,13 +154,13 @@ class _TasksListState extends State<TasksList> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(_tasks[index].tName, style: TextStyle(fontWeight: FontWeight.bold)),
-                                  Text(_tasks[index].tDesc, style: TextStyle(color: Color(0xFF66727F))),
+                                  Text(_tasks[index].tAddress + '\n' + _tasks[index].tZone, style: TextStyle(color: Color(0xFF66727F))),
                                 ],
                               ),
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            padding: const EdgeInsets.fromLTRB(0,0,16,0),
                             child:
                             IconButton.filled(
                               icon: const Icon(Icons.qr_code_scanner),

@@ -299,6 +299,7 @@ class _HomePageState extends State<HomePage> {
                   style: FilledButton.styleFrom(
                     backgroundColor: Color(0xFF7ACB82),
                     foregroundColor: Colors.white,
+                    elevation: 2,
                     minimumSize: Size(100, 56),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -406,7 +407,7 @@ class ColorGroup extends StatelessWidget {
     return RepaintBoundary(
       child: Card(
         clipBehavior: Clip.antiAlias,
-        elevation: 5,
+        elevation: 2,
         child: Column(
           children: children,
         ),
