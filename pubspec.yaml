@@ -73,6 +73,9 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   generate: true
+  fonts:
+    - asset: fonts/IBMPlexSans-Regular.ttf
+    - asset: fonts/IBMPlexSans-SemiBold.ttf
   assets:
     - assets/
 #    - assets/cleanapp_logo.png

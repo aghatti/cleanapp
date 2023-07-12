@@ -112,11 +112,7 @@ class _HomePageState extends State<HomePage> {
         ],
       ),*/
       //backgroundColor: Theme.of(context).primaryColor,
-      body: Padding(
-          padding:
-            const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
-          child:
-          //Expanded(child:
+      body:
           CustomScrollView(
             slivers: [
             SliverFillRemaining(
@@ -129,8 +125,13 @@ class _HomePageState extends State<HomePage> {
               children: [
             //SizedBox(height: 10),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 6),
-              child:
+              padding: EdgeInsets.symmetric(horizontal: 0),
+              child:Container(
+                color: Color(0xFFECEBFB),
+                constraints: BoxConstraints(minHeight: 100),
+                child: Padding(
+                  padding: EdgeInsets.all(16),
+                  child:
               Row(
                 children: [
                   CircleAvatar(
@@ -138,15 +139,16 @@ class _HomePageState extends State<HomePage> {
                     foregroundColor: Colors.white,
                     child: Text(_userRepo.getUserLabel()),
                   ),
-                  SizedBox(width: 10),
+                  SizedBox(width: 16),
                   Text(_usr!.uName.toString() + ' ' + _usr!.uSurname.toString(), textAlign: TextAlign.left,
-                style: Theme.of(context).textTheme.bodyLarge,),
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.bold)
+                    ,),
                 ]
-              ),
+              ),),),
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 20),
             Padding(
-                padding: EdgeInsets.symmetric(horizontal: 6),
+                padding: EdgeInsets.symmetric(horizontal: 16),
                 child:
             Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -174,7 +176,10 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 20),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8),
+              child:
             ColorGroup(children: [
               ColorChip(
                 label: AppLocalizations.of(context)!.currentTask,
@@ -224,7 +229,7 @@ class _HomePageState extends State<HomePage> {
     ),
               ]),
               Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
                   child: Divider(color: Color(0xFFC2E1FF)),
               ),
               Padding(
@@ -268,7 +273,7 @@ class _HomePageState extends State<HomePage> {
     ],),
               ),
 
-              SizedBox(height: 10),
+              SizedBox(height: 25),
               /*ColorChip(
                   label: 'onPrimary',
                   color: colorScheme.onPrimary,
@@ -284,7 +289,7 @@ class _HomePageState extends State<HomePage> {
                 onColor: colorScheme.primaryContainer,
               ),*/
             ]),
-
+            ),
             Flexible(
                   child: Container(
                     width: double.infinity,
@@ -398,7 +403,6 @@ class _HomePageState extends State<HomePage> {
       //),
             ],
           ),
-      ),
       /*floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.pushNamed(context, '/qrscan');
@@ -420,7 +424,14 @@ class ColorGroup extends StatelessWidget {
     return RepaintBoundary(
       child: Card(
         clipBehavior: Clip.antiAlias,
-        elevation: 2,
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20), // if you need this
+          side: BorderSide(
+            color: Color(0xFF85C3FF),
+            width: 1,
+          ),
+        ),
         child: Column(
           children: children,
         ),

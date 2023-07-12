@@ -8,7 +8,7 @@ class CustomAppBar extends AppBar {
   CustomAppBar({super.key, required this.autoLeading, required this.context}):super(
     centerTitle: true,
     automaticallyImplyLeading: autoLeading,
-    elevation: 2,
+    elevation: 0,
     shadowColor: Colors.black,
     title:
   InkWell(
