@@ -74,8 +74,11 @@ flutter:
   uses-material-design: true
   generate: true
   fonts:
-    - asset: fonts/IBMPlexSans-Regular.ttf
-    - asset: fonts/IBMPlexSans-SemiBold.ttf
+    - family: IBMPlexSans
+      fonts:
+          - asset: fonts/IBMPlexSans-Regular.ttf
+          - asset: fonts/IBMPlexSans-SemiBold.ttf
+            weight: 700
   assets:
     - assets/
 #    - assets/cleanapp_logo.png

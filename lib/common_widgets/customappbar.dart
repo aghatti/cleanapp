@@ -24,7 +24,10 @@ class CustomAppBar extends AppBar {
         Image.asset('assets/cleanapp_logo_blue.png', height: 24),
         SizedBox(width: 5),
         Text(AppLocalizations.of(context)!.order,
-          style: TextStyle(fontStyle: FontStyle.normal, fontWeight: FontWeight.bold, fontSize: 27, color: Color(0xFF0B1F33)),
+          style: TextStyle(fontStyle: FontStyle.normal, fontWeight: FontWeight.bold, fontSize: 25,
+              //color: Color(0xFF0B1F33)
+            color: Color(0xFF5551F1)
+          ),
         ),
         //SizedBox(width: 20),
 //Spacer(flex: 2),

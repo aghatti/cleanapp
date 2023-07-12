@@ -57,34 +57,36 @@ class _TasksListState extends State<TasksList> {
     return Scaffold(
       appBar: CustomAppBar(autoLeading: true, context: context),
       body:
-      Padding(
-        padding:
-        const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
-        child:
         //Expanded(child:
         Column(
           //mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 0),
+                child:Container(
+                  color: Color(0xFFECEBFB),
+                  constraints: BoxConstraints(minHeight: 100),
+                  child: Padding(
+                    padding: EdgeInsets.all(16),
+                    child:
+                    Row(
+                        children: [
+                          CircleAvatar(
+                            backgroundColor: Color(0xFF85C3FF),
+                            foregroundColor: Colors.white,
+                            child: Text(_userRepo.getUserLabel(), style: TextStyle(fontSize: 19)),
+                          ),
+                          SizedBox(width: 16),
+                          Text(_usr!.uName.toString() + ' ' + _usr!.uSurname.toString(), textAlign: TextAlign.left,
+                            style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.normal, fontSize: 19)
+                            ,),
+                        ]
+                    ),),),
+              ),
+        SizedBox(height: 20),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 6),
-          child:
-            Row(
-              children: [
-                CircleAvatar(
-                  backgroundColor: Color(0xFF85C3FF),
-                  foregroundColor: Colors.white,
-                  child: Text(_userRepo.getUserLabel()),
-                ),
-                SizedBox(width: 10),
-                Text(_usr!.uName.toString() + ' ' + _usr!.uSurname.toString(), textAlign: TextAlign.left,
-                  style: Theme.of(context).textTheme.bodyLarge,),
-              ],
-            ),
-        ),
-        SizedBox(height: 10),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 6),
+          padding: EdgeInsets.symmetric(horizontal: 16),
           child:
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -188,7 +190,7 @@ class _TasksListState extends State<TasksList> {
         },
       ),),
     ]),
-    ),
+
       /*floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.pushNamed(context, '/qrscan');

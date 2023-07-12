@@ -137,11 +137,11 @@ class _HomePageState extends State<HomePage> {
                   CircleAvatar(
                     backgroundColor: Color(0xFF85C3FF),
                     foregroundColor: Colors.white,
-                    child: Text(_userRepo.getUserLabel()),
+                    child: Text(_userRepo.getUserLabel(), style: TextStyle(fontSize: 19)),
                   ),
                   SizedBox(width: 16),
                   Text(_usr!.uName.toString() + ' ' + _usr!.uSurname.toString(), textAlign: TextAlign.left,
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.bold)
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.normal, fontSize: 19)
                     ,),
                 ]
               ),),),
@@ -472,7 +472,7 @@ class ColorChip extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Row(
           children: [
-            Expanded(child: Text(label, textAlign: TextAlign.center, style: TextStyle(color: labelColor))),
+            Expanded(child: Text(label, textAlign: TextAlign.center, style: TextStyle(color: labelColor, fontWeight: FontWeight.bold))),
           ],
         ),
       ),

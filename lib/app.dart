@@ -221,11 +221,11 @@ class _CleaningAppViewState extends State<CleaningAppView> {
         colorScheme: ColorScheme.fromSeed(seedColor: Color.fromRGBO(85, 81, 241, 1.0)),
         useMaterial3: true,
         brightness: Brightness.light,
-
+        fontFamily: 'IBMPlexSans',
         textTheme: const TextTheme(
           displayLarge: TextStyle(fontSize: 72, fontWeight: FontWeight.bold),
           titleLarge: TextStyle(fontSize: 36, fontStyle: FontStyle.normal),
-          bodyMedium: TextStyle(fontSize: 14, fontFamily: 'Hind'),
+          bodyMedium: TextStyle(fontSize: 14),
           headlineMedium: TextStyle(fontSize: 32, fontWeight: FontWeight.normal, color: Colors.white),
         ).apply(fontSizeFactor: 1.1,
           fontSizeDelta: 2.0,),
