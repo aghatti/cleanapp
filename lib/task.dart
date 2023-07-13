@@ -277,7 +277,7 @@ class _TaskPageState extends State<TaskPage> {
       ),*/
       //const CurrentTaskCard(),
       Padding(
-      padding: EdgeInsets.symmetric(horizontal: 14),
+      padding: EdgeInsets.symmetric(horizontal: 24, vertical: 24),
         child:
         Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

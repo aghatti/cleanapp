@@ -298,7 +298,7 @@ class _HomePageState extends State<HomePage> {
                 ),
             //const CurrentTaskCard(),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24),
+              padding: EdgeInsets.symmetric(horizontal: 24, vertical: 8),
               child:
                   Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
