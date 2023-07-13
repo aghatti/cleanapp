@@ -128,7 +128,7 @@ class _HomePageState extends State<HomePage> {
               padding: EdgeInsets.symmetric(horizontal: 0),
               child:Container(
                 color: Color(0xFFECEBFB),
-                constraints: BoxConstraints(minHeight: 100),
+                constraints: BoxConstraints(minHeight: 80),
                 child: Padding(
                   padding: EdgeInsets.all(16),
                   child:
@@ -146,7 +146,7 @@ class _HomePageState extends State<HomePage> {
                 ]
               ),),),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 15),
             Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 child:
@@ -176,7 +176,7 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 17),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 8),
               child:
@@ -200,13 +200,13 @@ class _HomePageState extends State<HomePage> {
                     Expanded(
                       child:
                 Padding(
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(_curTask.tName, style: TextStyle(fontWeight: FontWeight.bold)),
-                      Text(_curTask.tAddress, style: TextStyle(color: Color(0xFF66727F))),
-                      Text(_curTask.tZone, style: TextStyle(color: Color(0xFF66727F))),
+                      Text(_curTask.tName, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                      Text(_curTask.tAddress, style: TextStyle(color: Color(0xFF66727F), fontSize: 16)),
+                      Text(_curTask.tZone, style: TextStyle(color: Color(0xFF66727F), fontSize: 16)),
                       //Text(_curTask.tDesc, style: TextStyle(color: Color(0xFF66727F))),
                     ],
                   ),
@@ -229,7 +229,7 @@ class _HomePageState extends State<HomePage> {
     ),
               ]),
               Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                   child: Divider(color: Color(0xFFC2E1FF)),
               ),
               Padding(
@@ -273,7 +273,7 @@ class _HomePageState extends State<HomePage> {
     ],),
               ),
 
-              SizedBox(height: 25),
+              SizedBox(height: 18),
               /*ColorChip(
                   label: 'onPrimary',
                   color: colorScheme.onPrimary,
@@ -298,7 +298,7 @@ class _HomePageState extends State<HomePage> {
                 ),
             //const CurrentTaskCard(),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 6),
+              padding: EdgeInsets.symmetric(horizontal: 24),
               child:
                   Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,

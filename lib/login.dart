@@ -63,12 +63,13 @@ class _LoginPageState extends State<LoginPage> {
               children: [
             Padding(
               padding:
-                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0),
+                  const EdgeInsets.symmetric(horizontal: 24.0, vertical: 0),
               child: Center(
                 child: Text(
                   AppLocalizations.of(context)!.auth,
-                  style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                         color: Colors.black,
+                        fontWeight: FontWeight.bold
                       ),
                 ),
               ),
@@ -77,7 +78,7 @@ class _LoginPageState extends State<LoginPage> {
             // TODO: Remove filled: true values (103)
             Padding(
               padding:
-                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0),
+                  const EdgeInsets.symmetric(horizontal: 24.0, vertical: 0),
               child: TextField(
                 controller: loginController,
                 decoration: InputDecoration(
@@ -99,7 +100,7 @@ class _LoginPageState extends State<LoginPage> {
 // [Password]
             Padding(
               padding:
-                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0),
+                  const EdgeInsets.symmetric(horizontal: 24.0, vertical: 0),
               child: TextField(
                 controller: passwordController,
                 decoration: InputDecoration(
@@ -125,7 +126,7 @@ class _LoginPageState extends State<LoginPage> {
             //child:
             Padding(
               padding:
-                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0),
+                  const EdgeInsets.symmetric(horizontal: 24.0, vertical: 0),
               child:
               /*Opacity(
                 opacity: 0.7,

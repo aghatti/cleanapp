@@ -70,17 +70,15 @@ class _TaskPageState extends State<TaskPage> {
     return Scaffold(
       appBar: CustomAppBar(autoLeading: true, context: context),
       body:
-        Padding(
-        padding:
-    const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-    child:
     //Expanded(child:
     Column(
     //mainAxisAlignment: MainAxisAlignment.spaceBetween,
     crossAxisAlignment: CrossAxisAlignment.stretch,
     children: [
-      SizedBox(height: 10),
-
+      // OLD CARD
+      Visibility(
+        visible: false,
+        child:
       Card(
         clipBehavior: Clip.antiAlias,
         shadowColor: Colors.black,
@@ -125,8 +123,34 @@ class _TaskPageState extends State<TaskPage> {
               ),
             ]
         ),
+      ),),
+      Padding(
+        padding: EdgeInsets.symmetric(horizontal: 0),
+        child:Container(
+          color: this.statusBg,
+          constraints: BoxConstraints(minHeight: 80),
+          child: Padding(
+            padding: EdgeInsets.all(16),
+            child:
+            Row(
+                children: [
+                  Text(Utils.getTimeFromDate(widget.task.tDate),
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      color: this.statusColor,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(width: 16),
+                  Text(widget.task.tName,
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      color: this.statusColor,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ]
+            ),),),
       ),
-      SizedBox(height: 10),
+      SizedBox(height: 15),
 
       Expanded(
             child:
@@ -149,8 +173,14 @@ class _TaskPageState extends State<TaskPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Icon(Icons.access_time_outlined, color: Color(0xFF85C3FF),),
-            SizedBox(width: 10),
-            Text(Utils.getTimeFromDate(widget.task.tDate) + ' - ' + Utils.getTimeFromDate(widget.task.tDate.add(Duration(minutes: 15)))),
+            SizedBox(width: 16),
+            Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+              Text(AppLocalizations.of(context)!.leadTime, style: TextStyle(fontWeight: FontWeight.bold),),
+              Text(Utils.getTimeFromDate(widget.task.tDate) + ' - ' + Utils.getTimeFromDate(widget.task.tDate.add(Duration(minutes: 15)))),
+            ]),
           ],
         ),
       ),
@@ -168,8 +198,14 @@ class _TaskPageState extends State<TaskPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Icon(Icons.location_pin, color: Color(0xFF85C3FF),),
-            SizedBox(width: 10),
-            Text(widget.task.tAddress + '\n' + widget.task.tZone),
+            SizedBox(width: 16),
+            Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(AppLocalizations.of(context)!.location, style: TextStyle(fontWeight: FontWeight.bold),),
+              Text(widget.task.tAddress + '\n' + widget.task.tZone),
+              ],),
           ],
         ),
       ),
@@ -182,8 +218,14 @@ class _TaskPageState extends State<TaskPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Icon(Icons.person_outline, color: Color(0xFF85C3FF),),
-            SizedBox(width: 10),
-            Text(_usr!.uName.toString() + ' ' + _usr!.uSurname.toString())
+            SizedBox(width: 16),
+          Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(AppLocalizations.of(context)!.performer, style: TextStyle(fontWeight: FontWeight.bold),),
+            Text(_usr!.uName.toString() + ' ' + _usr!.uSurname.toString()),
+            ],),
           ],
         ),
       ),
@@ -196,8 +238,17 @@ class _TaskPageState extends State<TaskPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Icon(Icons.description, color: Color(0xFF85C3FF),),
-          SizedBox(width: 10),
-          Flexible(child: Text(widget.task.tDesc)),
+          SizedBox(width: 16),
+
+          Flexible(child:
+          Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+              Text(AppLocalizations.of(context)!.description, style: TextStyle(fontWeight: FontWeight.bold),),
+          Text(widget.task.tDesc),
+            ],),
+          ),
         ],
       ),
           ),
@@ -226,7 +277,7 @@ class _TaskPageState extends State<TaskPage> {
       ),*/
       //const CurrentTaskCard(),
       Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16),
+      padding: EdgeInsets.symmetric(horizontal: 14),
         child:
         Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -440,7 +491,7 @@ class _TaskPageState extends State<TaskPage> {
       else ... [],
     ]),),
         ]),
-      ),
+
     );
   }
 }

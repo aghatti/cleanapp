@@ -66,7 +66,7 @@ class _TasksListState extends State<TasksList> {
                 padding: EdgeInsets.symmetric(horizontal: 0),
                 child:Container(
                   color: Color(0xFFECEBFB),
-                  constraints: BoxConstraints(minHeight: 100),
+                  constraints: BoxConstraints(minHeight: 80),
                   child: Padding(
                     padding: EdgeInsets.all(16),
                     child:
@@ -84,7 +84,7 @@ class _TasksListState extends State<TasksList> {
                         ]
                     ),),),
               ),
-        SizedBox(height: 20),
+        SizedBox(height: 15),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 16),
           child:
@@ -114,10 +114,14 @@ class _TasksListState extends State<TasksList> {
             ],
           ),
         ),
-              Divider(color: Color(0xFFC2E1FF)),
-        SizedBox(height: 10),
+              SizedBox(height: 17),
+              Divider(color: Color(0xFFC2E1FF), height: 1, thickness: 1),
+        SizedBox(height: 0),
       Expanded(
         child:
+            Container(
+              color: Color(0xFFF5F5FD),
+              child:
       ListView.separated(
         itemCount: _numTasks,
         scrollDirection: Axis.vertical,
@@ -127,10 +131,14 @@ class _TasksListState extends State<TasksList> {
                 print('Tapped on item #$index');
                 Navigator.pushNamed(context, '/task', arguments: ScreenArguments(_tasks[index], 'entertask'));
               },
-              child: /*Padding(
+              child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 0),
-                child:*/
+                child:
               Card(
+                color: Color(0xFFFFFFFF),
+                shadowColor: Color(0xFF000000),
+                surfaceTintColor: Color(0xFFFFFFFF),
+                //elevation: 0,
                 child:
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 10),
@@ -145,18 +153,18 @@ class _TasksListState extends State<TasksList> {
                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(16,0,0,0),
+                            padding: const EdgeInsets.fromLTRB(16,0,16,0),
                             child: Text(Utils.getTimeFromDate(_tasks[index].tDate), style: TextStyle(fontWeight: FontWeight.bold)),
                           ),
                           Expanded(
                             child:
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 16),
+                              padding: const EdgeInsets.symmetric(horizontal: 0),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(_tasks[index].tName, style: TextStyle(fontWeight: FontWeight.bold)),
-                                  Text(_tasks[index].tAddress + '\n' + _tasks[index].tZone, style: TextStyle(color: Color(0xFF66727F))),
+                                  Text(_tasks[index].tAddress + '\n' + _tasks[index].tZone, style: TextStyle(color: Color(0xFF66727F), fontSize: 16)),
                                 ],
                               ),
                             ),
@@ -181,14 +189,14 @@ class _TasksListState extends State<TasksList> {
                 ),
                     ),
               ),
-              //),
+              ),
             );
           },
          separatorBuilder: (BuildContext context, int index) {
           //return const Padding(padding: const EdgeInsets.symmetric(horizontal: 8), child: Divider(color: Color(0xFFC2E1FF)));
            return const Padding(padding: const EdgeInsets.symmetric(horizontal: 8), child: SizedBox(height: 5));
         },
-      ),),
+      ),),),
     ]),
 
       /*floatingActionButton: FloatingActionButton(

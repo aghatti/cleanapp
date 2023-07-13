@@ -82,6 +82,26 @@
   "scanQrMessage": "Scan QR-code\nand we will find the task",
   "@scanQrMessage": {
     "description": "Cancel task"
+  },
+  "leadTime": "Lead time",
+  "@leadTime": {
+    "description": "Lead time"
+  },
+  "location": "Location",
+  "@location": {
+    "description": "Location"
+  },
+  "performer": "Performer",
+  "@performer": {
+    "description": "Performer"
+  },
+  "description": "Description",
+  "@performer": {
+    "description": "Description"
+  },
+  "photos": "Photos",
+  "@photos": {
+    "description": "Photos"
   }
 }
 

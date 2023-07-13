@@ -8,6 +8,7 @@ class CustomAppBar extends AppBar {
   CustomAppBar({super.key, required this.autoLeading, required this.context}):super(
     centerTitle: true,
     automaticallyImplyLeading: autoLeading,
+    scrolledUnderElevation: 0,
     elevation: 0,
     shadowColor: Colors.black,
     title:
@@ -48,8 +49,10 @@ class CustomAppBar extends AppBar {
     actions: <Widget>[
       IconButton(
         icon: const Icon(
-          Icons.notifications,
-          color: Color(0xFF0B1F33),
+          //Icons.notifications,
+            Icons.notifications_outlined,
+          //color: Color(0xFF0B1F33),
+           color: Color(0xFF5551F1)
         ),
         onPressed: () {
 // do something

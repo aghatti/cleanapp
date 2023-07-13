@@ -59,35 +59,38 @@ class _ReportProblemState extends State<ReportProblemPage> {
             ),
             SizedBox(height: 10),
             //SizedBox(height: 10),
-            FilledButton(
-              style: FilledButton.styleFrom(
-                backgroundColor: Color(0xFF7E7BF4),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: FilledButton(
+                style: FilledButton.styleFrom(
+                  backgroundColor: Color(0xFF7E7BF4),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  minimumSize: Size(100, 56),
+                  //elevation: 5.0,
                 ),
-                minimumSize: Size(100, 56),
-                //elevation: 5.0,
-              ),
-              onPressed: () {
-                  Navigator.pop(context);
-              },
-              //child: Text(AppLocalizations.of(context)!.reportProblem),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(AppLocalizations.of(context)!.reportProblem,
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                        color: Colors.white, fontWeight: FontWeight.bold
+                onPressed: () {
+                    Navigator.pop(context);
+                },
+                //child: Text(AppLocalizations.of(context)!.reportProblem),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(AppLocalizations.of(context)!.reportProblem,
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          color: Colors.white, fontWeight: FontWeight.bold
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Icon( // <-- Icon
-                    Icons.error_outline,
-                    size: 24.0,
-                  ),
-                ],
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Icon( // <-- Icon
+                      Icons.error_outline,
+                      size: 24.0,
+                    ),
+                  ],
+                ),
               ),
             ),
           ]

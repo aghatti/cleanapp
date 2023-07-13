@@ -99,7 +99,7 @@ class _QrScanPageState extends State<QrScanPage> {
           ),
 
           Padding(
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.all(24),
           child:
           Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
