@@ -156,7 +156,7 @@ class _TasksListState extends State<TasksList> {
                    Row(
                       //crossAxisAlignment: CrossAxisAlignment.baseline,
                       //textBaseline: TextBaseline.alphabetic,
-                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                       mainAxisAlignment: MainAxisAlignment.start,
                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Padding(
@@ -164,6 +164,7 @@ class _TasksListState extends State<TasksList> {
                             child: Text(Utils.getTimeFromDate(_tasks[index].tDate), style: TextStyle(fontWeight: FontWeight.bold, color: Color(TaskStatusList.StatusesMap[_tasks[index].tStatus]!.listColor))),
                           ),
                           Expanded(
+                            flex: 2,
                             child:
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 0),
@@ -176,9 +177,9 @@ class _TasksListState extends State<TasksList> {
                               ),
                             ),
                           ),
-                          if(_tasks[index].tStatus == 'не выполнено1') ... [
+                          if(_tasks[index].tStatus == 'не выполнено') ... [
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(0,0,16,0),
+                            padding: const EdgeInsets.fromLTRB(16,0,16,0),
                             child:
                             IconButton.filled(
                               icon: const Icon(Icons.qr_code_scanner),
@@ -195,14 +196,14 @@ class _TasksListState extends State<TasksList> {
                           ] else ...
                             [
                               Padding(
-                                padding: const EdgeInsets.fromLTRB(0,0,16,0),
+                                padding: const EdgeInsets.fromLTRB(16,0,16,0),
                                 child:
                                 Icon(
                                   TaskStatusList.GetIconByStatus(_tasks[index].tStatus),
                                   //  IconData(TaskStatusList.StatusesMap[_tasks[index].tStatus]!.statusIcon, fontFamily: 'MaterialIcons'),
                                   color: Color(TaskStatusList.StatusesMap[_tasks[index].tStatus]!.listIconColor),
 
-                                  size: 36,
+                                  size: 28,
                                 ),
                               ),
                             ],
