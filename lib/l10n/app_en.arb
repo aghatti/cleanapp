@@ -102,6 +102,14 @@
   "photos": "Photos",
   "@photos": {
     "description": "Photos"
+  },
+  "taskCanceled": "Task canceled",
+  "@taskCanceled": {
+    "description": "Task canceled"
+  },
+  "taskWaitAction": "Wait for a response to your request",
+  "@taskCanceled": {
+    "description": "Wait for a response to your request"
   }
 }
 

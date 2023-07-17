@@ -25,6 +25,7 @@ class _TaskPageState extends State<TaskPage> {
   Color statusColor = Color(0xFF0B1F33);
   IconData statusIcon = Icons.drafts_outlined;
 
+  // TODO REMOVE
   final List<PhotoItem> _items = [
     PhotoItem(
         "assets/photos/photo1.png",
@@ -179,6 +180,28 @@ class _TaskPageState extends State<TaskPage> {
               child:
                   Column(
     children: [
+      if(widget.task.tStatus=='отменено') ...[
+      Padding(
+        padding: EdgeInsets.all(16),
+        child:
+        Center(
+            child:
+                Text(AppLocalizations.of(context)!.taskCanceled, style: TextStyle(fontSize: 20),),
+          ),
+      ),
+      Divider(thickness: 1, height: 1, color: Color(0xFFC2E1FF), indent: 16, endIndent: 16,),
+      ],
+      if(widget.task.tStatus=='ожидание') ...[
+        Padding(
+          padding: EdgeInsets.all(16),
+          child:
+          Center(
+            child:
+            Text(AppLocalizations.of(context)!.taskWaitAction, style: TextStyle(fontSize: 20),),
+          ),
+        ),
+        Divider(thickness: 1, height: 1, color: Color(0xFFC2E1FF), indent: 16, endIndent: 16,),
+      ],
       Visibility(
         visible: widget.task.tStatus=='завершено',
         child:
@@ -269,6 +292,8 @@ class _TaskPageState extends State<TaskPage> {
         ],
       ),
           ),
+      // PHOTO SECTION
+      if(widget.task.tStatus=='начато' || widget.task.tStatus=='завершено') ... [
       Divider(thickness: 1, height: 1, color: Color(0xFFC2E1FF), indent: 16, endIndent: 16,),
       Padding(
         padding: EdgeInsets.all(16),
@@ -287,18 +312,18 @@ class _TaskPageState extends State<TaskPage> {
               children: [
                 Text(AppLocalizations.of(context)!.photos, style: TextStyle(fontWeight: FontWeight.bold),),
                 SizedBox(height: 8),
-                // TODO show miniatures
+
                 Wrap(
                   children: [
-                    Padding(padding: EdgeInsets.all(5),
+                    Padding(padding: EdgeInsets.all(0),
                     child:
                     Card(
                       clipBehavior: Clip.antiAliasWithSaveLayer,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20)),
                       child: Container(
-                        height: 70,
-                        width: 70,
+                        height: 80,
+                        width: 80,
                         decoration: BoxDecoration(),
                         child: FittedBox(
                           child: Image.asset('assets/photos/photo2.png'),
@@ -306,15 +331,15 @@ class _TaskPageState extends State<TaskPage> {
                         ),
                       ),
                     ),),
-                    Padding(padding: EdgeInsets.all(5),
+                    Padding(padding: EdgeInsets.all(0),
                       child:
                       Card(
                         clipBehavior: Clip.antiAliasWithSaveLayer,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20)),
                         child: Container(
-                          height: 70,
-                          width: 70,
+                          height: 80,
+                          width: 80,
                           decoration: BoxDecoration(),
                           child: FittedBox(
                             child: Image.asset('assets/photos/photo1.png'),
@@ -322,15 +347,15 @@ class _TaskPageState extends State<TaskPage> {
                           ),
                         ),
                       ),),
-                    Padding(padding: EdgeInsets.all(5),
+                    Padding(padding: EdgeInsets.all(0),
                       child:
                       Card(
                         clipBehavior: Clip.antiAliasWithSaveLayer,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20)),
                         child: Container(
-                          height: 70,
-                          width: 70,
+                          height: 80,
+                          width: 80,
                           decoration: BoxDecoration(),
                           child: FittedBox(
                             child: Image.asset('assets/photos/photo1.png'),
@@ -338,15 +363,15 @@ class _TaskPageState extends State<TaskPage> {
                           ),
                         ),
                       ),),
-                    Padding(padding: EdgeInsets.all(5),
+                    Padding(padding: EdgeInsets.all(0),
                       child:
                       Card(
                         clipBehavior: Clip.antiAliasWithSaveLayer,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20)),
                         child: Container(
-                          height: 70,
-                          width: 70,
+                          height: 80,
+                          width: 80,
                           decoration: BoxDecoration(),
                           child: FittedBox(
                             child: Image.asset('assets/photos/photo1.png'),
@@ -377,7 +402,7 @@ class _TaskPageState extends State<TaskPage> {
             ),
           ],
         ),
-      ),
+      ),],
 /*      ListTile(
           leading: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -621,6 +646,7 @@ class _TaskPageState extends State<TaskPage> {
   }
 }
 
+// TODO REMOVE
 class PhotoItem {
   final String image;
   final String name;

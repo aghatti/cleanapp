@@ -7,6 +7,7 @@ import 'package:tasks_repository/tasks_repository.dart';
 import 'utils/utils.dart';
 import 'package:user_repository/user_repository.dart';
 import 'supplemental/screenarguments.dart';
+import 'constants/constants.dart';
 
 class TasksList extends StatefulWidget {
 
@@ -85,6 +86,9 @@ class _TasksListState extends State<TasksList> {
                     ),),),
               ),
         SizedBox(height: 15),
+        Container(
+          color: Colors.white,
+          child:
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 16),
           child:
@@ -113,7 +117,7 @@ class _TasksListState extends State<TasksList> {
               ),
             ],
           ),
-        ),
+        ),),
               SizedBox(height: 17),
               Divider(color: Color(0xFFC2E1FF), height: 1, thickness: 1),
         Container(
@@ -157,7 +161,7 @@ class _TasksListState extends State<TasksList> {
                         children: <Widget>[
                           Padding(
                             padding: const EdgeInsets.fromLTRB(16,0,16,0),
-                            child: Text(Utils.getTimeFromDate(_tasks[index].tDate), style: TextStyle(fontWeight: FontWeight.bold)),
+                            child: Text(Utils.getTimeFromDate(_tasks[index].tDate), style: TextStyle(fontWeight: FontWeight.bold, color: Color(TaskStatusList.StatusesMap[_tasks[index].tStatus]!.listColor))),
                           ),
                           Expanded(
                             child:
@@ -166,12 +170,13 @@ class _TasksListState extends State<TasksList> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(_tasks[index].tName, style: TextStyle(fontWeight: FontWeight.bold)),
+                                  Text(_tasks[index].tName, style: TextStyle(fontWeight: FontWeight.bold, color: Color(TaskStatusList.StatusesMap[_tasks[index].tStatus]!.listColor))),
                                   Text(_tasks[index].tAddress + '\n' + _tasks[index].tZone, style: TextStyle(color: Color(0xFF66727F), fontSize: 16)),
                                 ],
                               ),
                             ),
                           ),
+                          if(_tasks[index].tStatus == 'не выполнено1') ... [
                           Padding(
                             padding: const EdgeInsets.fromLTRB(0,0,16,0),
                             child:
@@ -187,6 +192,20 @@ class _TasksListState extends State<TasksList> {
                               onPressed: () {Navigator.pushNamed(context, '/qrscan');},
                             ),
                           ),
+                          ] else ...
+                            [
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(0,0,16,0),
+                                child:
+                                Icon(
+                                  TaskStatusList.GetIconByStatus(_tasks[index].tStatus),
+                                  //  IconData(TaskStatusList.StatusesMap[_tasks[index].tStatus]!.statusIcon, fontFamily: 'MaterialIcons'),
+                                  color: Color(TaskStatusList.StatusesMap[_tasks[index].tStatus]!.listIconColor),
+
+                                  size: 36,
+                                ),
+                              ),
+                            ],
                         ]),
                   ],
                 ),

@@ -36,6 +36,33 @@ class TasksRepository {
   Future<void> generateDemoTasks() async {
     List<Task> _v_tasks = [
       Task(
+        id: '3',
+        tName: 'Уборка холла',
+        tDesc: 'Очистить урны\nВымыть пол',
+        tZone: 'Коридор 3 этаж',
+        tAddress: 'Филевский б-р, 1',
+        tStatus: 'завершено',
+        tDate: DateTime.parse('2023-06-01 10:00:00Z'),
+      ),
+      Task(
+        id: '4',
+        tName: 'Уборка холла',
+        tDesc: 'Очистить урны\nВымыть пол',
+        tZone: 'Коридор 4 этаж',
+        tAddress: 'Филевский б-р, 1',
+        tStatus: 'отменено',
+        tDate: DateTime.parse('2023-06-01 10:15:00Z'),
+      ),
+      Task(
+        id: '5',
+        tName: 'Уборка холла',
+        tDesc: 'Очистить урны\nВымыть пол',
+        tZone: 'Коридор 5 этаж',
+        tAddress: 'Филевский б-р, 1',
+        tStatus: 'ожидание',
+        tDate: DateTime.parse('2023-06-01 10:30:00Z'),
+      ),
+      Task(
       id: '1',
       tName: 'Уборка холла',
       tDesc: """Очистить урны\nВымыть унитазы\nВымыть раковины\nВымыть пол\nВынести мусор
@@ -46,8 +73,9 @@ class TasksRepository {
       tZone: 'Первый этаж / Левое крыло',
       tAddress: 'БЦ Белая Площадь',
       tStatus: 'начато',
-      tDate: DateTime.parse('2023-06-01 10:15:00Z'),
+      tDate: DateTime.parse('2023-06-01 10:45:00Z'),
       ),
+
       Task(
       id: '2',
       tName: 'Уборка холла',
@@ -55,35 +83,10 @@ class TasksRepository {
       tZone: 'Коридор 1 этаж',
       tAddress: 'Филевский б-р, 1',
       tStatus: 'не выполнено',
-      tDate: DateTime.parse('2023-06-01 10:25:00Z'),
+      tDate: DateTime.parse('2023-06-01 11:00:00Z'),
       ),
-    Task(
-    id: '3',
-    tName: 'Уборка холла',
-    tDesc: 'Очистить урны\nВымыть пол',
-    tZone: 'Коридор 3 этаж',
-    tAddress: 'Филевский б-р, 1',
-    tStatus: 'завершено',
-    tDate: DateTime.parse('2023-06-01 10:35:00Z'),
-    ),
-    Task(
-    id: '4',
-    tName: 'Уборка холла',
-    tDesc: 'Очистить урны\nВымыть пол',
-    tZone: 'Коридор 4 этаж',
-    tAddress: 'Филевский б-р, 1',
-    tStatus: 'отменено',
-    tDate: DateTime.parse('2023-06-01 10:45:00Z'),
-    ),
-    Task(
-    id: '5',
-    tName: 'Уборка холла',
-    tDesc: 'Очистить урны\nВымыть пол',
-    tZone: 'Коридор 5 этаж',
-    tAddress: 'Филевский б-р, 1',
-    tStatus: 'ожидание',
-    tDate: DateTime.parse('2023-06-01 10:55:00Z'),
-    ),
+
+
     Task(
     id: '6',
     tName: 'Уборка холла',
@@ -91,7 +94,7 @@ class TasksRepository {
     tZone: 'Коридор 6 этаж',
     tAddress: 'Филевский б-р, 1',
     tStatus: 'не выполнено',
-    tDate: DateTime.parse('2023-06-01 11:05:00Z'),
+    tDate: DateTime.parse('2023-06-01 11:15:00Z'),
     ),
     Task(
     id: '7',
@@ -100,7 +103,7 @@ class TasksRepository {
     tZone: 'Коридор 7 этаж',
     tAddress: 'Филевский б-р, 1',
     tStatus: 'не выполнено',
-    tDate: DateTime.parse('2023-06-01 11:15:00Z'),
+    tDate: DateTime.parse('2023-06-01 11:30:00Z'),
     ),
     Task(
     id: '8',
@@ -109,7 +112,7 @@ class TasksRepository {
     tZone: 'Коридор 8 этаж',
     tAddress: 'Филевский б-р, 1',
     tStatus: 'не выполнено',
-    tDate: DateTime.parse('2023-06-01 11:25:00Z'),
+    tDate: DateTime.parse('2023-06-01 11:45:00Z'),
     ),
     Task(
     id: '9',
@@ -118,7 +121,7 @@ class TasksRepository {
     tZone: 'Коридор 9 этаж',
     tAddress: 'Филевский б-р, 1',
     tStatus: 'не выполнено',
-    tDate: DateTime.parse('2023-06-01 11:35:00Z'),
+    tDate: DateTime.parse('2023-06-01 12:00:00Z'),
     ),
     Task(
     id: '10',
@@ -127,7 +130,7 @@ class TasksRepository {
     tZone: 'Коридор 10 этаж',
     tAddress: 'Филевский б-р, 1',
     tStatus: 'не выполнено',
-    tDate: DateTime.parse('2023-06-01 11:45:00Z'),
+    tDate: DateTime.parse('2023-06-01 12:15:00Z'),
     ),];
     _tasks = _tasks..addAll(_v_tasks);
   }
