@@ -83,6 +83,7 @@ flutter:
             weight: 700
   assets:
     - assets/
+    - assets/photos/
 #    - assets/cleanapp_logo.png
 #    - assets/cleanapp_logo_big.svg
 #    - assets/cleanapp_logo_big.png

@@ -116,7 +116,10 @@ class _TasksListState extends State<TasksList> {
         ),
               SizedBox(height: 17),
               Divider(color: Color(0xFFC2E1FF), height: 1, thickness: 1),
-        SizedBox(height: 0),
+        Container(
+          color: Color(0xFFF5F5FD),
+          child: SizedBox(height: 8),
+        ),
       Expanded(
         child:
             Container(

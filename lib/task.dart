@@ -25,6 +25,15 @@ class _TaskPageState extends State<TaskPage> {
   Color statusColor = Color(0xFF0B1F33);
   IconData statusIcon = Icons.drafts_outlined;
 
+  final List<PhotoItem> _items = [
+    PhotoItem(
+        "assets/photos/photo1.png",
+        "photo1"),
+    PhotoItem(
+        "assets/photos/photo2.png",
+        "photo2"),
+  ];
+
   @override
   void initState() {
     _userRepo.getUser().then(
@@ -115,8 +124,8 @@ class _TaskPageState extends State<TaskPage> {
                   ),
                   ),
                   ),
-                  Icon(this.statusIcon,
-                  color: this.statusColor),
+                  Icon(statusIcon,
+                  color: statusColor),
                 ],
               ),
                     ),
@@ -140,13 +149,21 @@ class _TaskPageState extends State<TaskPage> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(width: 16),
+                  //SizedBox(width: 16),
+          Expanded(
+            child:
+            Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child:
                   Text(widget.task.tName,
                     style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                       color: this.statusColor,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+            ),),
+                  Icon(statusIcon,
+                      color: statusColor),
                 ]
             ),),),
       ),
@@ -188,7 +205,7 @@ class _TaskPageState extends State<TaskPage> {
       Visibility(
           visible: widget.task.tStatus=='завершено',
           child:
-      Divider(thickness: 1, height: 1, color: Color(0xFF85C3FF), indent: 16, endIndent: 16,),
+          Divider(thickness: 1, height: 1, color: Color(0xFFC2E1FF), indent: 16, endIndent: 16,),
       ),
       Padding(
         padding: EdgeInsets.all(16),
@@ -197,7 +214,7 @@ class _TaskPageState extends State<TaskPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Icon(Icons.location_pin, color: Color(0xFF85C3FF),),
+            Icon(Icons.location_pin, size: 28, color: Color(0xFF85C3FF),),
             SizedBox(width: 16),
             Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -209,7 +226,7 @@ class _TaskPageState extends State<TaskPage> {
           ],
         ),
       ),
-      Divider(thickness: 1, height: 1, color: Color(0xFF85C3FF), indent: 16, endIndent: 16,),
+      Divider(thickness: 1, height: 1, color: Color(0xFFC2E1FF), indent: 16, endIndent: 16,),
       Padding(
         padding: EdgeInsets.all(16),
         child:
@@ -217,7 +234,7 @@ class _TaskPageState extends State<TaskPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Icon(Icons.person_outline, color: Color(0xFF85C3FF),),
+            Icon(Icons.person_outline, size: 28, color: Color(0xFF85C3FF),),
             SizedBox(width: 16),
           Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -229,7 +246,7 @@ class _TaskPageState extends State<TaskPage> {
           ],
         ),
       ),
-      Divider(thickness: 1, height: 1, color: Color(0xFF85C3FF), indent: 16, endIndent: 16,),
+      Divider(thickness: 1, height: 1, color: Color(0xFFC2E1FF), indent: 16, endIndent: 16,),
           Padding(
               padding: EdgeInsets.all(16),
               child:
@@ -237,7 +254,7 @@ class _TaskPageState extends State<TaskPage> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(Icons.description, color: Color(0xFF85C3FF),),
+          Icon(Icons.description, size: 28, color: Color(0xFF85C3FF),),
           SizedBox(width: 16),
 
           Flexible(child:
@@ -252,7 +269,115 @@ class _TaskPageState extends State<TaskPage> {
         ],
       ),
           ),
+      Divider(thickness: 1, height: 1, color: Color(0xFFC2E1FF), indent: 16, endIndent: 16,),
+      Padding(
+        padding: EdgeInsets.all(16),
+        child:
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(Icons.view_cozy_rounded, size: 28, color: Color(0xFF85C3FF),),
+            SizedBox(width: 16),
 
+            Flexible(child:
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(AppLocalizations.of(context)!.photos, style: TextStyle(fontWeight: FontWeight.bold),),
+                SizedBox(height: 8),
+                // TODO show miniatures
+                Wrap(
+                  children: [
+                    Padding(padding: EdgeInsets.all(5),
+                    child:
+                    Card(
+                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                      child: Container(
+                        height: 70,
+                        width: 70,
+                        decoration: BoxDecoration(),
+                        child: FittedBox(
+                          child: Image.asset('assets/photos/photo2.png'),
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                    ),),
+                    Padding(padding: EdgeInsets.all(5),
+                      child:
+                      Card(
+                        clipBehavior: Clip.antiAliasWithSaveLayer,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)),
+                        child: Container(
+                          height: 70,
+                          width: 70,
+                          decoration: BoxDecoration(),
+                          child: FittedBox(
+                            child: Image.asset('assets/photos/photo1.png'),
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                      ),),
+                    Padding(padding: EdgeInsets.all(5),
+                      child:
+                      Card(
+                        clipBehavior: Clip.antiAliasWithSaveLayer,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)),
+                        child: Container(
+                          height: 70,
+                          width: 70,
+                          decoration: BoxDecoration(),
+                          child: FittedBox(
+                            child: Image.asset('assets/photos/photo1.png'),
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                      ),),
+                    Padding(padding: EdgeInsets.all(5),
+                      child:
+                      Card(
+                        clipBehavior: Clip.antiAliasWithSaveLayer,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)),
+                        child: Container(
+                          height: 70,
+                          width: 70,
+                          decoration: BoxDecoration(),
+                          child: FittedBox(
+                            child: Image.asset('assets/photos/photo1.png'),
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                      ),),
+                  ],
+                ),
+
+                //Text(widget.task.tDesc),
+              ],),
+            ),
+            Visibility(
+              visible: widget.task.tStatus=='начато',
+              child:
+            IconButton.filled(
+              icon: const Icon(Icons.add_a_photo),
+              style: IconButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                backgroundColor: Color(0xFF7E7BF4),
+              ),
+              //color: Colors.white,
+              onPressed: () {},
+            ),
+            ),
+          ],
+        ),
+      ),
 /*      ListTile(
           leading: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -494,4 +619,10 @@ class _TaskPageState extends State<TaskPage> {
 
     );
   }
+}
+
+class PhotoItem {
+  final String image;
+  final String name;
+  PhotoItem(this.image, this.name);
 }
