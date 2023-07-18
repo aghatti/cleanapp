@@ -6,6 +6,7 @@ import 'common_widgets/customappbar.dart';
 import 'utils/utils.dart';
 import 'package:user_repository/user_repository.dart';
 
+
 class TaskPage extends StatefulWidget {
   TaskPage({super.key, required this.task, required this.par});
 
@@ -125,8 +126,7 @@ class _TaskPageState extends State<TaskPage> {
                   ),
                   ),
                   ),
-                  Icon(statusIcon,
-                  color: statusColor),
+                    Icon(statusIcon, color: statusColor),
                 ],
               ),
                     ),
@@ -163,8 +163,12 @@ class _TaskPageState extends State<TaskPage> {
                     ),
                   ),
             ),),
+                  Visibility(
+                    visible: widget.task.tStatus!='не выполнено',
+                    child:
                   Icon(statusIcon,
                       color: statusColor),
+                  ),
                 ]
             ),),),
       ),
@@ -534,6 +538,97 @@ class _TaskPageState extends State<TaskPage> {
             //elevation: 5.0,
           ),
           onPressed: () {
+            /*showDialog(
+              context: context,
+              builder: (ctx) => PlaceholderDialog(
+                icon: Icon(
+                  Icons.add_circle,
+                  //color: Colors.teal,
+                  size: 80.0,
+                ),
+                title: 'Save Failed',
+                //message: 'An error occurred when attempt to save the message',
+                /*actions: [
+                  TextButton(
+                    onPressed: () => Navigator.of(ctx).pop(),
+                    child: Text('!Got It'),
+                  ),
+                ],*/
+              ),
+            );*/
+            /*showDialog(
+                context: context,
+                barrierDismissible: true,
+                builder: (BuildContext context) {
+                  var height2 = MediaQuery.of(context).size.height;
+                  var width2 = MediaQuery.of(context).size.width;
+                  return
+                    Dialog(
+                   //insetPadding: EdgeInsets.symmetric(horizontal: (width2-300)/2, vertical: (height2-300)/2),
+                      shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20.0))),
+                  //backgroundColor: Colors.transparent,
+                  child:
+                  SizedBox.fromSize(
+                    size: Size.fromRadius(100),
+                    child: Center( //    <-- Center
+                      child: Container(
+                        width: 100, // Works
+                        height: 100, // Works
+                        color: Colors.blue,
+                      ),
+                    ),
+                  ),
+                  );
+
+                });*/
+            showGeneralDialog(
+              context: context,
+              barrierColor: Colors.black54,
+              barrierDismissible: true,
+              barrierLabel: 'Label',
+              pageBuilder: (_, __, ___) {
+                return
+                  FutureBuilder(
+                    future: Future.delayed(Duration(seconds: 3)).then((value) => true),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        Navigator.of(context).pop();
+                      }
+
+                      return
+                        Align(
+                          alignment: Alignment.center,
+                          child: Card(
+                            color: Colors.white,
+                            child: Padding(
+                              padding: EdgeInsets.all(10),
+                              child:
+                              SizedBox(
+                                width: 180,
+                                height: 180,
+                                child:
+                                Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      SizedBox(height: 20),
+                                      Image.asset('assets/icons/tick-square.png'),
+                                      SizedBox(height: 20),
+                                      Text(AppLocalizations.of(context)!.taskWaitAction, textAlign: TextAlign.center,
+                                          style: TextStyle(fontWeight: FontWeight.bold)),
+                                    ]),
+                              ),
+                            ),
+                          ),
+                        );
+                    },
+                  );
+
+
+
+              },
+            );
+
           },
           //child: Text(AppLocalizations.of(context)!.reportProblem),
           child: Row(

@@ -84,6 +84,7 @@ flutter:
   assets:
     - assets/
     - assets/photos/
+    - assets/icons/
 #    - assets/cleanapp_logo.png
 #    - assets/cleanapp_logo_big.svg
 #    - assets/cleanapp_logo_big.png

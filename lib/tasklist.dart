@@ -85,9 +85,12 @@ class _TasksListState extends State<TasksList> {
                         ]
                     ),),),
               ),
-        SizedBox(height: 15),
+              Container(
+                color: Color(0xFFFDFBFE),
+                child: SizedBox(height: 15),
+              ),
         Container(
-          color: Colors.white,
+          color: Color(0xFFFDFBFE),
           child:
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 16),
@@ -118,7 +121,10 @@ class _TasksListState extends State<TasksList> {
             ],
           ),
         ),),
-              SizedBox(height: 17),
+          Container(
+            color: Color(0xFFFDFBFE),
+            child: SizedBox(height: 17),
+          ),
               Divider(color: Color(0xFFC2E1FF), height: 1, thickness: 1),
         Container(
           color: Color(0xFFF5F5FD),
@@ -157,7 +163,7 @@ class _TasksListState extends State<TasksList> {
                       //crossAxisAlignment: CrossAxisAlignment.baseline,
                       //textBaseline: TextBaseline.alphabetic,
                        mainAxisAlignment: MainAxisAlignment.start,
-                       crossAxisAlignment: CrossAxisAlignment.start,
+                       crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Padding(
                             padding: const EdgeInsets.fromLTRB(16,0,16,0),
@@ -179,7 +185,7 @@ class _TasksListState extends State<TasksList> {
                           ),
                           if(_tasks[index].tStatus == 'не выполнено') ... [
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(16,0,16,0),
+                            padding: const EdgeInsets.fromLTRB(16,0,10,0),
                             child:
                             IconButton.filled(
                               icon: const Icon(Icons.qr_code_scanner),
@@ -196,7 +202,7 @@ class _TasksListState extends State<TasksList> {
                           ] else ...
                             [
                               Padding(
-                                padding: const EdgeInsets.fromLTRB(16,0,16,0),
+                                padding: const EdgeInsets.fromLTRB(16,5,20,5),
                                 child:
                                 Icon(
                                   TaskStatusList.GetIconByStatus(_tasks[index].tStatus),
