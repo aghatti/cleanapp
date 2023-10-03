@@ -19,16 +19,17 @@ class AuthenticationRepository {
   }) async {
     // TODO web api auth
     if(username == 'user' && password == '123') {
-      String _uToken = '123';
       String _uName = 'Вячеслав';
       String _uSurname = 'Простаков';
       String _uCompany = 'Тимкорд';
-
+      String _uCompanyId = '1';
+      String _access_token = '0asdf14';
       final storage = new FlutterSecureStorage();
-      await storage.write(key: 'uToken', value: _uToken);
       await storage.write(key: 'uName', value: _uName);
       await storage.write(key: 'uSurname', value: _uSurname);
       await storage.write(key: 'uCompany', value: _uCompany);
+      await storage.write(key: 'uCompanyId', value: _uCompanyId);
+      await storage.write(key: '_access_token', value: _access_token);
       await Future.delayed(
         const Duration(milliseconds: 300),
             () => _controller.add(AuthenticationStatus.authenticated),
@@ -36,10 +37,11 @@ class AuthenticationRepository {
     }
     else  {
       final storage = new FlutterSecureStorage();
-      await storage.delete(key: 'uToken');
       await storage.delete(key: 'uName');
       await storage.delete(key: 'uSurname');
       await storage.delete(key: 'uCompany');
+      await storage.delete(key: 'uCompanyId');
+      await storage.delete(key: '_access_token');
     }
   }
 

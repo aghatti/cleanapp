@@ -13,13 +13,14 @@ class UserRepository {
     String _uName = await storage.read(key: 'uName') ?? '';
     String _uSurname = await storage.read(key: 'uSurname') ?? '';
     String _uCompany = await storage.read(key: 'uCompany') ?? '';
+    String _uCompanyId = await storage.read(key: 'uCompanyId') ?? '';
 
     //await storage.write(key: 'uToken', value: _uToken);
 
     return Future.delayed(
       const Duration(milliseconds: 300),
       //() => _user = User(const Uuid().v4()),
-          () => _user = User(_uToken, _uName, _uSurname, _uCompany),
+          () => _user = User(_uName, _uSurname, _uCompany, _uCompanyId),
     );
   }
 
