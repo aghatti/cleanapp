@@ -1,6 +1,7 @@
 //import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:user_repository/user_repository.dart';
 import 'supplemental/ellipseclipper.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:authentication_repository/authentication_repository.dart';
@@ -142,16 +143,18 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   onPressed: () {
                     try {
-                      Provider.of<AuthenticationRepository>(context, listen: false).logIn(username: loginController.text, password: passwordController.text);
+                      Provider.of<AuthenticationRepository>(context, listen: false).logInAPI(username: loginController.text.trim(), password: passwordController.text.trim());
                       Provider.of<AuthenticationRepository>(context, listen: false)
                           .checkSession()
                           .then((value) {
-                        if (value.isNotEmpty) {
-                          //Navigator.pushReplacementNamed(context, '/home');
-                          Navigator.of(context!).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
-                        } else {
-                          //Navigator.pushReplacementNamed(context, '/');
-                        }
+                            if (value.isNotEmpty) {
+                              //Navigator.pushReplacementNamed(context, '/home');
+                              Provider.of<UserRepository>(context, listen: false).getUserAPI(auth_token: value.toString()).then((void_val){
+                                Navigator.of(context!).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
+                              });
+                            } else {
+                              //Navigator.pushReplacementNamed(context, '/');
+                            }
                       });
                     }
                     catch (_) {

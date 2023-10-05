@@ -9,7 +9,8 @@ class User extends Equatable {
   final int uCompanyId;
 
   @override
-  List<Object> get props => [id];
+  List<Object> get props => [];
+  //List<Object> get props => [id];
 
-  static const empty = User('', '', '', '');
+  static const empty = User('', '', '', 0);
 }
