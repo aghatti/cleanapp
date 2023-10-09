@@ -29,7 +29,7 @@ class _TasksListState extends State<TasksList> {
   String _curObject = "--без фильтра--";
 
   User _usr = User.empty;
-  DateTime _curDt = DateTime.now();
+  //DateTime _curDt = DateTime.now();
   final String _curDtStr = DateFormat.MMMMd(Platform.localeName).format(DateTime.now());
 
 
@@ -54,7 +54,7 @@ class _TasksListState extends State<TasksList> {
   }
 
   void filterTasks() {
-    if (_curObject == null || _curObject == "--без фильтра--") {
+    if (_curObject == "--без фильтра--") {
       // No filter selected, show all tasks
       setState(() {
         _filteredTasks = _tasks;
@@ -73,12 +73,12 @@ class _TasksListState extends State<TasksList> {
 
   @override
   Widget build(BuildContext context) {
-    Color selectedColor = Theme.of(context).primaryColor;
-    ThemeData lightTheme = ThemeData(
+    //Color selectedColor = Theme.of(context).primaryColor;
+    /*ThemeData lightTheme = ThemeData(
       colorSchemeSeed: selectedColor,
       brightness: Brightness.light,
-    );
-    ColorScheme colorScheme = lightTheme.colorScheme;
+    );*/
+    //ColorScheme colorScheme = lightTheme.colorScheme;
 
     return Scaffold(
       appBar: CustomAppBar(autoLeading: true, context: context),
@@ -104,7 +104,7 @@ class _TasksListState extends State<TasksList> {
                             child: Text(_userRepo.getUserLabel(), style: TextStyle(fontSize: 19)),
                           ),
                           SizedBox(width: 16),
-                          Text(_usr!.uName.toString() + ' ' + _usr!.uSurname.toString(), textAlign: TextAlign.left,
+                          Text(_usr.uName.toString() + ' ' + _usr.uSurname.toString(), textAlign: TextAlign.left,
                             style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.normal, fontSize: 19)
                             ,),
                         ]
