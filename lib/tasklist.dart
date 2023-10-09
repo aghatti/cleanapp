@@ -1,3 +1,4 @@
+import 'package:TeamCoord/common_widgets/combobox.dart';
 import 'package:TeamCoord/common_widgets/customappbar.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
@@ -22,6 +23,10 @@ class _TasksListState extends State<TasksList> {
   TasksRepository _tasksRepo = TasksRepository();
   int _numTasks = 0;
   List<Task> _tasks = [];
+  List<Task> _filteredTasks = [];
+
+  List<String> _objects = [];
+  String _curObject = "--без фильтра--";
 
   User _usr = User.empty;
   DateTime _curDt = DateTime.now();
@@ -30,6 +35,7 @@ class _TasksListState extends State<TasksList> {
 
   @override
   void initState() {
+    super.initState();
     _userRepo.getUser().then(
             (User usr) => setState(() {
           _usr = usr;
@@ -37,15 +43,34 @@ class _TasksListState extends State<TasksList> {
     );
     _tasksRepo.generateDemoTasks();
     _tasksRepo.getTasks().then(
-        (List<Task> tasks) => setState(() {_tasks = tasks;})
+        (List<Task> tasks) => setState(() {_tasks = tasks; _filteredTasks = tasks;})
     );
     _tasksRepo.getNumTasks().then(
             (int numTasks) => setState(() {_numTasks = numTasks;})
     );
-
-
-    super.initState();
+    _tasksRepo.getObjects().then(
+        (List<String> objects) => setState((){_objects = objects; _curObject = _objects.isNotEmpty ? _objects[0] : '--без фильтра--';})
+    );
   }
+
+  void filterTasks() {
+    if (_curObject == null || _curObject == "--без фильтра--") {
+      // No filter selected, show all tasks
+      setState(() {
+        _filteredTasks = _tasks;
+      });
+    } else {
+      // Filter tasks based on selected category
+      setState(() {
+        _filteredTasks = _tasks
+            .where((task) => task.tAddress == _curObject)
+            .toList();
+      });
+    }
+    _numTasks = _filteredTasks.length;
+  }
+
+
   @override
   Widget build(BuildContext context) {
     Color selectedColor = Theme.of(context).primaryColor;
@@ -125,7 +150,24 @@ class _TasksListState extends State<TasksList> {
             color: Color(0xFFFDFBFE),
             child: SizedBox(height: 17),
           ),
-              Divider(color: Color(0xFFC2E1FF), height: 1, thickness: 1),
+        Divider(color: Color(0xFFC2E1FF), height: 1, thickness: 1),
+        Container(
+          color: Color(0xFFF5F5FD),
+          child: SizedBox(height: 8),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          child:
+              Combobox(items: _objects,
+                onItemSelected: (String? selectedValue) {
+                  if (selectedValue != null) {
+                    _curObject = selectedValue;
+                    filterTasks();
+                  }
+                },
+                selectedItem: _curObject,
+              ),
+        ),
         Container(
           color: Color(0xFFF5F5FD),
           child: SizedBox(height: 8),
@@ -142,7 +184,7 @@ class _TasksListState extends State<TasksList> {
             return GestureDetector(
               onTap: (){
                 print('Tapped on item #$index');
-                Navigator.pushNamed(context, '/task', arguments: ScreenArguments(_tasks[index], 'entertask'));
+                Navigator.pushNamed(context, '/task', arguments: ScreenArguments(_filteredTasks[index], 'entertask'));
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 0),
@@ -167,7 +209,7 @@ class _TasksListState extends State<TasksList> {
                         children: <Widget>[
                           Padding(
                             padding: const EdgeInsets.fromLTRB(16,0,16,0),
-                            child: Text(Utils.getTimeFromDate(_tasks[index].tDate), style: TextStyle(fontWeight: FontWeight.bold, color: Color(TaskStatusList.StatusesMap[_tasks[index].tStatus]!.listColor))),
+                            child: Text(Utils.getTimeFromDate(_filteredTasks[index].tDate), style: TextStyle(fontWeight: FontWeight.bold, color: Color(TaskStatusList.StatusesMap[_filteredTasks[index].tStatus]!.listColor))),
                           ),
                           Expanded(
                             flex: 2,
@@ -177,13 +219,13 @@ class _TasksListState extends State<TasksList> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(_tasks[index].tName, style: TextStyle(fontWeight: FontWeight.bold, color: Color(TaskStatusList.StatusesMap[_tasks[index].tStatus]!.listColor))),
-                                  Text(_tasks[index].tAddress + '\n' + _tasks[index].tZone, style: TextStyle(color: Color(0xFF66727F), fontSize: 16)),
+                                  Text(_filteredTasks[index].tName, style: TextStyle(fontWeight: FontWeight.bold, color: Color(TaskStatusList.StatusesMap[_filteredTasks[index].tStatus]!.listColor))),
+                                  Text(_filteredTasks[index].tAddress + '\n' + _filteredTasks[index].tZone, style: TextStyle(color: Color(0xFF66727F), fontSize: 16)),
                                 ],
                               ),
                             ),
                           ),
-                          if(_tasks[index].tStatus == 'не выполнено') ... [
+                          if(_filteredTasks[index].tStatus == 'не выполнено') ... [
                           Padding(
                             padding: const EdgeInsets.fromLTRB(16,0,10,0),
                             child:
@@ -205,9 +247,9 @@ class _TasksListState extends State<TasksList> {
                                 padding: const EdgeInsets.fromLTRB(16,5,20,5),
                                 child:
                                 Icon(
-                                  TaskStatusList.GetIconByStatus(_tasks[index].tStatus),
+                                  TaskStatusList.GetIconByStatus(_filteredTasks[index].tStatus),
                                   //  IconData(TaskStatusList.StatusesMap[_tasks[index].tStatus]!.statusIcon, fontFamily: 'MaterialIcons'),
-                                  color: Color(TaskStatusList.StatusesMap[_tasks[index].tStatus]!.listIconColor),
+                                  color: Color(TaskStatusList.StatusesMap[_filteredTasks[index].tStatus]!.listIconColor),
 
                                   size: 28,
                                 ),

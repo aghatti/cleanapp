@@ -13,7 +13,7 @@ class UserRepository {
   }) async {
 
     final response = await http.get(
-      Uri.parse('http://teamcoord.ru:8190/user'),
+      Uri.parse('https://teamcoord.ru:8190/user'),
       headers: <String, String>{
         "Authorization": "Bearer " + auth_token,
       },

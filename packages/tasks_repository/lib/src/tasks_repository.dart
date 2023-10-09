@@ -146,4 +146,16 @@ class TasksRepository {
   Future<int> getNumTasks() async  {
     return _tasks.length;
   }
+
+  Future<List<String>> getObjects() async {
+    final Set<String>objs = Set();
+    List<Task> _filteredTasks = List.from(_tasks);
+    _filteredTasks.retainWhere((x) => objs.add(x.tAddress));
+    //final List<String> res = objs.toList();
+    final List<String> res =
+        objs?.map((dynamic item) => item.toString()).toList() ?? [];
+    //objs?.map((String item) => item.toString()).toList() ?? [];
+    res.insert(0, "--без фильтра--");
+    return res;
+  }
 }

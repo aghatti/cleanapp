@@ -34,7 +34,7 @@ class AuthenticationRepository {
     map['client_secret'] = '';
 
     final response = await http.post(
-      Uri.parse('http://teamcoord.ru:8190/token'),
+      Uri.parse('https://teamcoord.ru:8190/token'),
       headers: <String, String>{
         "Content-Type": "application/x-www-form-urlencoded",
       },
