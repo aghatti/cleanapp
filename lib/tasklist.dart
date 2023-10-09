@@ -155,18 +155,22 @@ class _TasksListState extends State<TasksList> {
           color: Color(0xFFF5F5FD),
           child: SizedBox(height: 8),
         ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        Container(
+          color: Color(0xFFF5F5FD),
           child:
-              Combobox(items: _objects,
-                onItemSelected: (String? selectedValue) {
-                  if (selectedValue != null) {
-                    _curObject = selectedValue;
-                    filterTasks();
-                  }
-                },
-                selectedItem: _curObject,
-              ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 8),
+            child:
+                Combobox(items: _objects,
+                  onItemSelected: (String? selectedValue) {
+                    if (selectedValue != null) {
+                      _curObject = selectedValue;
+                      filterTasks();
+                    }
+                  },
+                  selectedItem: _curObject,
+                ),
+          ),
         ),
         Container(
           color: Color(0xFFF5F5FD),
