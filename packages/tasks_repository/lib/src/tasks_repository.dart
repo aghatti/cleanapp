@@ -6,12 +6,74 @@ class TasksRepository {
   Task? _currentTask = Task.empty;
   List<Task> _tasks = [];
 
+  Future<List<Task>> getTasks() async {
+    return _tasks;
+  }
+
+  Future<int> getTasksAPI({required String auth_token,}) async  {
+      _tasks.clear();
+      final response = await http.get(
+        Uri.parse('https://teamcoord.ru:8190/tasks'),
+        headers: <String, String>{
+          "Authorization": "Bearer " + auth_token,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        var jsonArray = jsonDecode(utf8.decode(response.bodyBytes));
+        if(jsonArray.length > 0) {
+          List<Task> _v_tasks;
+          for (var jsonObject in jsonArray) {
+            _v_tasks.add(Task(
+              id: jsonObject['id'],
+              tName: jsonObject['name'],
+              tDesc: jsonObject['description'],
+              tZone: jsonObject['zone'],
+              tObject: jsonObject['object'],
+              tAddress: jsonObject['address'],
+              tStatusId: jsonObject['state_id'],
+              tStatus: jsonObject['state'],
+              tDate: jsonObject['dtstart'],
+              tDateEnd: jsonObject['dtend'],
+              tDateFact: jsonObject['dtstart_fact'],
+              tDateEndFact: jsonObject['dtend_fact'],
+            ));
+          }
+          _tasks = _tasks..addAll(_v_tasks);
+        }
+
+
+        String name = json['name'];
+        String surname = json['surname'];
+        String company = json['company'];
+        String company_id = json['company_id'].toString();
+      } else {
+        // TODO show error
+        throw Exception('Failed to get user profile.');
+      }
+
+  }
+
+  Future<int> getNumTasks() async  {
+    return _tasks.length;
+  }
+  Future<List<String>> getObjects() async {
+    final Set<String>objs = Set();
+    List<Task> _filteredTasks = List.from(_tasks);
+    _filteredTasks.retainWhere((x) => objs.add(x.tAddress));
+    //final List<String> res = objs.toList();
+    final List<String> res =
+        objs?.map((dynamic item) => item.toString()).toList() ?? [];
+    //objs?.map((String item) => item.toString()).toList() ?? [];
+    res.insert(0, "--без фильтра--");
+    return res;
+  }
+
   Future<Task> getCurrentTask() async {
     var _task = Task.empty;
     if(_tasks.length > 0) {
       // DEMO
       var rng = Random();
-
       /*return Future.delayed(
         const Duration(milliseconds: 300),
             //() => _currentTask = Task(_id, _tName, 'коридор', 'в процессе', DateTime.now()),
@@ -135,27 +197,5 @@ class TasksRepository {
     _tasks = _tasks..addAll(_v_tasks);
   }
 
-  Future<List<Task>> getTasks() async {
-    return _tasks;
-  }
 
-  /*Future<int> getNumTasks(DateTime dt) async  {
-    return _tasks.length;
-  }*/
-
-  Future<int> getNumTasks() async  {
-    return _tasks.length;
-  }
-
-  Future<List<String>> getObjects() async {
-    final Set<String>objs = Set();
-    List<Task> _filteredTasks = List.from(_tasks);
-    _filteredTasks.retainWhere((x) => objs.add(x.tAddress));
-    //final List<String> res = objs.toList();
-    final List<String> res =
-        objs?.map((dynamic item) => item.toString()).toList() ?? [];
-    //objs?.map((String item) => item.toString()).toList() ?? [];
-    res.insert(0, "--без фильтра--");
-    return res;
-  }
 }
