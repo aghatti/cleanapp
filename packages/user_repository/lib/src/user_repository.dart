@@ -36,6 +36,11 @@ class UserRepository {
       throw Exception('Failed to get user profile.');
     }
   }
+  Future <String> getAuthToken() async {
+    final storage = new FlutterSecureStorage();
+    String _access_token = await storage.read(key: '_access_token') ?? '';
+    return _access_token;
+  }
 
   Future<User> getUser() async {
     if (_user != null) return _user!;

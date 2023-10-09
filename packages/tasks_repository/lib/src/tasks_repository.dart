@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:tasks_repository/src/models/models.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class TasksRepository {
-  Task? _currentTask = Task.empty;
+  Task _currentTask = Task.empty;
   List<Task> _tasks = [];
 
   Future<List<Task>> getTasks() async {
@@ -12,6 +14,8 @@ class TasksRepository {
 
   Future<int> getTasksAPI({required String auth_token,}) async  {
       _tasks.clear();
+      _currentTask = Task.empty;
+      int res = 0;
       final response = await http.get(
         Uri.parse('https://teamcoord.ru:8190/tasks'),
         headers: <String, String>{
@@ -22,36 +26,44 @@ class TasksRepository {
       if (response.statusCode == 200) {
         var jsonArray = jsonDecode(utf8.decode(response.bodyBytes));
         if(jsonArray.length > 0) {
-          List<Task> _v_tasks;
+          List<Task> _v_tasks = [];
+          List<String> activeStatuses = ["planned", "started", "reqstop", "reqnoqr"];
+          int curTaskItr = -1;
+          int cnt = 0;
           for (var jsonObject in jsonArray) {
+            String state = jsonObject['state'];
+            DateTime dtstart = DateTime.parse(jsonObject['dtstart']);
+            int id = jsonObject['id'];
+            if(activeStatuses.contains(state) && curTaskItr == -1) {
+              curTaskItr = cnt;
+            }
+            cnt++;
             _v_tasks.add(Task(
-              id: jsonObject['id'],
+              id: id,
               tName: jsonObject['name'],
               tDesc: jsonObject['description'],
               tZone: jsonObject['zone'],
               tObject: jsonObject['object'],
               tAddress: jsonObject['address'],
               tStatusId: jsonObject['state_id'],
-              tStatus: jsonObject['state'],
-              tDate: jsonObject['dtstart'],
-              tDateEnd: jsonObject['dtend'],
-              tDateFact: jsonObject['dtstart_fact'],
-              tDateEndFact: jsonObject['dtend_fact'],
+              tStatus: state,
+              tDate: dtstart,
+              tDateEnd: jsonObject['dtend'] != null ? DateTime.tryParse(jsonObject['dtend']) : null,
+              tDateFact: jsonObject['dtstart_fact'] != null ? DateTime.tryParse(jsonObject['dtstart_fact']) : null,
+              tDateEndFact: jsonObject['dtend_fact'] != null ? DateTime.tryParse(jsonObject['dtend_fact']) : null,
             ));
           }
           _tasks = _tasks..addAll(_v_tasks);
+          if(curTaskItr>=0 && _tasks.length>0 && curTaskItr<_tasks.length) {
+            _currentTask = _tasks[curTaskItr];
+          }
+          res = _tasks.length;
         }
-
-
-        String name = json['name'];
-        String surname = json['surname'];
-        String company = json['company'];
-        String company_id = json['company_id'].toString();
       } else {
         // TODO show error
         throw Exception('Failed to get user profile.');
       }
-
+      return res;
   }
 
   Future<int> getNumTasks() async  {
@@ -65,24 +77,21 @@ class TasksRepository {
     final List<String> res =
         objs?.map((dynamic item) => item.toString()).toList() ?? [];
     //objs?.map((String item) => item.toString()).toList() ?? [];
-    res.insert(0, "--без фильтра--");
+    res.insert(0, "-- no filter --");
     return res;
   }
 
   Future<Task> getCurrentTask() async {
-    var _task = Task.empty;
+    // DEMO
+    /*var _task = Task.empty;
     if(_tasks.length > 0) {
-      // DEMO
-      var rng = Random();
-      /*return Future.delayed(
-        const Duration(milliseconds: 300),
-            //() => _currentTask = Task(_id, _tName, 'коридор', 'в процессе', DateTime.now()),
-            () => _currentTask = _tasks[rng.nextInt(_tasks.length-1)],
-      );*/
-      _task = _tasks[rng.nextInt(_tasks.length-1)];
+
+      //var rng = Random();
+      //_task = _tasks[rng.nextInt(_tasks.length-1)];
     }
     _currentTask = _task;
-    return _task;
+    return _task;*/
+    return _currentTask;
   }
 
   Task getTaskByQr(String qr_code) {
@@ -96,7 +105,7 @@ class TasksRepository {
   }
 
   Future<void> generateDemoTasks() async {
-    List<Task> _v_tasks = [
+   /*List<Task> _v_tasks = [
       Task(
         id: '3',
         tName: 'Уборка холла',
@@ -194,7 +203,7 @@ class TasksRepository {
     tStatus: 'не выполнено',
     tDate: DateTime.parse('2023-06-01 12:15:00Z'),
     ),];
-    _tasks = _tasks..addAll(_v_tasks);
+    _tasks = _tasks..addAll(_v_tasks);*/
   }
 
 

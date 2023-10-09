@@ -20,12 +20,20 @@ class TaskStatusList {
     TaskStatus(5, 'ожидание', 0xFFFF8585,0xFFFFFFFF,0xf269)
   ];*/
   static Map<String, TaskStatus> StatusesMap = {
-    'не выполнено': TaskStatus(1, 'не выполнено', 0xFFEBE8FB,0xFF0B1F33,0xFF0B1F33,0xFF000000,0xe158),
+    /*'не выполнено': TaskStatus(1, 'не выполнено', 0xFFEBE8FB,0xFF0B1F33,0xFF0B1F33,0xFF000000,0xe158),
     'начато': TaskStatus(2, 'начато', 0xFF85C3FF,0xFFFFFFFF,0xFF85C3FF,0xFF000000,0xf476),
     'завершено': TaskStatus(3, 'завершено', 0xFF9FA6AD,0xFFFFFFFF,0xFF9FA6AD,0x55000000,0xef46),
     'отменено': TaskStatus(4, 'отменено', 0xFFDC0000,0xFFFFFFFF,0xFFDC0000,0x55000000,0xef28),
-    'ожидание': TaskStatus(5, 'ожидание', 0xFFFF8585,0xFFFFFFFF,0xFFFF8585,0xFF000000,0xf269),
+    'ожидание': TaskStatus(5, 'ожидание', 0xFFFF8585,0xFFFFFFFF,0xFFFF8585,0xFF000000,0xf269),*/
+    'planned': TaskStatus(2, 'не выполнено', 0xFFEBE8FB,0xFF0B1F33,0xFF0B1F33,0xFF000000,0xe158),
+    'started': TaskStatus(3, 'начато', 0xFF85C3FF,0xFFFFFFFF,0xFF85C3FF,0xFF000000,0xf476),
+    'finished': TaskStatus(6, 'завершено', 0xFF9FA6AD,0xFFFFFFFF,0xFF9FA6AD,0x55000000,0xef46),
+    'stopped': TaskStatus(5, 'отменено', 0xFFDC0000,0xFFFFFFFF,0xFFDC0000,0x55000000,0xef28),
+    'failed': TaskStatus(8, 'отменено', 0xFFDC0000,0xFFFFFFFF,0xFFDC0000,0x55000000,0xef28),
+    'reqstop': TaskStatus(4, 'ожидание', 0xFFFF8585,0xFFFFFFFF,0xFFFF8585,0xFF000000,0xf269),
+    'reqnoqr': TaskStatus(7, 'ожидание', 0xFFFF8585,0xFFFFFFFF,0xFFFF8585,0xFF000000,0xf269),
   };
+
 
   static GetIconByStatus(String status_code) {
     IconData res = Icons.drafts_outlined;

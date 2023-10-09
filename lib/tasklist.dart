@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
-import 'package:tasks_repository/tasks_repository.dart';
 import 'utils/utils.dart';
+import 'package:tasks_repository/tasks_repository.dart';
 import 'package:user_repository/user_repository.dart';
+import 'package:authentication_repository/authentication_repository.dart';
 import 'supplemental/screenarguments.dart';
 import 'constants/constants.dart';
 
@@ -21,12 +22,13 @@ class TasksList extends StatefulWidget {
 class _TasksListState extends State<TasksList> {
   UserRepository _userRepo = UserRepository();
   TasksRepository _tasksRepo = TasksRepository();
+
   int _numTasks = 0;
   List<Task> _tasks = [];
   List<Task> _filteredTasks = [];
 
   List<String> _objects = [];
-  String _curObject = "--без фильтра--";
+  String? _curObject;
 
   User _usr = User.empty;
   //DateTime _curDt = DateTime.now();
@@ -36,25 +38,41 @@ class _TasksListState extends State<TasksList> {
   @override
   void initState() {
     super.initState();
+    _curObject = '-- no filter --';
     _userRepo.getUser().then(
             (User usr) => setState(() {
           _usr = usr;
         })
     );
-    _tasksRepo.generateDemoTasks();
-    _tasksRepo.getTasks().then(
+    //_tasksRepo.generateDemoTasks();
+    _userRepo.getAuthToken().then((String value) => setState(()
+      {
+        if(value.isNotEmpty) {
+          _tasksRepo.getTasksAPI(auth_token: value).then((int val) => setState(()
+            {
+              _numTasks = val;
+              _tasksRepo.getTasks().then(
+                      (List<Task> tasks) => setState(() {_tasks = tasks; _filteredTasks = tasks;})
+              );
+              _tasksRepo.getObjects().then(
+                      (List<String> objects) => setState((){_objects = objects; _curObject = _objects.isNotEmpty ? _objects[0] : AppLocalizations.of(context)!.withoutFilter;})
+              );
+            }
+          ));
+        }
+      }
+      ));
+    /*_tasksRepo.getTasks().then(
         (List<Task> tasks) => setState(() {_tasks = tasks; _filteredTasks = tasks;})
     );
     _tasksRepo.getNumTasks().then(
             (int numTasks) => setState(() {_numTasks = numTasks;})
-    );
-    _tasksRepo.getObjects().then(
-        (List<String> objects) => setState((){_objects = objects; _curObject = _objects.isNotEmpty ? _objects[0] : '--без фильтра--';})
-    );
+    );*/
+
   }
 
   void filterTasks() {
-    if (_curObject == "--без фильтра--") {
+    if (_curObject == AppLocalizations.of(context)!.withoutFilter) {
       // No filter selected, show all tasks
       setState(() {
         _filteredTasks = _tasks;
@@ -79,6 +97,10 @@ class _TasksListState extends State<TasksList> {
       brightness: Brightness.light,
     );*/
     //ColorScheme colorScheme = lightTheme.colorScheme;
+    if(_curObject == 'no filter') _curObject = AppLocalizations.of(context)!.withoutFilter;
+    if(_objects.length>0) {
+      _objects[0] = AppLocalizations.of(context)!.withoutFilter;
+    }
 
     return Scaffold(
       appBar: CustomAppBar(autoLeading: true, context: context),
@@ -223,7 +245,7 @@ class _TasksListState extends State<TasksList> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(_filteredTasks[index].tName, style: TextStyle(fontWeight: FontWeight.bold, color: Color(TaskStatusList.StatusesMap[_filteredTasks[index].tStatus]!.listColor))),
+                                  Text(_filteredTasks[index].tName + " (" + _filteredTasks[index].tStatus + ")", style: TextStyle(fontWeight: FontWeight.bold, color: Color(TaskStatusList.StatusesMap[_filteredTasks[index].tStatus]!.listColor))),
                                   Text(_filteredTasks[index].tAddress + '\n' + _filteredTasks[index].tZone, style: TextStyle(color: Color(0xFF66727F), fontSize: 16)),
                                 ],
                               ),

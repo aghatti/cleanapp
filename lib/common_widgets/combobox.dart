@@ -52,9 +52,10 @@ class _ComboboxState extends State<Combobox> {
         value: selectedItem,
         items: widget.items.map((item)=>DropdownMenuItem<String>(
             value: item,
-            child: Text(item)//, style: TextStyle(fontSize: 24))
+            child: Text(item),
         )).toList(),
         onChanged: dropdownCallback,
+
       );
 
   }

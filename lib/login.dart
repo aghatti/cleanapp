@@ -143,18 +143,21 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   onPressed: () {
                     try {
-                      Provider.of<AuthenticationRepository>(context, listen: false).logInAPI(username: loginController.text.trim(), password: passwordController.text.trim());
                       Provider.of<AuthenticationRepository>(context, listen: false)
-                          .checkSession()
-                          .then((value) {
-                            if (value.isNotEmpty) {
-                              //Navigator.pushReplacementNamed(context, '/home');
-                              Provider.of<UserRepository>(context, listen: false).getUserAPI(auth_token: value.toString()).then((void_val){
-                                Navigator.of(context!).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
-                              });
-                            } else {
-                              //Navigator.pushReplacementNamed(context, '/');
-                            }
+                          .logInAPI(username: loginController.text.trim(), password: passwordController.text.trim())
+                          .then((val) {
+                          Provider.of<AuthenticationRepository>(context, listen: false)
+                              .checkSession()
+                              .then((value) {
+                                if (value.isNotEmpty) {
+                                  //Navigator.pushReplacementNamed(context, '/home');
+                                  Provider.of<UserRepository>(context, listen: false).getUserAPI(auth_token: value.toString()).then((void_val){
+                                    Navigator.of(context!).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
+                                  });
+                                } else {
+                                  //Navigator.pushReplacementNamed(context, '/');
+                                }
+                          });
                       });
                     }
                     catch (_) {

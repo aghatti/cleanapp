@@ -33,20 +33,36 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+    super.initState();
     _userRepo.getUser().then(
             (User usr) => setState(() {
               _usr = usr;
             })
     );
-    _tasksRepo.generateDemoTasks();
-    _tasksRepo.getNumTasks().then(
+    //_tasksRepo.generateDemoTasks();
+    /*_tasksRepo.getNumTasks().then(
         (int numTasks) => setState(() {_numTasks = numTasks;})
     );
     _tasksRepo.getCurrentTask().then(
         (Task task) => setState(() {_curTask = task;})
-    );
+    );*/
 
-    super.initState();
+    _userRepo.getAuthToken().then((String value) => setState(()
+    {
+      if(value.isNotEmpty) {
+        _tasksRepo.getTasksAPI(auth_token: value).then((int val) => setState(()
+        {
+          _numTasks = val;
+          _tasksRepo.getCurrentTask().then(
+                  (Task task) => setState(() {_curTask = task;})
+          );
+        }
+        ));
+      }
+    }
+    ));
+
+
   }
 
   @override

@@ -108,8 +108,12 @@
     "description": "Task canceled"
   },
   "taskWaitAction": "Wait for a response to your request",
-  "@taskCanceled": {
+  "@taskWaitAction": {
     "description": "Wait for a response to your request"
+  },
+  "withoutFilter": "-- no filter --",
+  "@withoutFilter": {
+    "description": "Without filter set"
   }
 }
 

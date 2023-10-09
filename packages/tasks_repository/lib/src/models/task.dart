@@ -11,9 +11,9 @@ class Task extends Equatable {
     required this.tStatusId,
     required this.tStatus,
     required this.tDate,
-    required this.tDateEnd,
-    required this.tDateFact,
-    required this.tDateEndFact,
+    this.tDateEnd,
+    this.tDateFact,
+    this.tDateEndFact,
   });
   /*Task.empty():
         id = '',
@@ -30,9 +30,9 @@ class Task extends Equatable {
   final int tStatusId;
   final String tStatus;
   final DateTime tDate;
-  final DateTime tDateEnd;
-  final DateTime tDateFact;
-  final DateTime tDateEndFact;
+  final DateTime? tDateEnd;
+  final DateTime? tDateFact;
+  final DateTime? tDateEndFact;
 
   @override
   List<Object> get props => [id];
@@ -46,7 +46,7 @@ class Task extends Equatable {
     tAddress: ' ',
     tStatusId: 0,
     tStatus: ' ',
-    tDate: null,
+    tDate: DateTime.now(),
     tDateEnd: null,
     tDateFact: null,
     tDateEndFact: null,
