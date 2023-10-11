@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tasks_repository/tasks_repository.dart';
 import 'common_widgets/customappbar.dart';
+import 'common_widgets/customdialog.dart';
 import 'utils/utils.dart';
 import 'package:user_repository/user_repository.dart';
 import 'package:provider/provider.dart';
 import 'constants/constants.dart';
+
 
 class TaskPage extends StatefulWidget {
   TaskPage({super.key, required this.task, required this.par});
@@ -50,34 +52,6 @@ class _TaskPageState extends State<TaskPage> {
       statusBg = Color(TaskStatusList.StatusesMap[widget.task.tStatus]!.statusBg);
       statusColor = Color(TaskStatusList.StatusesMap[widget.task.tStatus]!.statusColor);
       statusIcon = TaskStatusList.GetIconByStatus(widget.task.tStatus);
-      // TODO remove
-      /*switch(widget.task.tStatus) {
-        case 'не выполнено':
-          statusBg = Color(0xFFEBE8FB);
-          statusColor = Color(0xFF0B1F33);
-          statusIcon = Icons.check_box_outline_blank;
-          break;
-        case 'начато':
-          statusBg = Color(0xFF85C3FF);
-          statusColor = Colors.white;
-          statusIcon = Icons.update_outlined;
-          break;
-        case 'завершено':
-          statusBg = Color(0xFF9FA6AD);
-          statusColor = Colors.white;
-          statusIcon = Icons.check_box_outlined;
-          break;
-        case 'отменено':
-          statusBg = Color(0xFFDC0000);
-          statusColor = Colors.white;
-          statusIcon = Icons.cancel_outlined;
-          break;
-        case 'ожидание':
-          statusBg = Color(0xFFFF8585);
-          statusColor = Colors.white;
-          statusIcon = Icons.pending_outlined;
-          break;
-      }*/
     }
     super.initState();
   }
@@ -170,7 +144,7 @@ class _TaskPageState extends State<TaskPage> {
                   ),
             ),),
                   Visibility(
-                    visible: widget.task.tStatus!='не выполнено',
+                    visible: widget.task.tStatus!='planned',
                     child:
                   Icon(statusIcon,
                       color: statusColor),
@@ -398,6 +372,7 @@ class _TaskPageState extends State<TaskPage> {
             Visibility(
               visible: widget.task.tStatus=='started',
               child:
+                  // == Add photo button
             IconButton.filled(
               icon: const Icon(Icons.add_a_photo),
               style: IconButton.styleFrom(
@@ -444,6 +419,7 @@ class _TaskPageState extends State<TaskPage> {
         children: [
       if(widget.task.tStatus=='finished') ...[]
       else if(widget.par=='entertaskbyqr' && widget.task.tStatus=='planned') ... [
+        // == Begin task with QR
         FilledButton(
         style: FilledButton.styleFrom(
           backgroundColor: Color(0xFF7ACB82),
@@ -472,6 +448,7 @@ class _TaskPageState extends State<TaskPage> {
         ),
       ),
         SizedBox(height: 10),
+        // == Cancel task button
         OutlinedButton(
         style: OutlinedButton.styleFrom(
           foregroundColor: Color(0xFF85C3FF),
@@ -482,7 +459,60 @@ class _TaskPageState extends State<TaskPage> {
           minimumSize: Size(100, 56),
           //elevation: 5.0,
         ),
-        onPressed: () {
+        onPressed: ()
+        {
+          // TODO make component (icon, textlabel, future handler)
+          showGeneralDialog(
+            context: context,
+            barrierColor: Colors.black54,
+            barrierDismissible: true,
+            barrierLabel: 'Label',
+            pageBuilder: (_, __, ___) {
+              return
+                FutureBuilder(
+                  //future: Future.delayed(Duration(seconds: 3)).then((value) => true),
+                  future: Provider.of<UserRepository>(context, listen: false).getAuthToken().then((auth_token){
+                    if(auth_token.isNotEmpty) {
+                      Provider.of<TasksRepository>(context, listen: false).stopTask(auth_token: auth_token, task_id: widget.task.id).then((auth_token){
+                        Navigator.of(context!).pushNamedAndRemoveUntil(
+                            '/tasklist', (Route<dynamic> route) => false);
+                      });
+                    }
+                  }),
+                  builder: (context, snapshot) {
+                    //if (snapshot.hasData) {
+                    //Navigator.of(context).pop();
+                    //Navigator.pushNamedAndRemoveUntil(context, '/tasklist', (_) => false);
+                    //}
+                    return
+                      Align(
+                        alignment: Alignment.center,
+                        child: Card(
+                          color: Colors.white,
+                          child: Padding(
+                            padding: EdgeInsets.all(10),
+                            child:
+                            SizedBox(
+                              width: 180,
+                              height: 180,
+                              child:
+                              Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    SizedBox(height: 20),
+                                    Image.asset('assets/icons/tick-square.png'),
+                                    SizedBox(height: 20),
+                                    Text(AppLocalizations.of(context)!.taskWaitAction, textAlign: TextAlign.center,
+                                        style: TextStyle(fontWeight: FontWeight.bold)),
+                                  ]),
+                            ),
+                          ),
+                        ),
+                      );
+                  },
+                );
+            },
+          ); // -> move to component
         },
         //child: Text(AppLocalizations.of(context)!.reportProblem),
         child: Row(
@@ -533,6 +563,7 @@ class _TaskPageState extends State<TaskPage> {
           ),
         ),
         SizedBox(height: 10),
+        // == Request start of task with no QR
         OutlinedButton(
           style: OutlinedButton.styleFrom(
             foregroundColor: Color(0xFF85C3FF),
@@ -544,51 +575,28 @@ class _TaskPageState extends State<TaskPage> {
             //elevation: 5.0,
           ),
           onPressed: () {
-            /*showDialog(
-              context: context,
-              builder: (ctx) => PlaceholderDialog(
-                icon: Icon(
-                  Icons.add_circle,
-                  //color: Colors.teal,
-                  size: 80.0,
-                ),
-                title: 'Save Failed',
-                //message: 'An error occurred when attempt to save the message',
-                /*actions: [
-                  TextButton(
-                    onPressed: () => Navigator.of(ctx).pop(),
-                    child: Text('!Got It'),
-                  ),
-                ],*/
-              ),
-            );*/
-            /*showDialog(
-                context: context,
-                barrierDismissible: true,
-                builder: (BuildContext context) {
-                  var height2 = MediaQuery.of(context).size.height;
-                  var width2 = MediaQuery.of(context).size.width;
-                  return
-                    Dialog(
-                   //insetPadding: EdgeInsets.symmetric(horizontal: (width2-300)/2, vertical: (height2-300)/2),
-                      shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(20.0))),
-                  //backgroundColor: Colors.transparent,
-                  child:
-                  SizedBox.fromSize(
-                    size: Size.fromRadius(100),
-                    child: Center( //    <-- Center
-                      child: Container(
-                        width: 100, // Works
-                        height: 100, // Works
-                        color: Colors.blue,
-                      ),
-                    ),
-                  ),
-                  );
+            // TODO make component (icon, textlabel, future handler)
+            Future.delayed(Duration(seconds: 5), () {
+            showCustomDialog(
+              context,
+              AppLocalizations.of(context)!.taskWaitAction, // Pass text label
+              'assets/icons/tick-square.png', // Pass image asset path
+                  (context) async {
+                    Provider.of<UserRepository>(context, listen: false).getAuthToken().then((auth_token){
+                      if(auth_token.isNotEmpty) {
 
-                });*/
-            showGeneralDialog(
+
+                          Navigator.of(context).pop();
+                          //Navigator.of(context!).pushNamedAndRemoveUntil('/tasklist', (Route<dynamic> route) => false);
+
+                        //Provider.of<TasksRepository>(context, listen: false).startTaskNoQr(auth_token: auth_token, task_id: widget.task.id).then((auth_token){
+
+                        //});
+                      }
+                    }); });
+              },
+            );
+            /*showGeneralDialog(
               context: context,
               barrierColor: Colors.black54,
               barrierDismissible: true,
@@ -599,7 +607,7 @@ class _TaskPageState extends State<TaskPage> {
                     //future: Future.delayed(Duration(seconds: 3)).then((value) => true),
                       future: Provider.of<UserRepository>(context, listen: false).getAuthToken().then((auth_token){
                         if(auth_token.isNotEmpty) {
-                          Provider.of<TasksRepository>(context, listen: false).beginTaskNoQr(auth_token: auth_token, task_id: widget.task.id).then((auth_token){
+                          Provider.of<TasksRepository>(context, listen: false).startTaskNoQr(auth_token: auth_token, task_id: widget.task.id).then((auth_token){
                             Navigator.of(context!).pushNamedAndRemoveUntil(
                                 '/tasklist', (Route<dynamic> route) => false);
                           });
@@ -610,7 +618,6 @@ class _TaskPageState extends State<TaskPage> {
                         //Navigator.of(context).pop();
                         //Navigator.pushNamedAndRemoveUntil(context, '/tasklist', (_) => false);
                       //}
-
                       return
                         Align(
                           alignment: Alignment.center,
@@ -638,11 +645,8 @@ class _TaskPageState extends State<TaskPage> {
                         );
                     },
                   );
-
-
-
               },
-            );
+            ); // -> move to component*/
 
           },
           //child: Text(AppLocalizations.of(context)!.reportProblem),
@@ -722,6 +726,7 @@ class _TaskPageState extends State<TaskPage> {
                 ),
               ),
         SizedBox(height: 10),
+        // == Cancel task button
         OutlinedButton(
                 style: OutlinedButton.styleFrom(
                   foregroundColor: Color(0xFF85C3FF),
@@ -733,6 +738,59 @@ class _TaskPageState extends State<TaskPage> {
                   //elevation: 5.0,
                 ),
                 onPressed: () {
+                  // TODO make component (icon, textlabel, future handler)
+                  showGeneralDialog(
+                    context: context,
+                    barrierColor: Colors.black54,
+                    barrierDismissible: true,
+                    barrierLabel: 'Label',
+                    pageBuilder: (_, __, ___) {
+                      return
+                        FutureBuilder(
+                          //future: Future.delayed(Duration(seconds: 3)).then((value) => true),
+                          future: Provider.of<UserRepository>(context, listen: false).getAuthToken().then((auth_token){
+                            if(auth_token.isNotEmpty) {
+                              Provider.of<TasksRepository>(context, listen: false).stopTask(auth_token: auth_token, task_id: widget.task.id).then((auth_token){
+                                Navigator.of(context!).pushNamedAndRemoveUntil(
+                                    '/tasklist', (Route<dynamic> route) => false);
+                              });
+                            }
+                          }),
+                          builder: (context, snapshot) {
+                            //if (snapshot.hasData) {
+                            //Navigator.of(context).pop();
+                            //Navigator.pushNamedAndRemoveUntil(context, '/tasklist', (_) => false);
+                            //}
+                            return
+                              Align(
+                                alignment: Alignment.center,
+                                child: Card(
+                                  color: Colors.white,
+                                  child: Padding(
+                                    padding: EdgeInsets.all(10),
+                                    child:
+                                    SizedBox(
+                                      width: 180,
+                                      height: 180,
+                                      child:
+                                      Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          children: [
+                                            SizedBox(height: 20),
+                                            Image.asset('assets/icons/tick-square.png'),
+                                            SizedBox(height: 20),
+                                            Text(AppLocalizations.of(context)!.taskWaitAction, textAlign: TextAlign.center,
+                                                style: TextStyle(fontWeight: FontWeight.bold)),
+                                          ]),
+                                    ),
+                                  ),
+                                ),
+                              );
+                          },
+                        );
+                    },
+                  ); // -> move to component
+
                 },
                 //child: Text(AppLocalizations.of(context)!.reportProblem),
                 child: Row(

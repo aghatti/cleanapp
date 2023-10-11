@@ -95,7 +95,7 @@ class TasksRepository {
     return _currentTask;
   }
 
-  Future<int> beginTaskNoQr({required String auth_token, required int task_id}) async {
+  Future<int> startTaskNoQr({required String auth_token, required int task_id}) async {
     _tasks.clear();
     _currentTask = Task.empty;
     int res = 0;
@@ -111,7 +111,27 @@ class TasksRepository {
       return 0;
     } else {
       // TODO show error
-      throw Exception('Failed to get user profile.');
+      throw Exception('Failed to make request to start task with no QR.');
+    }
+    return res;
+  }
+
+  Future<int> stopTask({required String auth_token, required int task_id}) async {
+    _tasks.clear();
+    _currentTask = Task.empty;
+    int res = 0;
+    final response = await http.post(
+      Uri.parse('https://teamcoord.ru:8190/tasks/reqstop' + '?task_id=' + task_id.toString()),
+      headers: <String, String>{
+        "Authorization": "Bearer " + auth_token,
+      },
+      //body: {'task_id': task_id.toString()},
+    );
+    if (response.statusCode == 200) {
+      return 0;
+    } else {
+      // TODO show error
+      throw Exception('Failed stop task.');
     }
     return res;
   }

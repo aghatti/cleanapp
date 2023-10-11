@@ -68,8 +68,8 @@
     "description": "Begin task without QR"
   },
   "cancelTask": "Cancel task",
-                "@cancelTask": {
-                  "description": "Cancel task"
+  "@cancelTask": {
+    "description": "Cancel task"
   },
   "confirmCompletion": "Confirm completion",
   "@confirmCompletion": {
@@ -81,7 +81,7 @@
   },
   "scanQrMessage": "Scan QR-code\nand we will find the task",
   "@scanQrMessage": {
-    "description": "Cancel task"
+    "description": "Scan QR-code\nand we will find the task"
   },
   "leadTime": "Lead time",
   "@leadTime": {
