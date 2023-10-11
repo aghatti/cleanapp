@@ -202,6 +202,28 @@ class _HomePageState extends State<HomePage> {
                 color: Color(0xFF85C3FF),//colorScheme.primary,
                 onColor: colorScheme.onPrimary,
               ),
+
+            Visibility(
+                visible: _curTask.isEmpty(),
+                child:
+                Column(
+                  //crossAxisAlignment: CrossAxisAlignment.baseline,
+                  //textBaseline: TextBaseline.alphabetic,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                Padding(
+                padding: const EdgeInsets.all(16),
+                      child:
+                      Text(AppLocalizations.of(context)!.noTasks, style: TextStyle(fontWeight: FontWeight.bold)),
+                ),
+                    ]
+                )
+            ),
+              // == Current task info
+              Visibility(
+                visible: !_curTask.isEmpty(),
+                child:
               Row(
                   //crossAxisAlignment: CrossAxisAlignment.baseline,
                   //textBaseline: TextBaseline.alphabetic,
@@ -244,6 +266,10 @@ class _HomePageState extends State<HomePage> {
                 ),
     ),
               ]),
+              ),
+      Visibility(
+          visible: !_curTask.isEmpty(),
+          child: Column(children: [
               Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                   child: Divider(color: Color(0xFFC2E1FF)),
@@ -257,23 +283,23 @@ class _HomePageState extends State<HomePage> {
                     children: [
                 OutlinedButton(
                   style: OutlinedButton.styleFrom(
-                    side: BorderSide(width: 2.0, color: Color.fromRGBO(126, 123, 244, 1.0)),
+                    side: BorderSide(width: 2.0, color: Color.fromRGBO(126, 123, 244, _curTask.isEmpty() ? 0.1 : 1.0)),
+
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
                     minimumSize: Size(100, 56),
                     //elevation: 5.0,
                   ),
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/tasklist');
-                  },
+                  //onPressed: () {Navigator.pushNamed(context, '/tasklist');},
+                  onPressed: _curTask.isEmpty() ? null : () => Navigator.pushNamed(context, '/tasklist'),
                   //child: Text(AppLocalizations.of(context)!.reportProblem),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(AppLocalizations.of(context)!.allTasks,
                         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            color: Theme.of(context).primaryColor, fontWeight: FontWeight.bold
+                            color: Theme.of(context).primaryColor, fontWeight: FontWeight.bold,
                         ),
                       ),
                       SizedBox(
@@ -288,7 +314,7 @@ class _HomePageState extends State<HomePage> {
                 ),
     ],),
               ),
-
+              ]),),
               SizedBox(height: 18),
               /*ColorChip(
                   label: 'onPrimary',

@@ -51,7 +51,9 @@
 
     "taskWaitAction": "Подождите ответа на ваш запрос",
 
-    "withoutFilter": "-- без фильтра --"
+    "withoutFilter": "-- без фильтра --",
+
+    "noTasks": "Нет задач."
 
 }
 

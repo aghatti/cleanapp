@@ -38,19 +38,25 @@ class TaskStatusList {
   static GetIconByStatus(String status_code) {
     IconData res = Icons.drafts_outlined;
     switch(status_code) {
-      case 'не выполнено':
+      case 'planned':
         res = Icons.check_box_outline_blank;
         break;
-      case 'начато':
+      case 'started':
         res = Icons.update_outlined;
         break;
-      case 'завершено':
+      case 'finished':
         res = Icons.check_box_outlined;
         break;
-      case 'отменено':
+      case 'stopped':
         res = Icons.cancel_outlined;
         break;
-      case 'ожидание':
+      case 'failed':
+        res = Icons.cancel_outlined;
+        break;
+      case 'reqstop':
+        res = Icons.pending_outlined;
+        break;
+      case 'reqnoqr':
         res = Icons.pending_outlined;
         break;
     }

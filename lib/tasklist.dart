@@ -251,7 +251,7 @@ class _TasksListState extends State<TasksList> {
                               ),
                             ),
                           ),
-                          if(_filteredTasks[index].tStatus == 'не выполнено') ... [
+                          if(_filteredTasks[index].tStatus == 'planned') ... [
                           Padding(
                             padding: const EdgeInsets.fromLTRB(16,0,10,0),
                             child:

@@ -69,6 +69,7 @@ class TasksRepository {
   Future<int> getNumTasks() async  {
     return _tasks.length;
   }
+
   Future<List<String>> getObjects() async {
     final Set<String>objs = Set();
     List<Task> _filteredTasks = List.from(_tasks);
@@ -92,6 +93,27 @@ class TasksRepository {
     _currentTask = _task;
     return _task;*/
     return _currentTask;
+  }
+
+  Future<int> beginTaskNoQr({required String auth_token, required int task_id}) async {
+    _tasks.clear();
+    _currentTask = Task.empty;
+    int res = 0;
+    final response = await http.post(
+      Uri.parse('https://teamcoord.ru:8190/tasks/reqnoqr' + '?task_id=' + task_id.toString()),
+      headers: <String, String>{
+        "Authorization": "Bearer " + auth_token,
+      },
+      //body: {'task_id': task_id.toString()},
+    );
+
+    if (response.statusCode == 200) {
+      return 0;
+    } else {
+      // TODO show error
+      throw Exception('Failed to get user profile.');
+    }
+    return res;
   }
 
   Task getTaskByQr(String qr_code) {

@@ -5,7 +5,8 @@ import 'package:tasks_repository/tasks_repository.dart';
 import 'common_widgets/customappbar.dart';
 import 'utils/utils.dart';
 import 'package:user_repository/user_repository.dart';
-
+import 'package:provider/provider.dart';
+import 'constants/constants.dart';
 
 class TaskPage extends StatefulWidget {
   TaskPage({super.key, required this.task, required this.par});
@@ -21,6 +22,8 @@ class TaskPage extends StatefulWidget {
 
 class _TaskPageState extends State<TaskPage> {
   UserRepository _userRepo = UserRepository();
+  TasksRepository _tasksRepo = TasksRepository();
+
   User _usr = User.empty;
   Color statusBg = Color(0xFFEBE8FB);
   Color statusColor = Color(0xFF0B1F33);
@@ -44,7 +47,11 @@ class _TaskPageState extends State<TaskPage> {
         })
     );
     if(!widget.task.isEmpty()) {
-      switch(widget.task.tStatus) {
+      statusBg = Color(TaskStatusList.StatusesMap[widget.task.tStatus]!.statusBg);
+      statusColor = Color(TaskStatusList.StatusesMap[widget.task.tStatus]!.statusColor);
+      statusIcon = TaskStatusList.GetIconByStatus(widget.task.tStatus);
+      // TODO remove
+      /*switch(widget.task.tStatus) {
         case 'не выполнено':
           statusBg = Color(0xFFEBE8FB);
           statusColor = Color(0xFF0B1F33);
@@ -70,8 +77,7 @@ class _TaskPageState extends State<TaskPage> {
           statusColor = Colors.white;
           statusIcon = Icons.pending_outlined;
           break;
-
-      }
+      }*/
     }
     super.initState();
   }
@@ -184,7 +190,7 @@ class _TaskPageState extends State<TaskPage> {
               child:
                   Column(
     children: [
-      if(widget.task.tStatus=='отменено') ...[
+      if(widget.task.tStatus=='stopped' || widget.task.tStatus=='failed') ...[
       Padding(
         padding: EdgeInsets.all(16),
         child:
@@ -195,7 +201,7 @@ class _TaskPageState extends State<TaskPage> {
       ),
       Divider(thickness: 1, height: 1, color: Color(0xFFC2E1FF), indent: 16, endIndent: 16,),
       ],
-      if(widget.task.tStatus=='ожидание') ...[
+      if(widget.task.tStatus=='reqstop' || widget.task.tStatus=='reqnoqr') ...[
         Padding(
           padding: EdgeInsets.all(16),
           child:
@@ -207,7 +213,7 @@ class _TaskPageState extends State<TaskPage> {
         Divider(thickness: 1, height: 1, color: Color(0xFFC2E1FF), indent: 16, endIndent: 16,),
       ],
       Visibility(
-        visible: widget.task.tStatus=='завершено',
+        visible: widget.task.tStatus=='finished',
         child:
       Padding(
         padding: EdgeInsets.all(16),
@@ -230,7 +236,7 @@ class _TaskPageState extends State<TaskPage> {
       ),
       ),
       Visibility(
-          visible: widget.task.tStatus=='завершено',
+          visible: widget.task.tStatus=='finished',
           child:
           Divider(thickness: 1, height: 1, color: Color(0xFFC2E1FF), indent: 16, endIndent: 16,),
       ),
@@ -297,7 +303,7 @@ class _TaskPageState extends State<TaskPage> {
       ),
           ),
       // PHOTO SECTION
-      if(widget.task.tStatus=='начато' || widget.task.tStatus=='завершено') ... [
+      if(widget.task.tStatus=='started' || widget.task.tStatus=='finished') ... [
       Divider(thickness: 1, height: 1, color: Color(0xFFC2E1FF), indent: 16, endIndent: 16,),
       Padding(
         padding: EdgeInsets.all(16),
@@ -390,7 +396,7 @@ class _TaskPageState extends State<TaskPage> {
               ],),
             ),
             Visibility(
-              visible: widget.task.tStatus=='начато',
+              visible: widget.task.tStatus=='started',
               child:
             IconButton.filled(
               icon: const Icon(Icons.add_a_photo),
@@ -436,8 +442,8 @@ class _TaskPageState extends State<TaskPage> {
         Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-      if(widget.task.tStatus=='завершено') ...[]
-      else if(widget.par=='entertaskbyqr' && widget.task.tStatus=='не выполнено') ... [
+      if(widget.task.tStatus=='finished') ...[]
+      else if(widget.par=='entertaskbyqr' && widget.task.tStatus=='planned') ... [
         FilledButton(
         style: FilledButton.styleFrom(
           backgroundColor: Color(0xFF7ACB82),
@@ -492,7 +498,7 @@ class _TaskPageState extends State<TaskPage> {
         ),
       ),
       ]
-      else if(widget.par=='entertask' && widget.task.tStatus=='не выполнено') ... [
+      else if(widget.par=='entertask' && widget.task.tStatus=='planned') ... [
         FilledButton(
           style: FilledButton.styleFrom(
             backgroundColor: Color(0xFF7ACB82),
@@ -590,11 +596,20 @@ class _TaskPageState extends State<TaskPage> {
               pageBuilder: (_, __, ___) {
                 return
                   FutureBuilder(
-                    future: Future.delayed(Duration(seconds: 3)).then((value) => true),
+                    //future: Future.delayed(Duration(seconds: 3)).then((value) => true),
+                      future: Provider.of<UserRepository>(context, listen: false).getAuthToken().then((auth_token){
+                        if(auth_token.isNotEmpty) {
+                          Provider.of<TasksRepository>(context, listen: false).beginTaskNoQr(auth_token: auth_token, task_id: widget.task.id).then((auth_token){
+                            Navigator.of(context!).pushNamedAndRemoveUntil(
+                                '/tasklist', (Route<dynamic> route) => false);
+                          });
+                        }
+                      }),
                     builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        Navigator.of(context).pop();
-                      }
+                      //if (snapshot.hasData) {
+                        //Navigator.of(context).pop();
+                        //Navigator.pushNamedAndRemoveUntil(context, '/tasklist', (_) => false);
+                      //}
 
                       return
                         Align(
@@ -644,7 +659,7 @@ class _TaskPageState extends State<TaskPage> {
           ),
         ),
       ]
-      else if(widget.task.tStatus=='отменено' ||  widget.task.tStatus=='ожидание') ... [
+      else if(widget.task.tStatus=='stopped' ||  widget.task.tStatus=='failed' ||  widget.task.tStatus=='reqstop' ||  widget.task.tStatus=='reqnoqr') ... [
         OutlinedButton(
             style: OutlinedButton.styleFrom(
               foregroundColor: Color(0xFF85C3FF),
@@ -679,7 +694,7 @@ class _TaskPageState extends State<TaskPage> {
             ),
           ),
       ]
-      else if(widget.task.tStatus=='начато') ... [
+      else if(widget.task.tStatus=='started') ... [
         FilledButton(
                 style: FilledButton.styleFrom(
                   backgroundColor: Color(0xFF7E7BF4),

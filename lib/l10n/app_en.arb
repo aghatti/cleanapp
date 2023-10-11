@@ -114,6 +114,10 @@
   "withoutFilter": "-- no filter --",
   "@withoutFilter": {
     "description": "Without filter set"
+  },
+  "noTasks": "No tasks.",
+  "@noTasks": {
+    "description": "No tasks."
   }
 }
 
