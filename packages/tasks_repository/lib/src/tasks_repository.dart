@@ -5,6 +5,12 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class TasksRepository {
+  static final TasksRepository _instance = TasksRepository._internal();
+  factory TasksRepository() {
+    return _instance;
+  }
+  TasksRepository._internal();
+
   Task _currentTask = Task.empty;
   List<Task> _tasks = [];
 
@@ -95,9 +101,30 @@ class TasksRepository {
     return _currentTask;
   }
 
+  Future<int> startTask({required String auth_token, required int task_id}) async {
+    //_tasks.clear();
+    //_currentTask = Task.empty;
+    int res = 0;
+    final response = await http.post(
+      Uri.parse('https://teamcoord.ru:8190/tasks/start' + '?task_id=' + task_id.toString()),
+      headers: <String, String>{
+        "Authorization": "Bearer " + auth_token,
+      },
+      //body: {'task_id': task_id.toString()},
+    );
+
+    if (response.statusCode == 200) {
+      return 0;
+    } else {
+      // TODO show error
+      throw Exception('Failed to make request to start task.');
+    }
+    return res;
+  }
+
   Future<int> startTaskNoQr({required String auth_token, required int task_id}) async {
-    _tasks.clear();
-    _currentTask = Task.empty;
+    //_tasks.clear();
+    //_currentTask = Task.empty;
     int res = 0;
     final response = await http.post(
       Uri.parse('https://teamcoord.ru:8190/tasks/reqnoqr' + '?task_id=' + task_id.toString()),
@@ -117,8 +144,8 @@ class TasksRepository {
   }
 
   Future<int> stopTask({required String auth_token, required int task_id}) async {
-    _tasks.clear();
-    _currentTask = Task.empty;
+    //_tasks.clear();
+    //_currentTask = Task.empty;
     int res = 0;
     final response = await http.post(
       Uri.parse('https://teamcoord.ru:8190/tasks/reqstop' + '?task_id=' + task_id.toString()),
@@ -139,7 +166,7 @@ class TasksRepository {
   Task getTaskByQr(String qr_code) {
     Task _foundTask = Task.empty;
     for(Task task in _tasks)  {
-      if(task.id == qr_code)  {
+      if(task.id.toString() == qr_code)  {
         _foundTask = task;
       }
     }

@@ -245,7 +245,7 @@ class _TasksListState extends State<TasksList> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(_filteredTasks[index].tName + " (" + _filteredTasks[index].tStatus + ")", style: TextStyle(fontWeight: FontWeight.bold, color: Color(TaskStatusList.StatusesMap[_filteredTasks[index].tStatus]!.listColor))),
+                                  Text(_filteredTasks[index].tName + "\n(" + _filteredTasks[index].tStatus + ":" + _filteredTasks[index].id.toString() + ")", style: TextStyle(fontWeight: FontWeight.bold, color: Color(TaskStatusList.StatusesMap[_filteredTasks[index].tStatus]!.listColor))),
                                   Text(_filteredTasks[index].tAddress + '\n' + _filteredTasks[index].tZone, style: TextStyle(color: Color(0xFF66727F), fontSize: 16)),
                                 ],
                               ),

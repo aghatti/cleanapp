@@ -54,12 +54,12 @@ class UserRepository {
     int _uCompanyId = int.parse(_uCompanyId_str);
 
     //await storage.write(key: 'uToken', value: _uToken);
-
-    return Future.delayed(
+    _user = User(_uName, _uSurname, _uCompany, _uCompanyId);
+    return _user!;
+    /*return Future.delayed(
       const Duration(milliseconds: 300),
-      //() => _user = User(const Uuid().v4()),
           () => _user = User(_uName, _uSurname, _uCompany, _uCompanyId),
-    );
+    );*/
   }
 
   String getUserLabel() {

@@ -432,6 +432,24 @@ class _TaskPageState extends State<TaskPage> {
           //elevation: 5.0,
         ),
         onPressed: () {
+          showCustomDialog(
+            context,
+            AppLocalizations.of(context)!.taskWaitAction,
+            'assets/icons/tick-square.png',
+                (BuildContext context) async {
+              // Ensure the futureHandler returns a Future<String>
+              await Future.delayed(Duration(seconds: 2));
+              await Provider.of<UserRepository>(context, listen: false).getAuthToken().then((auth_token){
+                if(auth_token.isNotEmpty) {
+                  Provider.of<TasksRepository>(context, listen: false).startTask(auth_token: auth_token, task_id: widget.task.id).then((auth_token){
+                    Navigator.of(context).popUntil((route) => route.settings.name == '/tasklist');
+                    return 'NoNav';
+                  });
+                }
+              });
+              return 'Callback finished';
+            },
+          );
         },
         //child: Text(AppLocalizations.of(context)!.reportProblem),
         child: Row(
@@ -472,7 +490,8 @@ class _TaskPageState extends State<TaskPage> {
                 if(auth_token.isNotEmpty) {
                   Provider.of<TasksRepository>(context, listen: false).stopTask(auth_token: auth_token, task_id: widget.task.id).then((auth_token){
                     //Navigator.of(context!).pushNamedAndRemoveUntil('/tasklist', (Route<dynamic> route) => false);
-                    Navigator.pushReplacementNamed(context, '/tasklist');
+                    //Navigator.pushReplacementNamed(context, '/tasklist');
+                    Navigator.of(context).popUntil((route) => route.settings.name == '/tasklist');
                     return 'NoNav';
                   });
                 }
@@ -553,7 +572,8 @@ class _TaskPageState extends State<TaskPage> {
                   if(auth_token.isNotEmpty) {
                     Provider.of<TasksRepository>(context, listen: false).startTaskNoQr(auth_token: auth_token, task_id: widget.task.id).then((auth_token){
                     //Navigator.of(context!).pushNamedAndRemoveUntil('/tasklist', (Route<dynamic> route) => false);
-                      Navigator.pushReplacementNamed(context, '/tasklist');
+                      //Navigator.pushReplacementNamed(context, '/tasklist');
+                      Navigator.of(context).popUntil((route) => route.settings.name == '/tasklist');
                     });
                     return 'NoNav';
                   }
@@ -736,7 +756,8 @@ class _TaskPageState extends State<TaskPage> {
                       await Provider.of<UserRepository>(context, listen: false).getAuthToken().then((auth_token){
                         if(auth_token.isNotEmpty) {
                           Provider.of<TasksRepository>(context, listen: false).stopTask(auth_token: auth_token, task_id: widget.task.id).then((auth_token){
-                            Navigator.pushReplacementNamed(context, '/tasklist');
+                            //Navigator.pushReplacementNamed(context, '/tasklist');
+                            Navigator.of(context).popUntil((route) => route.settings.name == '/tasklist');
                           });
                           return 'NoNav';
                         }

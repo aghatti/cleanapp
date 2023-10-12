@@ -95,6 +95,7 @@ class _QrScanPageState extends State<QrScanPage> {
                 )
             );*/
               }
+              Future.delayed(const Duration(seconds: 2), () {});
             },
           ),
 
