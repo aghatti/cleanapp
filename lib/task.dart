@@ -473,6 +473,7 @@ class _TaskPageState extends State<TaskPage> {
                   Provider.of<TasksRepository>(context, listen: false).stopTask(auth_token: auth_token, task_id: widget.task.id).then((auth_token){
                     Navigator.of(context!).pushNamedAndRemoveUntil(
                         '/tasklist', (Route<dynamic> route) => false);
+                    return 'NoNav';
                   });
                 }
               });
@@ -554,6 +555,7 @@ class _TaskPageState extends State<TaskPage> {
                     Navigator.of(context!).pushNamedAndRemoveUntil(
                         '/tasklist', (Route<dynamic> route) => false);
                     });
+                    return 'NoNav';
                   }
                 });
                 return 'Callback finished';
@@ -736,6 +738,7 @@ class _TaskPageState extends State<TaskPage> {
                           Provider.of<TasksRepository>(context, listen: false).stopTask(auth_token: auth_token, task_id: widget.task.id).then((auth_token){
                             Navigator.of(context!).pushNamedAndRemoveUntil('/tasklist', (Route<dynamic> route) => false);
                           });
+                          return 'NoNav';
                         }
                       });
                       return 'Callback finished';

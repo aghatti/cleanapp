@@ -91,7 +91,7 @@ class _FutureBuilderExampleState extends State<FutureBuilderExample> {
                 child: Text('Result: ${snapshot.data}'),
               ),*/
             ];
-            if (context != null && mounted) {
+            if (context != null && mounted && snapshot.data!='NoNav') {
               Future.delayed(Duration(seconds: 2)).then((_) {
                 if(mounted)
                   Navigator.of(context).pop();
