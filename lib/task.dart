@@ -448,7 +448,7 @@ class _TaskPageState extends State<TaskPage> {
         ),
       ),
         SizedBox(height: 10),
-        // == Cancel task button
+        // == Cancel planned task if entered with QR
         OutlinedButton(
         style: OutlinedButton.styleFrom(
           foregroundColor: Color(0xFF85C3FF),
@@ -461,58 +461,24 @@ class _TaskPageState extends State<TaskPage> {
         ),
         onPressed: ()
         {
-          // TODO make component (icon, textlabel, future handler)
-          showGeneralDialog(
-            context: context,
-            barrierColor: Colors.black54,
-            barrierDismissible: true,
-            barrierLabel: 'Label',
-            pageBuilder: (_, __, ___) {
-              return
-                FutureBuilder(
-                  //future: Future.delayed(Duration(seconds: 3)).then((value) => true),
-                  future: Provider.of<UserRepository>(context, listen: false).getAuthToken().then((auth_token){
-                    if(auth_token.isNotEmpty) {
-                      Provider.of<TasksRepository>(context, listen: false).stopTask(auth_token: auth_token, task_id: widget.task.id).then((auth_token){
-                        Navigator.of(context!).pushNamedAndRemoveUntil(
-                            '/tasklist', (Route<dynamic> route) => false);
-                      });
-                    }
-                  }),
-                  builder: (context, snapshot) {
-                    //if (snapshot.hasData) {
-                    //Navigator.of(context).pop();
-                    //Navigator.pushNamedAndRemoveUntil(context, '/tasklist', (_) => false);
-                    //}
-                    return
-                      Align(
-                        alignment: Alignment.center,
-                        child: Card(
-                          color: Colors.white,
-                          child: Padding(
-                            padding: EdgeInsets.all(10),
-                            child:
-                            SizedBox(
-                              width: 180,
-                              height: 180,
-                              child:
-                              Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    SizedBox(height: 20),
-                                    Image.asset('assets/icons/tick-square.png'),
-                                    SizedBox(height: 20),
-                                    Text(AppLocalizations.of(context)!.taskWaitAction, textAlign: TextAlign.center,
-                                        style: TextStyle(fontWeight: FontWeight.bold)),
-                                  ]),
-                            ),
-                          ),
-                        ),
-                      );
-                  },
-                );
+          showCustomDialog(
+            context,
+            AppLocalizations.of(context)!.taskWaitAction,
+            'assets/icons/tick-square.png',
+                (BuildContext context) async {
+              // Ensure the futureHandler returns a Future<String>
+              await Future.delayed(Duration(seconds: 2));
+              await Provider.of<UserRepository>(context, listen: false).getAuthToken().then((auth_token){
+                if(auth_token.isNotEmpty) {
+                  Provider.of<TasksRepository>(context, listen: false).stopTask(auth_token: auth_token, task_id: widget.task.id).then((auth_token){
+                    Navigator.of(context!).pushNamedAndRemoveUntil(
+                        '/tasklist', (Route<dynamic> route) => false);
+                  });
+                }
+              });
+              return 'Callback finished';
             },
-          ); // -> move to component
+          );
         },
         //child: Text(AppLocalizations.of(context)!.reportProblem),
         child: Row(
@@ -575,13 +541,31 @@ class _TaskPageState extends State<TaskPage> {
             //elevation: 5.0,
           ),
           onPressed: () {
-            // TODO make component (icon, textlabel, future handler)
-            Future.delayed(Duration(seconds: 5), () {
             showCustomDialog(
+              context,
+              AppLocalizations.of(context)!.taskWaitAction,
+              'assets/icons/tick-square.png',
+                  (BuildContext context) async {
+                // Ensure the futureHandler returns a Future<String>
+                await Future.delayed(Duration(seconds: 2));
+                await Provider.of<UserRepository>(context, listen: false).getAuthToken().then((auth_token){
+                  if(auth_token.isNotEmpty) {
+                    Provider.of<TasksRepository>(context, listen: false).startTaskNoQr(auth_token: auth_token, task_id: widget.task.id).then((auth_token){
+                    Navigator.of(context!).pushNamedAndRemoveUntil(
+                        '/tasklist', (Route<dynamic> route) => false);
+                    });
+                  }
+                });
+                return 'Callback finished';
+              },
+            );
+            // remove original dialog
+            /*showCustomDialog(
               context,
               AppLocalizations.of(context)!.taskWaitAction, // Pass text label
               'assets/icons/tick-square.png', // Pass image asset path
                   (context) async {
+                    Future.delayed(Duration(seconds: 5), () {
                     Provider.of<UserRepository>(context, listen: false).getAuthToken().then((auth_token){
                       if(auth_token.isNotEmpty) {
 
@@ -593,9 +577,10 @@ class _TaskPageState extends State<TaskPage> {
 
                         //});
                       }
-                    }); });
-              },
-            );
+                    });
+                    });
+                    });*/
+
             /*showGeneralDialog(
               context: context,
               barrierColor: Colors.black54,
@@ -664,6 +649,7 @@ class _TaskPageState extends State<TaskPage> {
         ),
       ]
       else if(widget.task.tStatus=='stopped' ||  widget.task.tStatus=='failed' ||  widget.task.tStatus=='reqstop' ||  widget.task.tStatus=='reqnoqr') ... [
+        // TODO report problem
         OutlinedButton(
             style: OutlinedButton.styleFrom(
               foregroundColor: Color(0xFF85C3FF),
@@ -726,7 +712,7 @@ class _TaskPageState extends State<TaskPage> {
                 ),
               ),
         SizedBox(height: 10),
-        // == Cancel task button
+        // == Cancel started task
         OutlinedButton(
                 style: OutlinedButton.styleFrom(
                   foregroundColor: Color(0xFF85C3FF),
@@ -738,58 +724,23 @@ class _TaskPageState extends State<TaskPage> {
                   //elevation: 5.0,
                 ),
                 onPressed: () {
-                  // TODO make component (icon, textlabel, future handler)
-                  showGeneralDialog(
-                    context: context,
-                    barrierColor: Colors.black54,
-                    barrierDismissible: true,
-                    barrierLabel: 'Label',
-                    pageBuilder: (_, __, ___) {
-                      return
-                        FutureBuilder(
-                          //future: Future.delayed(Duration(seconds: 3)).then((value) => true),
-                          future: Provider.of<UserRepository>(context, listen: false).getAuthToken().then((auth_token){
-                            if(auth_token.isNotEmpty) {
-                              Provider.of<TasksRepository>(context, listen: false).stopTask(auth_token: auth_token, task_id: widget.task.id).then((auth_token){
-                                Navigator.of(context!).pushNamedAndRemoveUntil(
-                                    '/tasklist', (Route<dynamic> route) => false);
-                              });
-                            }
-                          }),
-                          builder: (context, snapshot) {
-                            //if (snapshot.hasData) {
-                            //Navigator.of(context).pop();
-                            //Navigator.pushNamedAndRemoveUntil(context, '/tasklist', (_) => false);
-                            //}
-                            return
-                              Align(
-                                alignment: Alignment.center,
-                                child: Card(
-                                  color: Colors.white,
-                                  child: Padding(
-                                    padding: EdgeInsets.all(10),
-                                    child:
-                                    SizedBox(
-                                      width: 180,
-                                      height: 180,
-                                      child:
-                                      Column(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          children: [
-                                            SizedBox(height: 20),
-                                            Image.asset('assets/icons/tick-square.png'),
-                                            SizedBox(height: 20),
-                                            Text(AppLocalizations.of(context)!.taskWaitAction, textAlign: TextAlign.center,
-                                                style: TextStyle(fontWeight: FontWeight.bold)),
-                                          ]),
-                                    ),
-                                  ),
-                                ),
-                              );
-                          },
-                        );
+                  showCustomDialog(
+                    context,
+                    AppLocalizations.of(context)!.taskWaitAction,
+                    'assets/icons/tick-square.png',
+                        (BuildContext context) async {
+                      // Ensure the futureHandler returns a Future<String>
+                      await Future.delayed(Duration(seconds: 2));
+                      await Provider.of<UserRepository>(context, listen: false).getAuthToken().then((auth_token){
+                        if(auth_token.isNotEmpty) {
+                          Provider.of<TasksRepository>(context, listen: false).stopTask(auth_token: auth_token, task_id: widget.task.id).then((auth_token){
+                            Navigator.of(context!).pushNamedAndRemoveUntil('/tasklist', (Route<dynamic> route) => false);
+                          });
+                        }
+                      });
+                      return 'Callback finished';
                     },
-                  ); // -> move to component
+                  );
 
                 },
                 //child: Text(AppLocalizations.of(context)!.reportProblem),
