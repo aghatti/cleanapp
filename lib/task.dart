@@ -471,8 +471,8 @@ class _TaskPageState extends State<TaskPage> {
               await Provider.of<UserRepository>(context, listen: false).getAuthToken().then((auth_token){
                 if(auth_token.isNotEmpty) {
                   Provider.of<TasksRepository>(context, listen: false).stopTask(auth_token: auth_token, task_id: widget.task.id).then((auth_token){
-                    Navigator.of(context!).pushNamedAndRemoveUntil(
-                        '/tasklist', (Route<dynamic> route) => false);
+                    //Navigator.of(context!).pushNamedAndRemoveUntil('/tasklist', (Route<dynamic> route) => false);
+                    Navigator.pushReplacementNamed(context, '/tasklist');
                     return 'NoNav';
                   });
                 }
@@ -552,8 +552,8 @@ class _TaskPageState extends State<TaskPage> {
                 await Provider.of<UserRepository>(context, listen: false).getAuthToken().then((auth_token){
                   if(auth_token.isNotEmpty) {
                     Provider.of<TasksRepository>(context, listen: false).startTaskNoQr(auth_token: auth_token, task_id: widget.task.id).then((auth_token){
-                    Navigator.of(context!).pushNamedAndRemoveUntil(
-                        '/tasklist', (Route<dynamic> route) => false);
+                    //Navigator.of(context!).pushNamedAndRemoveUntil('/tasklist', (Route<dynamic> route) => false);
+                      Navigator.pushReplacementNamed(context, '/tasklist');
                     });
                     return 'NoNav';
                   }
@@ -736,7 +736,7 @@ class _TaskPageState extends State<TaskPage> {
                       await Provider.of<UserRepository>(context, listen: false).getAuthToken().then((auth_token){
                         if(auth_token.isNotEmpty) {
                           Provider.of<TasksRepository>(context, listen: false).stopTask(auth_token: auth_token, task_id: widget.task.id).then((auth_token){
-                            Navigator.of(context!).pushNamedAndRemoveUntil('/tasklist', (Route<dynamic> route) => false);
+                            Navigator.pushReplacementNamed(context, '/tasklist');
                           });
                           return 'NoNav';
                         }
