@@ -6,6 +6,7 @@ class Task extends Equatable {
     required this.tName,
     required this.tDesc,
     required this.tZone,
+    required this.tZoneQr,
     required this.tObject,
     required this.tAddress,
     required this.tStatusId,
@@ -25,6 +26,7 @@ class Task extends Equatable {
   final String tName;
   final String tDesc;
   final String tZone;
+  final String tZoneQr;
   final String tObject;
   final String tAddress;
   final int tStatusId;
@@ -42,6 +44,7 @@ class Task extends Equatable {
     tName: ' ',
     tDesc: ' ',
     tZone: ' ',
+    tZoneQr: ' ',
     tObject: ' ',
     tAddress: ' ',
     tStatusId: 0,

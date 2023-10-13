@@ -1,0 +1,14 @@
+name: photo_repository
+description: Dart package which manages the photos interaction.
+publish_to: none
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  equatable: ^2.0.0
+  uuid: ^3.0.0
+  path_provider: ^2.1.1
+  image_picker: ^1.0.4
+
+#  flutter_secure_storage: ^8.0.0

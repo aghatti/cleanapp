@@ -1,11 +1,14 @@
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:tasks_repository/tasks_repository.dart';
 import 'common_widgets/customappbar.dart';
 import 'common_widgets/customdialog.dart';
 import 'utils/utils.dart';
+import 'package:tasks_repository/tasks_repository.dart';
 import 'package:user_repository/user_repository.dart';
+import 'package:photo_repository/photo_repository.dart';
 import 'package:provider/provider.dart';
 import 'constants/constants.dart';
 
@@ -13,18 +16,16 @@ import 'constants/constants.dart';
 class TaskPage extends StatefulWidget {
   TaskPage({super.key, required this.task, required this.par});
 
-  Task task = Task.empty;
-  String par = '';
+  final Task task;
+  final String par;
 
   @override
   State<TaskPage> createState() => _TaskPageState();
 }
 
-
-
 class _TaskPageState extends State<TaskPage> {
-  UserRepository _userRepo = UserRepository();
-  TasksRepository _tasksRepo = TasksRepository();
+  final UserRepository _userRepo = UserRepository();
+  final TasksRepository _tasksRepo = TasksRepository();
 
   User _usr = User.empty;
   Color statusBg = Color(0xFFEBE8FB);
@@ -223,6 +224,7 @@ class _TaskPageState extends State<TaskPage> {
           children: [
             Icon(Icons.location_pin, size: 28, color: Color(0xFF85C3FF),),
             SizedBox(width: 16),
+            Expanded(child:
             Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -230,6 +232,7 @@ class _TaskPageState extends State<TaskPage> {
               Text(AppLocalizations.of(context)!.location, style: TextStyle(fontWeight: FontWeight.bold),),
               Text(widget.task.tAddress + '\n' + widget.task.tZone),
               ],),
+            ),
           ],
         ),
       ),
@@ -296,7 +299,8 @@ class _TaskPageState extends State<TaskPage> {
               children: [
                 Text(AppLocalizations.of(context)!.photos, style: TextStyle(fontWeight: FontWeight.bold),),
                 SizedBox(height: 8),
-
+                displayPhotosForTask(widget.task.id, context),
+                /* Old test photo layout
                 Wrap(
                   children: [
                     Padding(padding: EdgeInsets.all(0),
@@ -365,7 +369,7 @@ class _TaskPageState extends State<TaskPage> {
                       ),),
                   ],
                 ),
-
+                */
                 //Text(widget.task.tDesc),
               ],),
             ),
@@ -382,7 +386,10 @@ class _TaskPageState extends State<TaskPage> {
                 backgroundColor: Color(0xFF7E7BF4),
               ),
               //color: Colors.white,
-              onPressed: () {},
+              onPressed: () {
+                Provider.of<PhotoRepository>(context, listen: false)
+                    .captureAndStorePhoto(widget.task.id);
+              },
             ),
             ),
           ],
@@ -718,6 +725,25 @@ class _TaskPageState extends State<TaskPage> {
                   minimumSize: Size(100, 56),
                 ),
                 onPressed: () {
+                  showCustomDialog(
+                    context,
+                    AppLocalizations.of(context)!.taskWaitAction,
+                    'assets/icons/tick-square.png',
+                        (BuildContext context) async {
+                      // Ensure the futureHandler returns a Future<String>
+                      await Future.delayed(Duration(seconds: 2));
+                      await Provider.of<UserRepository>(context, listen: false).getAuthToken().then((auth_token){
+                        if(auth_token.isNotEmpty) {
+                          Provider.of<TasksRepository>(context, listen: false).finishTask(auth_token: auth_token, task_id: widget.task.id).then((auth_token){
+                            //Navigator.pushReplacementNamed(context, '/tasklist');
+                            Navigator.of(context).popUntil((route) => route.settings.name == '/tasklist');
+                          });
+                          return 'NoNav';
+                        }
+                      });
+                      return 'Callback finished';
+                    },
+                  );
                 },
                 //child: Text(AppLocalizations.of(context)!.reportProblem),
                 child: Row(
@@ -787,7 +813,35 @@ class _TaskPageState extends State<TaskPage> {
 
     );
   }
+
+  Widget displayPhotosForTask(int taskId, BuildContext context) {
+    return FutureBuilder<List<Photo>>(
+      future: Provider.of<PhotoRepository>(context, listen: false).getPhotosForTask(taskId),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          // If the future is not yet complete, you can display a loading indicator.
+          return CircularProgressIndicator();
+        } else if (snapshot.hasError) {
+          // Handle error case
+          return Text('Error: ${snapshot.error}');
+        } else if (!snapshot.hasData || snapshot.data == null || snapshot.data!.isEmpty) {
+          // Handle the case when no photos are available for the task.
+          return Text('No photos available for this task.');
+        } else {
+          // Create UI to display photos
+          return Column(
+            children: snapshot.data!.map((photo) {
+              return Image.file(File(photo.photoPath));
+            }).toList(),
+          );
+        }
+      },
+    );
+  }
+
 }
+
+
 
 // TODO REMOVE
 class PhotoItem {

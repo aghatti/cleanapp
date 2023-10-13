@@ -6,12 +6,18 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class UserRepository {
+  static final UserRepository _instance = UserRepository._internal();
+  factory UserRepository() {
+    return _instance;
+  }
+  UserRepository._internal();
+
   User? _user;
 
   Future <void> getUserAPI({
     required String auth_token,
   }) async {
-
+    _user = User.empty;
     final response = await http.get(
       Uri.parse('https://teamcoord.ru:8190/user'),
       headers: <String, String>{
@@ -31,6 +37,7 @@ class UserRepository {
       await storage.write(key: 'uSurname', value: surname);
       await storage.write(key: 'uCompany', value: company);
       await storage.write(key: 'uCompanyId', value: company_id);
+      _user = User(name, surname, company,int.parse(company_id));
     } else {
       // TODO show error
       throw Exception('Failed to get user profile.');

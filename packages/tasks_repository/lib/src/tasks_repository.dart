@@ -49,6 +49,7 @@ class TasksRepository {
               tName: jsonObject['name'],
               tDesc: jsonObject['description'],
               tZone: jsonObject['zone'],
+              tZoneQr: jsonObject['zone_qr'],
               tObject: jsonObject['object'],
               tAddress: jsonObject['address'],
               tStatusId: jsonObject['state_id'],
@@ -163,11 +164,32 @@ class TasksRepository {
     return res;
   }
 
+  Future<int> finishTask({required String auth_token, required int task_id}) async {
+    //_tasks.clear();
+    //_currentTask = Task.empty;
+    int res = 0;
+    final response = await http.post(
+      Uri.parse('https://teamcoord.ru:8190/tasks/finish' + '?task_id=' + task_id.toString()),
+      headers: <String, String>{
+        "Authorization": "Bearer " + auth_token,
+      },
+      //body: {'task_id': task_id.toString()},
+    );
+    if (response.statusCode == 200) {
+      return 0;
+    } else {
+      // TODO show error
+      throw Exception('Failed finish task.');
+    }
+    return res;
+  }
+
   Task getTaskByQr(String qr_code) {
     Task _foundTask = Task.empty;
     for(Task task in _tasks)  {
-      if(task.id.toString() == qr_code)  {
+      if(task.tZoneQr == qr_code && task.tStatus == 'planned')  {
         _foundTask = task;
+        break;
       }
     }
     return _foundTask;
