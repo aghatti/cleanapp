@@ -53,7 +53,9 @@
 
     "withoutFilter": "-- без фильтра --",
 
-    "noTasks": "Нет задач."
+    "noTasks": "Нет задач.",
+
+    "taskFinishAction": "Задача выполнена"
 
 }
 

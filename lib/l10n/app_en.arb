@@ -111,6 +111,10 @@
   "@taskWaitAction": {
     "description": "Wait for a response to your request"
   },
+  "taskFinishAction": "Task finished",
+  "@taskFinishAction": {
+    "description": "Task finished"
+  },
   "withoutFilter": "-- no filter --",
   "@withoutFilter": {
     "description": "Without filter set"

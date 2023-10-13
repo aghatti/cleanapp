@@ -449,7 +449,8 @@ class _TaskPageState extends State<TaskPage> {
               await Provider.of<UserRepository>(context, listen: false).getAuthToken().then((auth_token){
                 if(auth_token.isNotEmpty) {
                   Provider.of<TasksRepository>(context, listen: false).startTask(auth_token: auth_token, task_id: widget.task.id).then((auth_token){
-                    Navigator.of(context).popUntil((route) => route.settings.name == '/tasklist');
+                    //Navigator.of(context).popUntil((route) => route.settings.name == '/tasklist');
+                    Navigator.pushNamedAndRemoveUntil(context, '/tasklist', ModalRoute.withName('/home'));
                     return 'NoNav';
                   });
                 }
@@ -498,7 +499,8 @@ class _TaskPageState extends State<TaskPage> {
                   Provider.of<TasksRepository>(context, listen: false).stopTask(auth_token: auth_token, task_id: widget.task.id).then((auth_token){
                     //Navigator.of(context!).pushNamedAndRemoveUntil('/tasklist', (Route<dynamic> route) => false);
                     //Navigator.pushReplacementNamed(context, '/tasklist');
-                    Navigator.of(context).popUntil((route) => route.settings.name == '/tasklist');
+                    //Navigator.of(context).popUntil((route) => route.settings.name == '/tasklist');
+                    Navigator.pushNamedAndRemoveUntil(context, '/tasklist', ModalRoute.withName('/home'));
                     return 'NoNav';
                   });
                 }
@@ -580,7 +582,8 @@ class _TaskPageState extends State<TaskPage> {
                     Provider.of<TasksRepository>(context, listen: false).startTaskNoQr(auth_token: auth_token, task_id: widget.task.id).then((auth_token){
                     //Navigator.of(context!).pushNamedAndRemoveUntil('/tasklist', (Route<dynamic> route) => false);
                       //Navigator.pushReplacementNamed(context, '/tasklist');
-                      Navigator.of(context).popUntil((route) => route.settings.name == '/tasklist');
+                      //Navigator.of(context).popUntil((route) => route.settings.name == '/tasklist');
+                      Navigator.pushNamedAndRemoveUntil(context, '/tasklist', ModalRoute.withName('/home'));
                     });
                     return 'NoNav';
                   }
@@ -727,7 +730,7 @@ class _TaskPageState extends State<TaskPage> {
                 onPressed: () {
                   showCustomDialog(
                     context,
-                    AppLocalizations.of(context)!.taskWaitAction,
+                    AppLocalizations.of(context)!.taskFinishAction,
                     'assets/icons/tick-square.png',
                         (BuildContext context) async {
                       // Ensure the futureHandler returns a Future<String>
@@ -736,7 +739,8 @@ class _TaskPageState extends State<TaskPage> {
                         if(auth_token.isNotEmpty) {
                           Provider.of<TasksRepository>(context, listen: false).finishTask(auth_token: auth_token, task_id: widget.task.id).then((auth_token){
                             //Navigator.pushReplacementNamed(context, '/tasklist');
-                            Navigator.of(context).popUntil((route) => route.settings.name == '/tasklist');
+                            //Navigator.of(context).popUntil((route) => route.settings.name == '/tasklist');
+                            Navigator.pushNamedAndRemoveUntil(context, '/tasklist', ModalRoute.withName('/home'));
                           });
                           return 'NoNav';
                         }
@@ -783,7 +787,8 @@ class _TaskPageState extends State<TaskPage> {
                         if(auth_token.isNotEmpty) {
                           Provider.of<TasksRepository>(context, listen: false).stopTask(auth_token: auth_token, task_id: widget.task.id).then((auth_token){
                             //Navigator.pushReplacementNamed(context, '/tasklist');
-                            Navigator.of(context).popUntil((route) => route.settings.name == '/tasklist');
+                            //Navigator.of(context).popUntil((route) => route.settings.name == '/tasklist');
+                            Navigator.pushNamedAndRemoveUntil(context, '/tasklist', ModalRoute.withName('/home'));
                           });
                           return 'NoNav';
                         }
