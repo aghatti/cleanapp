@@ -2,9 +2,10 @@ import 'dart:async';
 import 'dart:math';
 import 'package:tasks_repository/src/models/models.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter/foundation.dart';
 import 'dart:convert';
 
-class TasksRepository {
+class TasksRepository with ChangeNotifier {
   static final TasksRepository _instance = TasksRepository._internal();
   factory TasksRepository() {
     return _instance;

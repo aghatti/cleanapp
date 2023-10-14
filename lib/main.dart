@@ -1,3 +1,5 @@
+import 'package:TeamCoord/task.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'app.dart';
 import 'package:provider/provider.dart';
@@ -10,14 +12,28 @@ import 'package:photo_repository/photo_repository.dart';
 void main() {
   //runApp(const CleaningApp());
 
+  if (kReleaseMode) {
+    CustomImageCache();
+  }
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(MultiProvider(
     providers: [
       Provider(create: (context) => AuthenticationRepository()),
       Provider(create: (context) => UserRepository()),
       Provider(create: (context) => TasksRepository()),
-      Provider(create: (context) => PhotoRepository()),
+      ChangeNotifierProvider<PhotoRepository>(create: (context) => PhotoRepository()),
     ],
     child: const CleaningApp(),
   ),);
 }
 
+class CustomImageCache extends WidgetsFlutterBinding {
+  @override
+  ImageCache createImageCache() {
+    ImageCache imageCache = super.createImageCache();
+    // Set your image cache size
+    imageCache.maximumSizeBytes = 1024 * 1024 * 200; // 100 MB
+    return imageCache;
+  }
+}

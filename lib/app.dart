@@ -14,7 +14,6 @@ import 'tasklist.dart';
 import 'task.dart';
 import 'supplemental/screenarguments.dart';
 
-// TODO: Convert ShrineApp to stateful widget (104)
 class CleaningApp extends StatefulWidget {
   const CleaningApp({Key? key}) : super(key: key);
   @override
