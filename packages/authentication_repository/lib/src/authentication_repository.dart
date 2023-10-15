@@ -24,7 +24,7 @@ class AuthenticationRepository {
     required String username,
     required String password,
   }) async {
-    // TODO web api auth and datastore (remember me)
+    // web api auth and datastore (remember me)
     var map = new Map<String, dynamic>();
     map['grant_type'] = '';
     map['username'] = username;

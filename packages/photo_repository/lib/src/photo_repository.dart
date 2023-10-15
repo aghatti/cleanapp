@@ -71,7 +71,7 @@ class PhotoRepository with ChangeNotifier {
 			return Photo(
 				taskId: taskId,
 				photoPath: file.path,
-				isUploaded: false
+				isUploaded: file.path.contains('_upl')
 			);
 		}).toList();
 		return photos;
@@ -101,5 +101,113 @@ class PhotoRepository with ChangeNotifier {
 		return this._currentPhotos;
 	}
 
+	Future<bool> uploadPhoto(File photo, int taskId) async {
+		bool uploadSucceeded = false;
+		String fileName = photo.uri.pathSegments.last;
+
+		// TODO Logic to upload a photo to a server
+		var request = http.MultipartRequest('POST', Uri.parse('https://teamcoord.ru:8190/tasks/uploadphoto' + '?task_id=' + task_id.toString()));
+		request.headers.addAll({
+			'Authorization': 'Bearer " + auth_token,
+			'Content-Type': 'multipart/form-data',
+		});
+
+		request.headers.addAll(headers: <String, String>{
+			"Authorization": "Bearer " + auth_token,
+		},)
+		// Add the file as a part of the request
+		request.files.add(
+			http.MultipartFile(
+				'uploaded_file',
+				file.readAsBytes().asStream(),
+				file.lengthSync(),
+				filename: fileName, // The filename you want on the server
+			),
+		);
+		var response = await http.Client().send(request);
+
+		// Process the response
+		if (response.statusCode == 200) {
+			// Successful response
+			//print(await response.stream.bytesToString());
+			uploadSucceeded = true;
+		} else {
+			// Handle the error
+			//print('Request failed with status: ${response.statusCode}');
+			uploadSucceeded = false;
+		}
+		if(uploadSucceeded) notifyListeners();
+		return uploadSucceeded;
+	}
+
+}
+
+class PhotoUploadService {
+	// Private constructor
+	PhotoUploadService._internal();
+	// The single instance of PhotoUploadService
+	static final PhotoUploadService _instance = PhotoUploadService._internal();
+	factory PhotoUploadService() {
+		return _instance;
+	}
+	Timer? _timer;
+	final PhotoRepository _photoRepo;
+
+	Future<void> uploadPhotos() async {
+		final directory = await getApplicationDocumentsDirectory();
+		final photoDirectory = directory.path;
+
+		// get all photos that are not uploaded yet
+		final List<FileSystemEntity> files = Directory(photoDirectory)
+				.listSync()
+				.where((entity) => entity is File && (entity.path.endsWith('.jpg') || entity.path.endsWith('.png') && !entity.path.endsWith('_upl')))
+				.toList();
+
+		for (var file in files) {
+			try {
+				// Get the taskId from the file name or metadata
+				final taskId = extractTaskId(file);
+
+				// Perform the HTTP upload using the PhotoRepository
+				final uploadResult = await _photoRepository.uploadPhoto(file, taskId);
+
+				if (uploadResult) {
+					// Upload was successful, rename the file with a "_upl" suffix to indicate it's uploaded
+					final extension = file.path.split('.').last;
+					final fileNameWithoutExtension = file.path.replaceAll(RegExp('\.$extension\$'), ''); // Remove the existing extension
+					final newFilePath = '$fileNameWithoutExtension\_upl.$extension';
+					await file.rename(newFilePath);
+
+					// Notify the service about the successful upload
+					//_photoUploadService.handleSuccessfulUpload(file);
+				} else {
+					// Handle the case when the upload was not successful
+					//_photoUploadService.handleFailedUpload(file);
+				}
+			} catch (e) {
+				// Handle any errors or failures during upload
+				//_photoUploadService.handleFailedUpload(file);
+			}
+		}
+	}
+
+	int extractTaskId(File file) {
+		// Implement logic to extract the task ID from the file name or metadata
+		final fileName = file.uri.pathSegments.last;
+		final taskId = int.tryParse(fileName.split('_')[0]) ?? 0;
+		return taskId;
+	}
+
+	void startPhotoUploadTimer() {
+		if (_timer == null || !_timer!.isActive) {
+			_timer = Timer.periodic(Duration(seconds: 30), (timer) {
+				//uploadPhotos();
+			});
+		}
+	}
+
+	void stopPhotoUploadTimer() {
+		_timer?.cancel();
+	}
 
 }

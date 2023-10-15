@@ -235,7 +235,11 @@ class _TasksListState extends State<TasksList> {
                         children: <Widget>[
                           Padding(
                             padding: const EdgeInsets.fromLTRB(16,0,16,0),
-                            child: Text(Utils.getTimeFromDate(_filteredTasks[index].tDate), style: TextStyle(fontWeight: FontWeight.bold, color: Color(TaskStatusList.StatusesMap[_filteredTasks[index].tStatus]!.listColor))),
+                            child: Text(
+                                    Utils.isNotCurrentDay(_filteredTasks[index].tDate) ?
+                                      Utils.getDateFormat(_filteredTasks[index].tDate, "DD/MM") + "\n" + Utils.getTimeFromDate(_filteredTasks[index].tDate):
+                                      Utils.getTimeFromDate(_filteredTasks[index].tDate)
+                                  , style: TextStyle(fontWeight: FontWeight.bold, color: Color(TaskStatusList.StatusesMap[_filteredTasks[index].tStatus]!.listColor))),
                           ),
                           Expanded(
                             flex: 2,

@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:tasks_repository/tasks_repository.dart';
 import 'package:user_repository/user_repository.dart';
+import 'package:photo_repository/photo_repository.dart';
 
 import 'start.dart';
 import 'login.dart';
@@ -21,7 +22,9 @@ class CleaningApp extends StatefulWidget {
 
 
 }
-class _CleaningAppState extends State<CleaningApp> {
+class _CleaningAppState extends State<CleaningApp> with WidgetsBindingObserver {
+  final PhotoUploadService _photoUploadService = PhotoUploadService();
+
   //late final AuthenticationRepository _authenticationRepository;
   //late final UserRepository _userRepository;
 
@@ -31,6 +34,9 @@ class _CleaningAppState extends State<CleaningApp> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    // Call startPhotoUploadTimer when the app starts or resumes
+    _photoUploadService.startPhotoUploadTimer();
     //_authenticationRepository = AuthenticationRepository();
     //_userRepository = UserRepository();
   }
@@ -38,8 +44,21 @@ class _CleaningAppState extends State<CleaningApp> {
   @override
   void dispose() {
     //_authenticationRepository.dispose();
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused) {
+      // App is in the background, stop the timer
+      _photoUploadService.stopPhotoUploadTimer();
+    } else if (state == AppLifecycleState.resumed) {
+      // App is in the foreground, start the timer
+      _photoUploadService.startPhotoUploadTimer();
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {

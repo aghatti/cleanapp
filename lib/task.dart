@@ -340,7 +340,7 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
                                       builder: (context, photoRepository, child) {
                                         // You can access photoRepository here, which is an instance of PhotoRepository
                                           print('Consumer builder called');
-                                          return displayPhotosForTask(widget.task.id, context);
+                                          return displayPhotosForTask(widget.task, context);
                                       },
                                     ),
                                     ]),),
@@ -810,9 +810,9 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
   }
 
 
-  Widget displayPhotosForTask(int taskId, BuildContext context) {
+  Widget displayPhotosForTask(Task task, BuildContext context) {
     return FutureBuilder<List<Photo>>(
-      future: Provider.of<PhotoRepository>(context, listen: false).getCurrentPhotos(taskId),
+      future: Provider.of<PhotoRepository>(context, listen: false).getCurrentPhotos(task.id),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return CircularProgressIndicator();
@@ -849,20 +849,41 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
                       },
                       child: Padding(
                         padding: EdgeInsets.all(8),
-                        child: Card(
-                          clipBehavior: Clip.antiAliasWithSaveLayer,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Container(
-                            height: 80,
-                            width: 80,
-                            decoration: BoxDecoration(),
-                            child: FittedBox(
-                              child: Image.file(File(photo.photoPath)),
-                              fit: BoxFit.fill,
+                        child: Stack(
+                          children: [
+                            Card(
+                              clipBehavior: Clip.antiAliasWithSaveLayer,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Container(
+                                height: 80,
+                                width: 80,
+                                decoration: BoxDecoration(),
+                                child: FittedBox(
+                                  child: Image.file(File(photo.photoPath)),
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
                             ),
-                          ),
+                            if (photo.isUploaded) // Show the checkmark if isUploaded is true
+                              Positioned(
+                                top: 0,
+                                right: 0,
+                                child: Container(
+                                  padding: EdgeInsets.all(4),
+                                  decoration: BoxDecoration(
+                                    color: Colors.green,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Icon(
+                                    Icons.check,
+                                    color: Colors.white,
+                                    size: 16,
+                                  ),
+                                ),
+                              ),
+                          ],
                         ),
                       ),
                     );
