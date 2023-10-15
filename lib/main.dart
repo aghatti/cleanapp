@@ -21,7 +21,7 @@ void main() {
     providers: [
       Provider(create: (context) => AuthenticationRepository()),
       Provider(create: (context) => UserRepository()),
-      Provider(create: (context) => TasksRepository()),
+      ChangeNotifierProvider<TasksRepository>(create: (context) => TasksRepository()),
       ChangeNotifierProvider<PhotoRepository>(create: (context) => PhotoRepository()),
     ],
     child: const CleaningApp(),

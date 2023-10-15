@@ -866,7 +866,7 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
                                 ),
                               ),
                             ),
-                            if (photo.isUploaded) // Show the checkmark if isUploaded is true
+                            if (photo.isUploaded || photo.photoPath.contains('_upl')) // Show the checkmark if isUploaded is true
                               Positioned(
                                 top: 0,
                                 right: 0,

@@ -69,7 +69,7 @@ class TasksRepository with ChangeNotifier {
         }
       } else {
         // TODO show error
-        throw Exception('Failed to get user profile.');
+        throw Exception('Failed to get task list.');
       }
       return res;
   }

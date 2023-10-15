@@ -7,6 +7,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:convert';
 import 'dart:io';
+import 'package:authentication_repository/authentication_repository.dart';
 
 class PhotoRepository with ChangeNotifier {
   static final PhotoRepository _instance = PhotoRepository._internal();
@@ -101,29 +102,39 @@ class PhotoRepository with ChangeNotifier {
 		return this._currentPhotos;
 	}
 
-	Future<bool> uploadPhoto(File photo, int taskId) async {
+	void updatePhotoData(String oldPath, String newPath, bool isUploaded) {
+		for (var photo in _currentPhotos) {
+			if (photo.photoPath == oldPath) {
+				photo.photoPath = newPath;
+				photo.isUploaded = isUploaded;
+				notifyListeners();
+				break;
+			}
+		}
+	}
+
+	Future<bool> uploadPhoto(String auth_token, String filePath, int taskId) async {
 		bool uploadSucceeded = false;
+		File photo = File(filePath);
 		String fileName = photo.uri.pathSegments.last;
 
-		// TODO Logic to upload a photo to a server
-		var request = http.MultipartRequest('POST', Uri.parse('https://teamcoord.ru:8190/tasks/uploadphoto' + '?task_id=' + task_id.toString()));
+		// Logic to upload a photo to a server
+		var request = http.MultipartRequest('POST', Uri.parse('https://teamcoord.ru:8190/tasks/uploadphoto' + '?task_id=' + taskId.toString()));
 		request.headers.addAll({
-			'Authorization': 'Bearer " + auth_token,
+			'Authorization': "Bearer " + auth_token,
 			'Content-Type': 'multipart/form-data',
 		});
 
-		request.headers.addAll(headers: <String, String>{
-			"Authorization": "Bearer " + auth_token,
-		},)
 		// Add the file as a part of the request
 		request.files.add(
 			http.MultipartFile(
 				'uploaded_file',
-				file.readAsBytes().asStream(),
-				file.lengthSync(),
+				photo.readAsBytes().asStream(),
+				photo.lengthSync(),
 				filename: fileName, // The filename you want on the server
 			),
 		);
+
 		var response = await http.Client().send(request);
 
 		// Process the response
@@ -131,18 +142,23 @@ class PhotoRepository with ChangeNotifier {
 			// Successful response
 			//print(await response.stream.bytesToString());
 			uploadSucceeded = true;
+			//_currentPhotos = await getCurrentPhotos(taskId);
 		} else {
 			// Handle the error
 			//print('Request failed with status: ${response.statusCode}');
 			uploadSucceeded = false;
 		}
-		if(uploadSucceeded) notifyListeners();
+		if(uploadSucceeded) {
+
+		}
+		//notifyListeners();
 		return uploadSucceeded;
 	}
 
 }
 
 class PhotoUploadService {
+
 	// Private constructor
 	PhotoUploadService._internal();
 	// The single instance of PhotoUploadService
@@ -150,17 +166,20 @@ class PhotoUploadService {
 	factory PhotoUploadService() {
 		return _instance;
 	}
+
 	Timer? _timer;
-	final PhotoRepository _photoRepo;
+
+	final PhotoRepository _photoRepo = PhotoRepository();
+	final AuthenticationRepository _authRepo = AuthenticationRepository();
 
 	Future<void> uploadPhotos() async {
 		final directory = await getApplicationDocumentsDirectory();
 		final photoDirectory = directory.path;
-
+		final auth_token = await _authRepo.checkSession();
 		// get all photos that are not uploaded yet
 		final List<FileSystemEntity> files = Directory(photoDirectory)
 				.listSync()
-				.where((entity) => entity is File && (entity.path.endsWith('.jpg') || entity.path.endsWith('.png') && !entity.path.endsWith('_upl')))
+				.where((entity) => entity is File && (entity.path.endsWith('.jpg') || entity.path.endsWith('.png')) && !entity.path.contains('_upl'))
 				.toList();
 
 		for (var file in files) {
@@ -169,15 +188,16 @@ class PhotoUploadService {
 				final taskId = extractTaskId(file);
 
 				// Perform the HTTP upload using the PhotoRepository
-				final uploadResult = await _photoRepository.uploadPhoto(file, taskId);
+				final uploadResult = await _photoRepo.uploadPhoto(auth_token, file.path, taskId);
 
 				if (uploadResult) {
 					// Upload was successful, rename the file with a "_upl" suffix to indicate it's uploaded
+					final oldPath = file.path;
 					final extension = file.path.split('.').last;
 					final fileNameWithoutExtension = file.path.replaceAll(RegExp('\.$extension\$'), ''); // Remove the existing extension
 					final newFilePath = '$fileNameWithoutExtension\_upl.$extension';
 					await file.rename(newFilePath);
-
+					_photoRepo.updatePhotoData(oldPath, newFilePath, true);
 					// Notify the service about the successful upload
 					//_photoUploadService.handleSuccessfulUpload(file);
 				} else {
@@ -191,7 +211,7 @@ class PhotoUploadService {
 		}
 	}
 
-	int extractTaskId(File file) {
+	int extractTaskId(FileSystemEntity file) {
 		// Implement logic to extract the task ID from the file name or metadata
 		final fileName = file.uri.pathSegments.last;
 		final taskId = int.tryParse(fileName.split('_')[0]) ?? 0;
@@ -201,7 +221,7 @@ class PhotoUploadService {
 	void startPhotoUploadTimer() {
 		if (_timer == null || !_timer!.isActive) {
 			_timer = Timer.periodic(Duration(seconds: 30), (timer) {
-				//uploadPhotos();
+				uploadPhotos();
 			});
 		}
 	}
