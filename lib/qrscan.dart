@@ -30,7 +30,7 @@ class _QrScanPageState extends State<QrScanPage> {
 
   @override
   void initState() {
-    _tasksRepo.generateDemoTasks();
+
     _userRepo.getUser().then(
             (User usr) => setState(() {_usr = usr;})
     );

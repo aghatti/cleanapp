@@ -24,8 +24,8 @@ class CleaningApp extends StatefulWidget {
 }
 class _CleaningAppState extends State<CleaningApp> with WidgetsBindingObserver {
   final PhotoUploadService _photoUploadService = PhotoUploadService();
-
-  //late final AuthenticationRepository _authenticationRepository;
+  final TasksUpdateService _tasksUpdateService = TasksUpdateService();
+    //late final AuthenticationRepository _authenticationRepository;
   //late final UserRepository _userRepository;
 
   //ColorSeed colorSelected = ColorSeed.baseColor;
@@ -37,6 +37,8 @@ class _CleaningAppState extends State<CleaningApp> with WidgetsBindingObserver {
     WidgetsBinding.instance.addObserver(this);
     // Call startPhotoUploadTimer when the app starts or resumes
     _photoUploadService.startPhotoUploadTimer();
+    _tasksUpdateService.startTasksUpdateTimer();
+
     //_authenticationRepository = AuthenticationRepository();
     //_userRepository = UserRepository();
   }
@@ -53,9 +55,11 @@ class _CleaningAppState extends State<CleaningApp> with WidgetsBindingObserver {
     if (state == AppLifecycleState.paused) {
       // App is in the background, stop the timer
       _photoUploadService.stopPhotoUploadTimer();
+      _tasksUpdateService.stopTasksUpdateTimer();
     } else if (state == AppLifecycleState.resumed) {
       // App is in the foreground, start the timer
       _photoUploadService.startPhotoUploadTimer();
+      _tasksUpdateService.startTasksUpdateTimer();
     }
   }
 

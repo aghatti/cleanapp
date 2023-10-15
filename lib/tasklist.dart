@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'utils/utils.dart';
 import 'package:tasks_repository/tasks_repository.dart';
 import 'package:user_repository/user_repository.dart';
@@ -45,7 +46,8 @@ class _TasksListState extends State<TasksList> {
         })
     );
     //_tasksRepo.generateDemoTasks();
-    _userRepo.getAuthToken().then((String value) => setState(()
+    // TODO (remove) moved to consumer
+    /*_userRepo.getAuthToken().then((String value) => setState(()
       {
         if(value.isNotEmpty) {
           _tasksRepo.getTasksAPI(auth_token: value).then((int val) => setState(()
@@ -61,7 +63,7 @@ class _TasksListState extends State<TasksList> {
           ));
         }
       }
-      ));
+      ));*/
     /*_tasksRepo.getTasks().then(
         (List<Task> tasks) => setState(() {_tasks = tasks; _filteredTasks = tasks;})
     );
@@ -106,7 +108,30 @@ class _TasksListState extends State<TasksList> {
       appBar: CustomAppBar(autoLeading: true, context: context),
       body:
         //Expanded(child:
-        Column(
+          Consumer<TasksRepository>(
+          builder: (context, taskRepository, child) {
+            _userRepo.getAuthToken().then((String value) {
+              if (value.isNotEmpty) {
+                _tasksRepo.getTasksAPI(auth_token: value).then((int val) {
+                  _numTasks = val;
+                  taskRepository.getTasks().then((List<Task> tasks) {
+                    setState(() {
+                      _tasks = tasks;
+                      _filteredTasks = tasks;
+                    });
+                  });
+                  taskRepository.getObjects().then((List<String> objects) {
+                    setState(() {
+                      _objects = objects;
+                      _curObject = _objects.isNotEmpty
+                          ? _objects[0]
+                          : AppLocalizations.of(context)!.withoutFilter;
+                    });
+                  });
+                });
+              }
+            });
+            return Column(
           //mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -237,7 +262,7 @@ class _TasksListState extends State<TasksList> {
                             padding: const EdgeInsets.fromLTRB(16,0,16,0),
                             child: Text(
                                     Utils.isNotCurrentDay(_filteredTasks[index].tDate) ?
-                                      Utils.getDateFormat(_filteredTasks[index].tDate, "DD/MM") + "\n" + Utils.getTimeFromDate(_filteredTasks[index].tDate):
+                                      Utils.getDateFormat(_filteredTasks[index].tDate, "dd/MM") + "\n" + Utils.getTimeFromDate(_filteredTasks[index].tDate):
                                       Utils.getTimeFromDate(_filteredTasks[index].tDate)
                                   , style: TextStyle(fontWeight: FontWeight.bold, color: Color(TaskStatusList.StatusesMap[_filteredTasks[index].tStatus]!.listColor))),
                           ),
@@ -298,7 +323,8 @@ class _TasksListState extends State<TasksList> {
            return const Padding(padding: const EdgeInsets.symmetric(horizontal: 8), child: SizedBox(height: 5));
         },
       ),),),
-    ]),
+    ]);
+  }),
 
       /*floatingActionButton: FloatingActionButton(
         onPressed: () {
