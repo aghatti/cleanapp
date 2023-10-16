@@ -13,7 +13,6 @@ import 'package:provider/provider.dart';
 import 'constants/constants.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/painting.dart';
 
 class TaskPage extends StatefulWidget {
@@ -28,7 +27,7 @@ class TaskPage extends StatefulWidget {
 
 class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin {
   final UserRepository _userRepo = UserRepository();
-  final TasksRepository _tasksRepo = TasksRepository();
+  //final TasksRepository _tasksRepo = TasksRepository();
 
   List<Photo> cachedPhotos = [];
 
@@ -40,15 +39,7 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
   @override
   bool get wantKeepAlive => true;
 
-  @override
-  void initState() {
-    cachedPhotos.clear();
-    _userRepo.getUser().then(
-            (User usr) =>
-            setState(() {
-              _usr = usr;
-            })
-    );
+  void reinitializeVars() {
     if (!widget.task.isEmpty()) {
       statusBg =
           Color(TaskStatusList.StatusesMap[widget.task.tStatus]!.statusBg);
@@ -56,11 +47,24 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
           Color(TaskStatusList.StatusesMap[widget.task.tStatus]!.statusColor);
       statusIcon = TaskStatusList.GetIconByStatus(widget.task.tStatus);
     }
+  }
+
+  @override
+  void initState() {
     super.initState();
+    cachedPhotos.clear();
+    _userRepo.getUser().then(
+            (User usr) =>
+            setState(() {
+              _usr = usr;
+            })
+    );
+    reinitializeVars();
   }
 
   @override
   Widget build(BuildContext context) {
+      super.build(context);
       /*return WillPopScope(
       onWillPop: () async {
         // Set the flag to true when returning from the image gallery
@@ -272,8 +276,8 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
                                         AppLocalizations.of(context)!.performer,
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold),),
-                                      Text(_usr!.uName.toString() + ' ' +
-                                          _usr!.uSurname.toString()),
+                                      Text(_usr.uName.toString() + ' ' +
+                                          _usr.uSurname.toString()),
                                     ],),
                                 ],
                               ),
@@ -426,11 +430,14 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
                                           context, listen: false).startTask(
                                           auth_token: auth_token,
                                           task_id: widget.task.id).then((
-                                          auth_token) {
-                                        //Navigator.of(context).popUntil((route) => route.settings.name == '/tasklist');
-                                        Navigator.pushNamedAndRemoveUntil(
+                                          result) {
+                                            widget.task.setStartedState();
+                                            reinitializeVars();
+                                            setState(() {
+                                            });
+                                        /*Navigator.pushNamedAndRemoveUntil(
                                             context, '/tasklist',
-                                            ModalRoute.withName('/home'));
+                                            ModalRoute.withName('/home'));*/
                                         return 'NoNav';
                                       });
                                     }

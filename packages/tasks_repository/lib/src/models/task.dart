@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class Task extends Equatable {
-  const Task({
+  Task({
     required this.id,
     required this.tName,
     required this.tDesc,
@@ -29,8 +29,8 @@ class Task extends Equatable {
   final String tZoneQr;
   final String tObject;
   final String tAddress;
-  final int tStatusId;
-  final String tStatus;
+  int tStatusId;
+  String tStatus;
   final DateTime tDate;
   final DateTime? tDateEnd;
   final DateTime? tDateFact;
@@ -56,4 +56,10 @@ class Task extends Equatable {
   );
 
   bool isEmpty()  {return this.id == 0;}
+
+  void setStartedState() {
+    this.tStatus = 'started';
+    this.tStatusId = 3;
+  }
+
 }

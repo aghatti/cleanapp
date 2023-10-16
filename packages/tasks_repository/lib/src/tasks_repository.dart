@@ -140,7 +140,7 @@ class TasksRepository with ChangeNotifier {
   Future<int> startTask({required String auth_token, required int task_id}) async {
     //_tasks.clear();
     //_currentTask = Task.empty;
-    int res = 0;
+    int res = -1;
     final response = await http.post(
       Uri.parse('https://teamcoord.ru:8190/tasks/start' + '?task_id=' + task_id.toString()),
       headers: <String, String>{
