@@ -2,9 +2,11 @@ import 'dart:async';
 import 'dart:math';
 import 'package:tasks_repository/src/models/models.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter/foundation.dart';
 import 'dart:convert';
+import 'package:authentication_repository/authentication_repository.dart';
 
-class TasksRepository {
+class TasksRepository with ChangeNotifier {
   static final TasksRepository _instance = TasksRepository._internal();
   factory TasksRepository() {
     return _instance;
@@ -68,7 +70,7 @@ class TasksRepository {
         }
       } else {
         // TODO show error
-        throw Exception('Failed to get user profile.');
+        throw Exception('Failed to get task list.');
       }
       return res;
   }
@@ -195,107 +197,42 @@ class TasksRepository {
     return _foundTask;
   }
 
-  Future<void> generateDemoTasks() async {
-   /*List<Task> _v_tasks = [
-      Task(
-        id: '3',
-        tName: 'Уборка холла',
-        tDesc: '• Очистить урны\n• Вымыть пол',
-        tZone: 'Коридор 3 этаж',
-        tAddress: 'Филевский б-р, 1',
-        tStatus: 'завершено',
-        tDate: DateTime.parse('2023-06-01 10:00:00Z'),
-      ),
-      Task(
-        id: '4',
-        tName: 'Уборка холла',
-        tDesc: '• Очистить урны\n• Вымыть пол',
-        tZone: 'Коридор 4 этаж',
-        tAddress: 'Филевский б-р, 1',
-        tStatus: 'отменено',
-        tDate: DateTime.parse('2023-06-01 10:15:00Z'),
-      ),
-      Task(
-        id: '5',
-        tName: 'Уборка холла',
-        tDesc: '• Очистить урны\n• Вымыть пол',
-        tZone: 'Коридор 5 этаж',
-        tAddress: 'Филевский б-р, 1',
-        tStatus: 'ожидание',
-        tDate: DateTime.parse('2023-06-01 10:30:00Z'),
-      ),
-      Task(
-      id: '1',
-      tName: 'Уборка холла',
-      tDesc: """• Очистить урны\n• Вымыть унитазы\n• Вымыть раковины\n• Вымыть пол\n• Вынести мусор
-• Протереть стены\n• Протереть лампы\n• Протереть стекла\n• Вымыть кабину грузового лифта
-• Вымыть кабину пассажирского лифта и зеркала внутри\n• Снять рекламные объявления со стен\n• Покормить кота\n• Полить цветы\n• Выкинуть рекламную корреспонденцию со столика
-• Заказать пиццу на день рождения старшей консьержки\n• Вызвать мастера для проверки лифтов
-          """,
-      tZone: 'Первый этаж / Левое крыло',
-      tAddress: 'БЦ Белая Площадь',
-      tStatus: 'начато',
-      tDate: DateTime.parse('2023-06-01 10:45:00Z'),
-      ),
-
-      Task(
-      id: '2',
-      tName: 'Уборка холла',
-      tDesc: '• Очистить урны\n• Вымыть пол',
-      tZone: 'Коридор 1 этаж',
-      tAddress: 'Филевский б-р, 1',
-      tStatus: 'не выполнено',
-      tDate: DateTime.parse('2023-06-01 11:00:00Z'),
-      ),
 
 
-    Task(
-    id: '6',
-    tName: 'Уборка холла',
-    tDesc: '• Очистить урны\n• Вымыть пол',
-    tZone: 'Коридор 6 этаж',
-    tAddress: 'Филевский б-р, 1',
-    tStatus: 'не выполнено',
-    tDate: DateTime.parse('2023-06-01 11:15:00Z'),
-    ),
-    Task(
-    id: '7',
-    tName: 'Уборка холла',
-    tDesc: '• Очистить урны\n• Вымыть пол',
-    tZone: 'Коридор 7 этаж',
-    tAddress: 'Филевский б-р, 1',
-    tStatus: 'не выполнено',
-    tDate: DateTime.parse('2023-06-01 11:30:00Z'),
-    ),
-    Task(
-    id: '8',
-    tName: 'Уборка холла',
-    tDesc: '• Очистить урны\n• Вымыть пол',
-    tZone: 'Коридор 8 этаж',
-    tAddress: 'Филевский б-р, 1',
-    tStatus: 'не выполнено',
-    tDate: DateTime.parse('2023-06-01 11:45:00Z'),
-    ),
-    Task(
-    id: '9',
-    tName: 'Уборка холла',
-    tDesc: '• Очистить урны\n• Вымыть пол',
-    tZone: 'Коридор 9 этаж',
-    tAddress: 'Филевский б-р, 1',
-    tStatus: 'не выполнено',
-    tDate: DateTime.parse('2023-06-01 12:00:00Z'),
-    ),
-    Task(
-    id: '10',
-    tName: 'Уборка холла',
-    tDesc: '• Очистить урны\n• Вымыть пол',
-    tZone: 'Коридор 10 этаж',
-    tAddress: 'Филевский б-р, 1',
-    tStatus: 'не выполнено',
-    tDate: DateTime.parse('2023-06-01 12:15:00Z'),
-    ),];
-    _tasks = _tasks..addAll(_v_tasks);*/
+
+}
+
+class TasksUpdateService {
+
+  // Private constructor
+  TasksUpdateService._internal();
+
+  // The single instance of PhotoUploadService
+  static final TasksUpdateService _instance = TasksUpdateService._internal();
+
+  factory TasksUpdateService() {
+    return _instance;
   }
 
+  Timer? _timer;
+  final AuthenticationRepository _authRepo = AuthenticationRepository();
+  final TasksRepository _tasksRepo = TasksRepository();
 
+  Future<void> updateTasks() async {
+    final auth_token = await _authRepo.checkSession();
+    if(auth_token != null) await _tasksRepo.getTasksAPI(auth_token: auth_token);
+  }
+
+  void startTasksUpdateTimer() {
+    if (_timer == null || !_timer!.isActive) {
+      _timer = Timer.periodic(Duration(seconds: 30), (timer) {
+
+        //uploadPhotos();
+      });
+    }
+  }
+
+  void stopTasksUpdateTimer() {
+    _timer?.cancel();
+  }
 }

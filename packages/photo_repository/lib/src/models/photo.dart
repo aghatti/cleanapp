@@ -3,10 +3,10 @@ import 'package:equatable/equatable.dart';
 
 class Photo extends Equatable{
   final int taskId; // ID of the associated task
-  final String photoPath; // File path or reference to the photo
-  final bool isUploaded;
+  String photoPath; // File path or reference to the photo
+  bool isUploaded;
 
-  const Photo({required this.taskId, required this.photoPath, required this.isUploaded});
+  Photo({required this.taskId, required this.photoPath, required this.isUploaded});
 
   @override
   List<Object> get props => [photoPath];

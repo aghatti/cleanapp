@@ -14,7 +14,9 @@ class CustomAppBar extends AppBar {
     title:
   InkWell(
   onTap: () {
-  Navigator.of(context!).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
+    if (ModalRoute.of(context)!.settings.name != '/home') {
+      Navigator.of(context!).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
+    }
   },
   child:
   Row(

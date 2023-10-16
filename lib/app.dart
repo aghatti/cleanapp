@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:tasks_repository/tasks_repository.dart';
 import 'package:user_repository/user_repository.dart';
+import 'package:photo_repository/photo_repository.dart';
 
 import 'start.dart';
 import 'login.dart';
@@ -14,7 +15,6 @@ import 'tasklist.dart';
 import 'task.dart';
 import 'supplemental/screenarguments.dart';
 
-// TODO: Convert ShrineApp to stateful widget (104)
 class CleaningApp extends StatefulWidget {
   const CleaningApp({Key? key}) : super(key: key);
   @override
@@ -22,8 +22,10 @@ class CleaningApp extends StatefulWidget {
 
 
 }
-class _CleaningAppState extends State<CleaningApp> {
-  //late final AuthenticationRepository _authenticationRepository;
+class _CleaningAppState extends State<CleaningApp> with WidgetsBindingObserver {
+  final PhotoUploadService _photoUploadService = PhotoUploadService();
+  final TasksUpdateService _tasksUpdateService = TasksUpdateService();
+    //late final AuthenticationRepository _authenticationRepository;
   //late final UserRepository _userRepository;
 
   //ColorSeed colorSelected = ColorSeed.baseColor;
@@ -32,6 +34,11 @@ class _CleaningAppState extends State<CleaningApp> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    // Call startPhotoUploadTimer when the app starts or resumes
+    _photoUploadService.startPhotoUploadTimer();
+    _tasksUpdateService.startTasksUpdateTimer();
+
     //_authenticationRepository = AuthenticationRepository();
     //_userRepository = UserRepository();
   }
@@ -39,8 +46,23 @@ class _CleaningAppState extends State<CleaningApp> {
   @override
   void dispose() {
     //_authenticationRepository.dispose();
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused) {
+      // App is in the background, stop the timer
+      _photoUploadService.stopPhotoUploadTimer();
+      _tasksUpdateService.stopTasksUpdateTimer();
+    } else if (state == AppLifecycleState.resumed) {
+      // App is in the foreground, start the timer
+      _photoUploadService.startPhotoUploadTimer();
+      _tasksUpdateService.startTasksUpdateTimer();
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
