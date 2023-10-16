@@ -115,6 +115,10 @@
   "@taskFinishAction": {
     "description": "Task finished"
   },
+  "taskStartedAction": "Task started",
+  "@taskStartedAction": {
+    "description": "Task finished"
+  },
   "withoutFilter": "-- no filter --",
   "@withoutFilter": {
     "description": "Without filter set"
@@ -122,6 +126,10 @@
   "noTasks": "No tasks.",
   "@noTasks": {
     "description": "No tasks."
+  },
+  "noActiveTasks": "No active tasks.",
+  "@noActiveTasks": {
+    "description": "No active tasks."
   }
 }
 

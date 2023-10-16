@@ -24,9 +24,14 @@ void main() {
       ChangeNotifierProvider<TasksRepository>(create: (context) => TasksRepository()),
       ChangeNotifierProvider<PhotoRepository>(create: (context) => PhotoRepository()),
     ],
+    /*child: MaterialApp(
+      home: CleaningApp(),
+    ),*/
     child: const CleaningApp(),
   ),);
 }
+
+
 
 class CustomImageCache extends WidgetsFlutterBinding {
   @override

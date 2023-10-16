@@ -44,8 +44,14 @@ class UserRepository {
     }
   }
   Future <String> getAuthToken() async {
-    final storage = new FlutterSecureStorage();
-    String _access_token = await storage.read(key: '_access_token') ?? '';
+    String _access_token = '';
+    try {
+      final storage = new FlutterSecureStorage();
+      _access_token = await storage.read(key: '_access_token') ?? '';
+      // _readAll();
+    } catch (e) {
+      print(e);
+    }
     return _access_token;
   }
 

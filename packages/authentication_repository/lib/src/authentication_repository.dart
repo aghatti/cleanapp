@@ -7,7 +7,7 @@ enum AuthenticationStatus { unknown, authenticated, unauthenticated }
 
 class AuthenticationRepository {
   final _controller = StreamController<AuthenticationStatus>();
-  String? _access_token='';
+  String _access_token='';
   Stream<AuthenticationStatus> get status async* {
     await Future<void>.delayed(const Duration(seconds: 1));
     yield AuthenticationStatus.unauthenticated;
@@ -16,7 +16,7 @@ class AuthenticationRepository {
 
   Future<String> getToken() async {
     final storage = new FlutterSecureStorage();
-    String _access_token = await storage.read(key: '_access_token') ?? '';
+    _access_token = await storage.read(key: '_access_token') ?? '';
     return _access_token;
   }
 
@@ -64,7 +64,7 @@ class AuthenticationRepository {
 // Create storage
     final storage = new FlutterSecureStorage();
 // Read value
-    String _access_token = await storage.read(key: '_access_token') ?? '';
+    _access_token = await storage.read(key: '_access_token') ?? '';
     if(!_access_token.isEmpty)
       _controller.add(AuthenticationStatus.authenticated);
     return _access_token;

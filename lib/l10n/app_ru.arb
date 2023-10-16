@@ -17,7 +17,7 @@
 
     "allTasks": "Посмотреть все задания",
 
-    "currentTask": "Текущая задача",
+    "currentTask": "Текущее задание",
 
     "today": "Сегодня",
 
@@ -51,11 +51,15 @@
 
     "taskWaitAction": "Подождите ответа на ваш запрос",
 
+    "taskStartedAction": "Задание начато",
+
     "withoutFilter": "-- без фильтра --",
 
-    "noTasks": "Нет задач.",
+    "noTasks": "Нет заданий.",
 
-    "taskFinishAction": "Задача выполнена"
+    "taskFinishAction": "Задание выполнено",
+
+    "noActiveTasks": "Нет активных заданий."
 
 }
 

@@ -412,7 +412,7 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
                             onPressed: () {
                               showCustomDialog(
                                 context,
-                                AppLocalizations.of(context)!.taskWaitAction,
+                                AppLocalizations.of(context)!.taskStartedAction,
                                 'assets/icons/tick-square.png',
                                     (BuildContext context) async {
                                   // Ensure the futureHandler returns a Future<String>
@@ -435,7 +435,7 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
                                       });
                                     }
                                   });
-                                  return 'Callback finished';
+                                  return 'Callback started';
                                 },
                               );
                             },
@@ -496,7 +496,7 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
                                       });
                                     }
                                   });
-                                  return 'Callback finished';
+                                  return 'Callback stopped';
                                 },
                               );
                             },
@@ -599,7 +599,7 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
                                         return 'NoNav';
                                       }
                                     });
-                                    return 'Callback finished';
+                                    return 'Callback begin no QR';
                                   },
                                 );
                               },

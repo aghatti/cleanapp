@@ -15,14 +15,19 @@ class TasksRepository with ChangeNotifier {
 
   Task _currentTask = Task.empty;
   List<Task> _tasks = [];
+  bool runningGetTasksAPI = false;
 
   Future<List<Task>> getTasks() async {
     return _tasks;
   }
 
+
   Future<int> getTasksAPI({required String auth_token,}) async  {
-      _tasks.clear();
-      _currentTask = Task.empty;
+      if(runningGetTasksAPI) return _tasks.length;
+      runningGetTasksAPI = true;
+      //_tasks.clear();
+      //_currentTask = Task.empty;
+      List<Task> t_tasks = [];
       int res = 0;
       final response = await http.get(
         Uri.parse('https://teamcoord.ru:8190/tasks'),
@@ -62,21 +67,48 @@ class TasksRepository with ChangeNotifier {
               tDateEndFact: jsonObject['dtend_fact'] != null ? DateTime.tryParse(jsonObject['dtend_fact']) : null,
             ));
           }
-          _tasks = _tasks..addAll(_v_tasks);
-          if(curTaskItr>=0 && _tasks.length>0 && curTaskItr<_tasks.length) {
-            _currentTask = _tasks[curTaskItr];
+          t_tasks..addAll(_v_tasks);
+          if(curTaskItr>=0 && t_tasks.length>0 && curTaskItr<t_tasks.length) {
+            _currentTask = t_tasks[curTaskItr];
           }
+          else {
+            _currentTask = Task.empty;
+          }
+          _tasks = t_tasks;
           res = _tasks.length;
         }
       } else {
+        //_tasks.clear();
+        //_currentTask = Task.empty;
+        runningGetTasksAPI = false;
         // TODO show error
         throw Exception('Failed to get task list.');
       }
+      runningGetTasksAPI = false;
       return res;
   }
 
-  Future<int> getNumTasks() async  {
+  int getNumTasks()  {
     return _tasks.length;
+  }
+
+  bool areListsEqual(List<Task> list1, List<Task> list2) {
+    // Check if the lists have the same length
+    if (list1.length != list2.length) {
+      return false;
+    }
+
+    // Sort the lists based on a common property (e.g., id or name) for consistent comparison
+    list1.sort((a, b) => a.id.compareTo(b.id));
+    list2.sort((a, b) => a.id.compareTo(b.id));
+
+    // Compare each element in the lists
+    for (int i = 0; i < list1.length; i++) {
+      if (list1[i].id != list2[i].id || list1[i].tStatus != list2[i].tStatus) {
+        return false;
+      }
+    }
+    return true;
   }
 
   Future<List<String>> getObjects() async {
@@ -91,7 +123,7 @@ class TasksRepository with ChangeNotifier {
     return res;
   }
 
-  Future<Task> getCurrentTask() async {
+  Task getCurrentTask() {
     // DEMO
     /*var _task = Task.empty;
     if(_tasks.length > 0) {
@@ -103,6 +135,7 @@ class TasksRepository with ChangeNotifier {
     return _task;*/
     return _currentTask;
   }
+
 
   Future<int> startTask({required String auth_token, required int task_id}) async {
     //_tasks.clear();
@@ -226,7 +259,7 @@ class TasksUpdateService {
   void startTasksUpdateTimer() {
     if (_timer == null || !_timer!.isActive) {
       _timer = Timer.periodic(Duration(seconds: 30), (timer) {
-
+      updateTasks();
         //uploadPhotos();
       });
     }

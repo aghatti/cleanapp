@@ -37,7 +37,7 @@ class _CleaningAppState extends State<CleaningApp> with WidgetsBindingObserver {
     WidgetsBinding.instance.addObserver(this);
     // Call startPhotoUploadTimer when the app starts or resumes
     _photoUploadService.startPhotoUploadTimer();
-    _tasksUpdateService.startTasksUpdateTimer();
+    //_tasksUpdateService.startTasksUpdateTimer();
 
     //_authenticationRepository = AuthenticationRepository();
     //_userRepository = UserRepository();
@@ -55,11 +55,11 @@ class _CleaningAppState extends State<CleaningApp> with WidgetsBindingObserver {
     if (state == AppLifecycleState.paused) {
       // App is in the background, stop the timer
       _photoUploadService.stopPhotoUploadTimer();
-      _tasksUpdateService.stopTasksUpdateTimer();
+      //_tasksUpdateService.stopTasksUpdateTimer();
     } else if (state == AppLifecycleState.resumed) {
       // App is in the foreground, start the timer
       _photoUploadService.startPhotoUploadTimer();
-      _tasksUpdateService.startTasksUpdateTimer();
+      //_tasksUpdateService.startTasksUpdateTimer();
     }
   }
 
