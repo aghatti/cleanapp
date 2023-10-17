@@ -45,7 +45,7 @@ class TasksRepository with ChangeNotifier {
           int cnt = 0;
           for (var jsonObject in jsonArray) {
             String state = jsonObject['state'];
-            DateTime dtstart = DateTime.parse(jsonObject['dtstart']);
+            DateTime dtstart = DateTime.parse(jsonObject['dtstart']).toLocal();
             int id = jsonObject['id'];
             if(activeStatuses.contains(state) && curTaskItr == -1) {
               curTaskItr = cnt;
@@ -62,9 +62,9 @@ class TasksRepository with ChangeNotifier {
               tStatusId: jsonObject['state_id'],
               tStatus: state,
               tDate: dtstart,
-              tDateEnd: jsonObject['dtend'] != null ? DateTime.tryParse(jsonObject['dtend']) : null,
-              tDateFact: jsonObject['dtstart_fact'] != null ? DateTime.tryParse(jsonObject['dtstart_fact']) : null,
-              tDateEndFact: jsonObject['dtend_fact'] != null ? DateTime.tryParse(jsonObject['dtend_fact']) : null,
+              tDateEnd: jsonObject['dtend'] != null ? DateTime.parse(jsonObject['dtend']).toLocal() : null,
+              tDateFact: jsonObject['dtstart_fact'] != null ? DateTime.parse(jsonObject['dtstart_fact']).toLocal() : null,
+              tDateEndFact: jsonObject['dtend_fact'] != null ? DateTime.parse(jsonObject['dtend_fact']).toLocal() : null,
             ));
           }
           t_tasks..addAll(_v_tasks);
