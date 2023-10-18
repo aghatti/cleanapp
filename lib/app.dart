@@ -110,6 +110,8 @@ class _CleaningAppViewState extends State<CleaningAppView> {
         // TODO: Make currentCategory field take _currentCategory (104)
         // TODO: Pass _currentCategory for frontLayer (104)
         // TODO: Change backLayer field value to CategoryMenuPage (104)
+
+        // TODO !!! Add other routes
       },
       onGenerateRoute: (settings) {
         if (settings.name == "/login") {

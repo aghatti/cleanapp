@@ -130,7 +130,12 @@
   "noActiveTasks": "No active tasks.",
   "@noActiveTasks": {
     "description": "No active tasks."
+  },
+  "noPhotosAvailable": "No photos available for this task.",
+  "@noPhotosAvailable": {
+    "description": "No photos available for this task."
   }
+
 }
 
 

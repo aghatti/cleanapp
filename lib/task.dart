@@ -599,9 +599,9 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
                                             auth_token: auth_token,
                                             task_id: widget.task.id)
                                             .then((auth_token) {
-                                          Navigator.pushNamedAndRemoveUntil(
+                                          /*Navigator.pushNamedAndRemoveUntil(
                                               context, '/tasklist',
-                                              ModalRoute.withName('/home'));
+                                              ModalRoute.withName('/home'));*/
                                         });
                                         return 'NoNav';
                                       }
