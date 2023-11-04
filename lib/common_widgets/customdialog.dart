@@ -36,17 +36,10 @@ class FutureBuilderExample extends StatefulWidget {
 }
 
 class _FutureBuilderExampleState extends State<FutureBuilderExample> {
-  //Future<String> Function(BuildContext) futureHandler;
-
   @override
   void initState() {
     super.initState();
-    //futureHandler = widget.futureHandler;
   }
-  /*final Future<String> _calculation = Future<String>.delayed(
-    const Duration(seconds: 2),
-        () => 'Data Loaded',
-  );*/
 
   @override
   Widget build(BuildContext context) {
@@ -80,16 +73,6 @@ class _FutureBuilderExampleState extends State<FutureBuilderExample> {
                     ),
                   ),
                 ),
-              /*const Icon(
-                Icons.check_circle_outline,
-                color: Colors.green,
-                size: 60,
-              ),
-
-              Padding(
-                padding: const EdgeInsets.only(top: 16),
-                child: Text('Result: ${snapshot.data}'),
-              ),*/
             ];
             if (context != null && mounted && snapshot.data!='NoNav') {
               Future.delayed(Duration(seconds: 2)).then((_) {

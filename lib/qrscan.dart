@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:TeamCoord/common_widgets/customdialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
@@ -69,18 +70,38 @@ class _QrScanPageState extends State<QrScanPage> {
               for (final barcode in barcodes) {
                 debugPrint('Barcode found! ${barcode.rawValue}');
                 if(barcode.rawValue==null) {
-                  ScaffoldMessenger.of(context).showSnackBar(
+                  showCustomDialog(
+                    context,
+                    AppLocalizations.of(context)!.wrongQr,
+                    'assets/icons/error.png',
+                        (BuildContext context) async {
+                          await Future.delayed(Duration(seconds: 1));
+                          Navigator.of(context).pop();
+                          return 'Callback started';
+                        },
+                  );
+                  /*ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text('No QR found.'),
                       )
-                  );
+                  );*/
                 } else {
                   task = _tasksRepo.getTaskByQr(barcode.rawValue!);
                   if(task.isEmpty()) {
-                    ScaffoldMessenger.of(context).showSnackBar(
+                    /*ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text('No task found for QR: ' + (barcode.rawValue ?? '')),
                         )
+                    );*/
+                    showCustomDialog(
+                      context,
+                      AppLocalizations.of(context)!.wrongQr,
+                      'assets/icons/error.png',
+                          (BuildContext context) async {
+                            await Future.delayed(Duration(seconds: 1));
+                            Navigator.of(context).pop();
+                            return 'Callback started';
+                      },
                     );
                   }
                   else  {

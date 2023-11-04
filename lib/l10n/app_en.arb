@@ -95,6 +95,10 @@
   "@performer": {
     "description": "Performer"
   },
+  "coperformers": "Coperformers",
+    "@performer": {
+      "coperformers": "Coperformers"
+  },
   "description": "Description",
   "@performer": {
     "description": "Description"
@@ -134,8 +138,19 @@
   "noPhotosAvailable": "No photos available for this task.",
   "@noPhotosAvailable": {
     "description": "No photos available for this task."
+  },
+  "tasksCompletedPercent": "Tasks completed (%):",
+  "@tasksCompletedPercent": {
+    "description": "Tasks completed (%):"
+  },
+  "authError": "Wrong login or password.",
+  "@authError": {
+    "description": "Wrong login or password."
+  },
+  "wrongQr": "Wrong Qr",
+  "@wrongQr": {
+    "description": "Wrong Qr"
   }
-
 }
 
 

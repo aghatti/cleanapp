@@ -18,6 +18,7 @@ class _LoginPageState extends State<LoginPage> {
   // TODO: Add text editing controllers (101)
   final loginController = TextEditingController();
   final passwordController = TextEditingController();
+  int authRes = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +77,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             const SizedBox(height: 20.0),
-            // TODO: Remove filled: true values (103)
+// [Login]]
             Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 24.0, vertical: 0),
@@ -120,6 +121,15 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
 
+            Visibility(visible: authRes != 0,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+            Padding(
+            padding:
+            const EdgeInsets.fromLTRB(26, 8, 26, 0),
+              child: Text(AppLocalizations.of(context)!.authError, style: TextStyle(color: Colors.redAccent)),),
+              ],),),
             const SizedBox(height: 12.0),
 // [Password]
             //Padding(
@@ -146,18 +156,32 @@ class _LoginPageState extends State<LoginPage> {
                       Provider.of<AuthenticationRepository>(context, listen: false)
                           .logInAPI(username: loginController.text.trim(), password: passwordController.text.trim())
                           .then((val) {
-                          Provider.of<AuthenticationRepository>(context, listen: false)
-                              .checkSession()
-                              .then((value) {
-                                if (value.isNotEmpty) {
-                                  //Navigator.pushReplacementNamed(context, '/home');
-                                  Provider.of<UserRepository>(context, listen: false).getUserAPI(auth_token: value.toString()).then((void_val){
-                                    Navigator.of(context!).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
-                                  });
-                                } else {
-                                  //Navigator.pushReplacementNamed(context, '/');
-                                }
-                          });
+                          if(val == 0) {
+                            Provider.of<AuthenticationRepository>(
+                                context, listen: false)
+                                .checkSession()
+                                .then((value) {
+                              if (value.isNotEmpty) {
+                                authRes = 0;
+                                //Navigator.pushReplacementNamed(context, '/home');
+                                Provider.of<UserRepository>(
+                                    context, listen: false).getUserAPI(
+                                    auth_token: value.toString()).then((
+                                    void_val) {
+                                  Navigator.of(context!)
+                                      .pushNamedAndRemoveUntil(
+                                      '/home', (Route<dynamic> route) => false);
+                                });
+                              } else {
+                                //Navigator.pushReplacementNamed(context, '/');
+                              }
+                            });
+                          }
+                          else {
+                            setState(() {
+                              authRes = val;
+                            });
+                          }
                       });
                     }
                     catch (_) {
@@ -176,7 +200,6 @@ class _LoginPageState extends State<LoginPage> {
         ),
             // ),
 
-            // TODO: Add button bar (101)
           ],
         ),
       ),

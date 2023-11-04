@@ -43,6 +43,8 @@
 
     "performer": "Исполнитель",
 
+    "coperformers": "Соисполнители",
+
     "description": "Описание",
 
     "photos": "Фотографии",
@@ -61,6 +63,12 @@
 
     "noActiveTasks": "Нет активных заданий.",
 
-    "noPhotosAvailable": "Нет фотографий для этого задания."
+    "noPhotosAvailable": "Нет фотографий для этого задания.",
+
+    "tasksCompletedPercent": "Завершено заданий (%):",
+
+    "authError": "Неверный логин или пароль.",
+
+    "wrongQr": "Неверный Qr"
 }
 

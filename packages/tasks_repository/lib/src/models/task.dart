@@ -15,6 +15,7 @@ class Task extends Equatable {
     this.tDateEnd,
     this.tDateFact,
     this.tDateEndFact,
+    required this.tCoperformers,
   });
   /*Task.empty():
         id = '',
@@ -35,6 +36,7 @@ class Task extends Equatable {
   final DateTime? tDateEnd;
   final DateTime? tDateFact;
   final DateTime? tDateEndFact;
+  final String tCoperformers;
 
   @override
   List<Object> get props => [id];
@@ -53,6 +55,7 @@ class Task extends Equatable {
     tDateEnd: null,
     tDateFact: null,
     tDateEndFact: null,
+    tCoperformers: ' ',
   );
 
   bool isEmpty()  {return this.id == 0;}
