@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-
+// [dialog with handler]
 void showCustomDialog (
     BuildContext context,
     String textLabel,
@@ -13,7 +13,7 @@ void showCustomDialog (
     //barrierColor: Colors.transparent,
     barrierColor: Colors.black.withOpacity(0.5),
     builder: (context) {
-            return FutureBuilderExample(
+            return mFutureBuilder(
               textLabel: textLabel,
               imageAssetPath: imageAssetPath,
               futureHandler: futureHandler,
@@ -22,20 +22,20 @@ void showCustomDialog (
   );
 }
 
-class FutureBuilderExample extends StatefulWidget {
+class mFutureBuilder extends StatefulWidget {
   final String textLabel;
   final String imageAssetPath;
   final Future<String> Function(BuildContext context) futureHandler;
 
-  const FutureBuilderExample(
+  const mFutureBuilder(
       {super.key, required this.textLabel, required this.imageAssetPath, required this.futureHandler,}
   );
 
   @override
-  State<FutureBuilderExample> createState() => _FutureBuilderExampleState();
+  State<mFutureBuilder> createState() => _mFutureBuilderState();
 }
 
-class _FutureBuilderExampleState extends State<FutureBuilderExample> {
+class _mFutureBuilderState extends State<mFutureBuilder> {
   @override
   void initState() {
     super.initState();
@@ -74,7 +74,7 @@ class _FutureBuilderExampleState extends State<FutureBuilderExample> {
                   ),
                 ),
             ];
-            if (context != null && mounted && snapshot.data!='NoNav') {
+            if (mounted && snapshot.data!='NoNav') {
               Future.delayed(Duration(seconds: 2)).then((_) {
                 if(mounted)
                   Navigator.of(context).pop();
@@ -112,6 +112,79 @@ class _FutureBuilderExampleState extends State<FutureBuilderExample> {
             ),
           );
         },
+      ),
+    );
+  }
+}
+
+// [simple notification dialog]
+void showSimpleDialog(
+    BuildContext context,
+    String textLabel,
+    String imageAssetPath,
+    Color color,
+    ) {
+  // Pause the scanner
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    barrierColor: Colors.black.withOpacity(0.5),
+    builder: (context) {
+      return SimpleDialogContent(
+        textLabel: textLabel,
+        imageAssetPath: imageAssetPath,
+        color: color,
+      );
+    },
+  );
+
+  // Close the dialog after 2 seconds
+  Future.delayed(Duration(seconds: 2)).then((_) {
+    if (Navigator.of(context).canPop()) {
+      Navigator.of(context).pop();
+    }
+  });
+}
+
+class SimpleDialogContent extends StatelessWidget {
+  final String textLabel;
+  final String imageAssetPath;
+  final Color color;
+
+  const SimpleDialogContent({
+    Key? key,
+    required this.textLabel,
+    required this.imageAssetPath,
+    required this.color,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Card(
+        color: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.all(0),
+          child: Container(
+          height: 130, // Adjust the height as needed
+          width: 130,
+          child:
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(height: 1),
+              Image.asset(imageAssetPath),
+              SizedBox(height: 1),
+              Text(
+                textLabel,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontWeight: FontWeight.bold, color: color),
+              ),
+            ],
+          ),),
+
+
+        ),
       ),
     );
   }

@@ -4,11 +4,8 @@ import 'package:TeamCoord/common_widgets/customdialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
-import 'package:authentication_repository/authentication_repository.dart';
 import 'package:tasks_repository/tasks_repository.dart';
 import 'package:user_repository/user_repository.dart';
-import 'utils/utils.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'supplemental/screenarguments.dart';
 import 'common_widgets/customappbar.dart';
@@ -23,18 +20,19 @@ class QrScanPage extends StatefulWidget {
 class _QrScanPageState extends State<QrScanPage> {
   UserRepository _userRepo = UserRepository();
   TasksRepository _tasksRepo = TasksRepository();
-  User _usr = User.empty;
-  DateTime _curDt = DateTime.now();
-  final String _curDtStr = DateFormat('MMMM dd').format(DateTime.now());
-  int _numTasks = 0;
-  Task _curTask = Task.empty;
+  final MobileScannerController _scannerController = MobileScannerController(detectionSpeed: DetectionSpeed.normal,
+    facing: CameraFacing.back,
+    detectionTimeoutMs: 500,
+      //torchEnabled: true,
+  ); // Create a controller
+  bool shouldShowDialog = false;
 
   @override
   void initState() {
 
-    _userRepo.getUser().then(
+    /*_userRepo.getUser().then(
             (User usr) => setState(() {_usr = usr;})
-    );
+    );*/
     super.initState();
   }
 
@@ -45,40 +43,31 @@ class _QrScanPageState extends State<QrScanPage> {
       colorSchemeSeed: selectedColor,
       brightness: Brightness.light,
     );
-    ColorScheme colorScheme = lightTheme.colorScheme;
+    //ColorScheme colorScheme = lightTheme.colorScheme;
 
     return Scaffold(
       appBar: CustomAppBar(autoLeading: true, context: context),
-      //backgroundColor: Theme.of(context).primaryColor,
+      backgroundColor: Colors.black,
       body:
       Stack(
         alignment: FractionalOffset.center,
         children: <Widget>[
           MobileScanner(
             // fit: BoxFit.contain,
-            controller: MobileScannerController(
-              detectionSpeed: DetectionSpeed.normal,
-              facing: CameraFacing.back,
-              detectionTimeoutMs: 500,
-              //torchEnabled: true,
-            ),
+            controller: _scannerController,
             startDelay: true,
             onDetect: (capture) {
               final List<Barcode> barcodes = capture.barcodes;
-              final Uint8List? image = capture.image;
+              //final Uint8List? image = capture.image;
               Task task = Task.empty;
               for (final barcode in barcodes) {
                 debugPrint('Barcode found! ${barcode.rawValue}');
                 if(barcode.rawValue==null) {
-                  showCustomDialog(
+                  showSimpleDialog2(
                     context,
                     AppLocalizations.of(context)!.wrongQr,
                     'assets/icons/error.png',
-                        (BuildContext context) async {
-                          await Future.delayed(Duration(seconds: 1));
-                          Navigator.of(context).pop();
-                          return 'Callback started';
-                        },
+                    Colors.red,
                   );
                   /*ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
@@ -93,19 +82,15 @@ class _QrScanPageState extends State<QrScanPage> {
                           content: Text('No task found for QR: ' + (barcode.rawValue ?? '')),
                         )
                     );*/
-                    showCustomDialog(
+                    showSimpleDialog2(
                       context,
                       AppLocalizations.of(context)!.wrongQr,
                       'assets/icons/error.png',
-                          (BuildContext context) async {
-                            await Future.delayed(Duration(seconds: 1));
-                            Navigator.of(context).pop();
-                            return 'Callback started';
-                      },
+                      Colors.red,
                     );
                   }
                   else  {
-                    Navigator.pushReplacementNamed(context, '/task', arguments: ScreenArguments(task!, 'entertaskbyqr'));
+                    Navigator.pushReplacementNamed(context, '/task', arguments: ScreenArguments(task, 'entertaskbyqr'));
                     break;
                   }
                 }
@@ -211,6 +196,47 @@ class _QrScanPageState extends State<QrScanPage> {
       ],),
 
     );
+  }
+
+  void showSimpleDialog2(BuildContext context,
+      String textLabel,
+      String imageAssetPath,
+      Color color) {
+    shouldShowDialog = true;
+    // Pause the scanner
+    _scannerController.stop();
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return WillPopScope(
+          onWillPop: () async {
+            // Prevent the user from dismissing the dialog with the back button
+            return false;
+          },
+          child: SimpleDialogContent(
+            textLabel: textLabel,
+            imageAssetPath: imageAssetPath,
+            color: color,
+          ),
+        );
+      },
+    ).then((_) {
+      shouldShowDialog = false;
+      // Resume the scanner when the dialog is closed
+      _scannerController.start();
+    });
+
+    // Close the dialog after 2 seconds
+    Future.delayed(Duration(seconds: 2)).then((_) {
+      if (shouldShowDialog && Navigator.of(context).canPop()) {
+        Navigator.of(context).pop();
+        shouldShowDialog = false;
+        // Resume the scanner after closing the dialog
+        _scannerController.start();
+      }
+    });
   }
 }
 
