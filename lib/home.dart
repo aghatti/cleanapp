@@ -529,7 +529,7 @@ class _HomePageState extends State<HomePage> {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Text(
-                                    AppLocalizations.of(context)!.reportProblem,
+                                    AppLocalizations.of(context)!.reportIssue,
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyLarge!

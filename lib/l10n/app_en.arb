@@ -29,14 +29,9 @@
          "description": "Password field prompt"
    },
 
-   "reportProblem": "Report a problem",
-          "@reportProblem": {
-            "description": "Report a problem"
-   },
-
-   "problemDescription": "Problem description",
-             "@problemDescription": {
-               "description": "Problem description"
+   "reportIssue": "Report an issue",
+          "@reportIssue": {
+            "description": "Report an issue"
    },
 
    "allTasks": "All tasks",
@@ -150,6 +145,34 @@
   "wrongQr": "Wrong Qr",
   "@wrongQr": {
     "description": "Wrong Qr"
+  },
+  "techIssue": "Technical",
+  "@techIssue": {
+    "description": "Technical"
+  },
+  "orgIssue": "Organizational",
+  "@orgIssue": {
+    "description": "Organizational"
+  },
+  "issueType": "Issue type",
+  "@issueType": {
+    "description": "Issue type"
+  },
+  "issueName": "Issue name",
+  "@issueName": {
+    "description": "Issue name"
+  },
+  "issueDesc": "Issue description",
+  "@issueDesc": {
+    "description": "Issue description"
+  },
+  "fieldValueRequired": "Field value required",
+  "@fieldValueRequired": {
+    "description": "Field value required"
+  },
+  "issueReported": "Issue reported",
+  "@issueReported": {
+    "description": "Issue reported"
   }
 }
 

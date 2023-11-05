@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:TeamCoord/common_widgets/combobox.dart';
 import 'package:TeamCoord/common_widgets/customappbar.dart';
+import 'package:TeamCoord/models/comboboxitem.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -33,8 +34,8 @@ class _TasksListState extends State<TasksList> {
   late List<Task> _tasks;
   late List<Task> _filteredTasks;
 
-  List<String> _objects = [];
-  late String _curObject;
+  List<ComboBoxItem> _objects = [];
+  late ComboBoxItem _curObject;
 
   User _usr = User.empty;
   final String _curDtStr =
@@ -59,7 +60,14 @@ class _TasksListState extends State<TasksList> {
         //await Future.delayed(Duration(milliseconds: 500));
 
         final List<Task> tasks = await _tasksRepo.getTasks();
-        final List<String> objects = await _tasksRepo.getObjects();
+        final List<String> s_objects = await _tasksRepo.getObjects();
+        List<ComboBoxItem> objects = [];
+        for (String sObject in s_objects) {
+          // Create a ComboBoxItem with the same text and value
+          ComboBoxItem comboBoxItem = ComboBoxItem(sObject, sObject);
+          // Add the ComboBoxItem to the list of objects
+          objects.add(comboBoxItem);
+        }
         _tasksController.sink.add(tasks);
 
         final Map<String, dynamic> stateChanges = {};
@@ -73,11 +81,11 @@ class _TasksListState extends State<TasksList> {
         }
 
         if (mounted) {
-          if (!Utils.areStringListsEqual(_objects, objects)) {
+          if (!compareComboBoxLists(_objects, objects)) {
             stateChanges['_objects'] = objects;
             stateChanges['_curObject'] = objects.isNotEmpty
                 ? objects[0]
-                : AppLocalizations.of(context)!.withoutFilter;
+                : ComboBoxItem(AppLocalizations.of(context)!.withoutFilter,AppLocalizations.of(context)!.withoutFilter);
           }
         }
         await Future.delayed(const Duration(milliseconds: 500));
@@ -158,7 +166,7 @@ class _TasksListState extends State<TasksList> {
     _numTasks = 0;
     _tasks = [];
     _filteredTasks = [];
-    _curObject = '-- no filter --';
+    _curObject = ComboBoxItem('-- no filter --', '-- no filter --');
     _userRepo.getUser().then((User usr) {
       if (mounted) {
         setState(() {
@@ -210,7 +218,7 @@ class _TasksListState extends State<TasksList> {
   }
 
   void filterTasks() {
-    if (_curObject == AppLocalizations.of(context)!.withoutFilter) {
+    if (_curObject.value == AppLocalizations.of(context)!.withoutFilter) {
       // No filter selected, show all tasks
       setState(() {
         _filteredTasks = _tasks;
@@ -219,7 +227,7 @@ class _TasksListState extends State<TasksList> {
       // Filter tasks based on selected category
       setState(() {
         _filteredTasks =
-            _tasks.where((task) => task.tAddress == _curObject).toList();
+            _tasks.where((task) => task.tAddress == _curObject.value).toList();
       });
     }
     _numTasks = _filteredTasks.length;
@@ -233,10 +241,10 @@ class _TasksListState extends State<TasksList> {
       brightness: Brightness.light,
     );*/
     //ColorScheme colorScheme = lightTheme.colorScheme;
-    if (_curObject == 'no filter')
-      _curObject = AppLocalizations.of(context)!.withoutFilter;
+    if (_curObject.value == 'no filter')
+      _curObject = ComboBoxItem(AppLocalizations.of(context)!.withoutFilter, AppLocalizations.of(context)!.withoutFilter);
     if (_objects.length > 0) {
-      _objects[0] = AppLocalizations.of(context)!.withoutFilter;
+      _objects[0] = ComboBoxItem(AppLocalizations.of(context)!.withoutFilter,AppLocalizations.of(context)!.withoutFilter);
     }
 
     return Scaffold(
@@ -364,13 +372,14 @@ class _TasksListState extends State<TasksList> {
             padding: EdgeInsets.symmetric(horizontal: 8),
             child: Combobox(
               items: _objects,
-              onItemSelected: (String? selectedValue) {
+              onItemSelected: (ComboBoxItem? selectedValue) {
                 if (selectedValue != null) {
                   _curObject = selectedValue;
                   filterTasks();
                 }
               },
               selectedItem: _curObject,
+              label: '',
             ),
           ),
         ),

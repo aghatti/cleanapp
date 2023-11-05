@@ -131,7 +131,7 @@ class _LoginPageState extends State<LoginPage> {
               child: Text(AppLocalizations.of(context)!.authError, style: TextStyle(color: Colors.redAccent)),),
               ],),),
             const SizedBox(height: 12.0),
-// [Password]
+// [Auth button]
             //Padding(
             // padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0),
             //child:

@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:TeamCoord/common_widgets/customdialog.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
@@ -9,6 +9,7 @@ import 'package:user_repository/user_repository.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'supplemental/screenarguments.dart';
 import 'common_widgets/customappbar.dart';
+import 'common_widgets/simplenotification.dart';
 
 class QrScanPage extends StatefulWidget {
   const QrScanPage({Key? key}) : super(key: key);
@@ -146,7 +147,7 @@ class _QrScanPageState extends State<QrScanPage> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                            AppLocalizations.of(context)!.reportProblem,
+                            AppLocalizations.of(context)!.reportIssue,
                           style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                               color: Colors.white, fontWeight: FontWeight.bold
                           ),
@@ -215,7 +216,7 @@ class _QrScanPageState extends State<QrScanPage> {
             // Prevent the user from dismissing the dialog with the back button
             return false;
           },
-          child: SimpleDialogContent(
+          child: SimpleNotificationDialog(
             textLabel: textLabel,
             imageAssetPath: imageAssetPath,
             color: color,
@@ -239,4 +240,3 @@ class _QrScanPageState extends State<QrScanPage> {
     });
   }
 }
-

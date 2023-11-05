@@ -684,7 +684,7 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
                                   children: [
                                     Text(
                                       AppLocalizations.of(context)!
-                                          .reportProblem,
+                                          .reportIssue,
                                       style: Theme
                                           .of(context)
                                           .textTheme

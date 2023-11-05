@@ -40,7 +40,7 @@ class UserRepository {
       _user = User(name, surname, company,int.parse(company_id));
     } else {
       // TODO show error
-      throw Exception('Failed to get user profile.');
+      //throw Exception('Failed to get user profile.');
     }
   }
   Future <String> getAuthToken() async {
@@ -84,4 +84,37 @@ class UserRepository {
       return res;
     }
   }
+
+  // TODO create Issues repository
+  Future<int> regIssue({required String auth_token, required String name, required String description, required int type}) async {
+    //_tasks.clear();
+    //_currentTask = Task.empty;
+    int res = -1;
+    final baseUrl = Uri.parse('https://teamcoord.ru:8190/regissue');
+    // Create a map of query parameters
+    final queryParameters = {
+      'auth_token': auth_token,
+      'name': name,
+      'description': description,
+      'type': type.toString(),
+    };
+    // Construct the final URL with encoded query parameters
+    final uri = baseUrl.replace(queryParameters: queryParameters);
+
+    final response = await http.post(
+      uri,
+      headers: <String, String>{
+        "Authorization": "Bearer " + auth_token,
+      },
+    ).timeout(Duration(seconds: 5));
+
+    if (response.statusCode == 200) {
+      return 0;
+    } else {
+      // TODO show error
+      //throw Exception('Failed to make request to register issue.');
+    }
+    return res;
+  }
+
 }

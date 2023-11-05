@@ -1,3 +1,4 @@
+import 'package:TeamCoord/models/comboboxitem.dart';
 import 'package:flutter/material.dart';
 
 class Combobox extends StatefulWidget {
@@ -6,24 +7,29 @@ class Combobox extends StatefulWidget {
     required this.items,
     required this.onItemSelected,
     this.selectedItem,
+    required this.label,
   }) : super(key: key);
 
-  final List<String> items;
-  final Function(String?) onItemSelected;
-  final String? selectedItem;
+  final List<ComboBoxItem> items;
+  final Function(ComboBoxItem?) onItemSelected;
+  final ComboBoxItem? selectedItem;
+  final String label;
 
   @override
   State<StatefulWidget> createState() => _ComboboxState();
 }
-class _ComboboxState extends State<Combobox> {
-  String? selectedItem;
 
-  void dropdownCallback(String? selectedValue) {
-    if(selectedValue is String) {
+
+
+class _ComboboxState extends State<Combobox> {
+  ComboBoxItem? selectedItem;
+
+  void dropdownCallback(ComboBoxItem? selectedValue) {
+    if(selectedValue != null) {
       setState(() {
         selectedItem = selectedValue;
       });
-      widget.onItemSelected(selectedValue);
+      widget.onItemSelected(selectedItem);
     }
   }
 
@@ -34,11 +40,9 @@ class _ComboboxState extends State<Combobox> {
   @override
   Widget build(BuildContext context) {
     ThemeData appStyle = Theme.of(context);
-    //var height = MediaQuery.of(context).size.height;
-    //var width = MediaQuery.of(context).size.width;
 
     return
-      DropdownButtonFormField<String>(
+      DropdownButtonFormField<ComboBoxItem>(
         decoration: InputDecoration (
           enabledBorder:  OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
@@ -48,11 +52,12 @@ class _ComboboxState extends State<Combobox> {
             borderRadius: BorderRadius.circular(12),
             borderSide: BorderSide(width: 3, color: Color(0xFFC2E1FF)),
           ),
+          labelText: widget.label,
         ),
         value: selectedItem,
-        items: widget.items.map((item)=>DropdownMenuItem<String>(
+        items: widget.items.map((item)=>DropdownMenuItem<ComboBoxItem>(
             value: item,
-            child: Text(item),
+            child: Text(item.text),
         )).toList(),
         onChanged: dropdownCallback,
 

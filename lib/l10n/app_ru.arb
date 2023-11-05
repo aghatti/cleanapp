@@ -11,9 +11,7 @@
 
     "passwordPrompt": "Пароль",
 
-    "reportProblem": "Сообщить о проблеме",
-
-    "problemDescription": "Описание проблемы",
+    "reportIssue": "Сообщить о проблеме",
 
     "allTasks": "Посмотреть все задания",
 
@@ -69,6 +67,20 @@
 
     "authError": "Неверный логин или пароль.",
 
-    "wrongQr": "Неверный Qr"
+    "wrongQr": "Неверный Qr",
+
+    "techIssue": "Техническая",
+
+    "orgIssue": "Организационная",
+
+    "issueType": "Тип проблемы",
+
+    "issueName": "Название проблемы",
+
+    "issueDesc": "Описание проблемы",
+
+    "fieldValueRequired": "Поле обязательно к заполнению",
+
+    "issueReported": "Отправлено"
 }
 
