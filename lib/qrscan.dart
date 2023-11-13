@@ -1,16 +1,15 @@
 import 'dart:typed_data';
 
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
-import 'package:authentication_repository/authentication_repository.dart';
 import 'package:tasks_repository/tasks_repository.dart';
 import 'package:user_repository/user_repository.dart';
-import 'utils/utils.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'supplemental/screenarguments.dart';
 import 'common_widgets/customappbar.dart';
+import 'common_widgets/simplenotification.dart';
 
 class QrScanPage extends StatefulWidget {
   const QrScanPage({Key? key}) : super(key: key);
@@ -22,18 +21,19 @@ class QrScanPage extends StatefulWidget {
 class _QrScanPageState extends State<QrScanPage> {
   UserRepository _userRepo = UserRepository();
   TasksRepository _tasksRepo = TasksRepository();
-  User _usr = User.empty;
-  DateTime _curDt = DateTime.now();
-  final String _curDtStr = DateFormat('MMMM dd').format(DateTime.now());
-  int _numTasks = 0;
-  Task _curTask = Task.empty;
+  final MobileScannerController _scannerController = MobileScannerController(detectionSpeed: DetectionSpeed.normal,
+    facing: CameraFacing.back,
+    detectionTimeoutMs: 500,
+      //torchEnabled: true,
+  ); // Create a controller
+  bool shouldShowDialog = false;
 
   @override
   void initState() {
 
-    _userRepo.getUser().then(
+    /*_userRepo.getUser().then(
             (User usr) => setState(() {_usr = usr;})
-    );
+    );*/
     super.initState();
   }
 
@@ -44,47 +44,54 @@ class _QrScanPageState extends State<QrScanPage> {
       colorSchemeSeed: selectedColor,
       brightness: Brightness.light,
     );
-    ColorScheme colorScheme = lightTheme.colorScheme;
+    //ColorScheme colorScheme = lightTheme.colorScheme;
 
     return Scaffold(
       appBar: CustomAppBar(autoLeading: true, context: context),
-      //backgroundColor: Theme.of(context).primaryColor,
+      backgroundColor: Colors.black,
       body:
       Stack(
         alignment: FractionalOffset.center,
         children: <Widget>[
           MobileScanner(
             // fit: BoxFit.contain,
-            controller: MobileScannerController(
-              detectionSpeed: DetectionSpeed.normal,
-              facing: CameraFacing.back,
-              detectionTimeoutMs: 500,
-              //torchEnabled: true,
-            ),
+            controller: _scannerController,
             startDelay: true,
             onDetect: (capture) {
               final List<Barcode> barcodes = capture.barcodes;
-              final Uint8List? image = capture.image;
+              //final Uint8List? image = capture.image;
               Task task = Task.empty;
               for (final barcode in barcodes) {
                 debugPrint('Barcode found! ${barcode.rawValue}');
                 if(barcode.rawValue==null) {
-                  ScaffoldMessenger.of(context).showSnackBar(
+                  showSimpleDialog2(
+                    context,
+                    AppLocalizations.of(context)!.wrongQr,
+                    'assets/icons/error.png',
+                    Colors.red,
+                  );
+                  /*ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text('No QR found.'),
                       )
-                  );
+                  );*/
                 } else {
                   task = _tasksRepo.getTaskByQr(barcode.rawValue!);
                   if(task.isEmpty()) {
-                    ScaffoldMessenger.of(context).showSnackBar(
+                    /*ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text('No task found for QR: ' + (barcode.rawValue ?? '')),
                         )
+                    );*/
+                    showSimpleDialog2(
+                      context,
+                      AppLocalizations.of(context)!.wrongQr,
+                      'assets/icons/error.png',
+                      Colors.red,
                     );
                   }
                   else  {
-                    Navigator.pushReplacementNamed(context, '/task', arguments: ScreenArguments(task!, 'entertaskbyqr'));
+                    Navigator.pushReplacementNamed(context, '/task', arguments: ScreenArguments(task, 'entertaskbyqr'));
                     break;
                   }
                 }
@@ -140,7 +147,7 @@ class _QrScanPageState extends State<QrScanPage> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                            AppLocalizations.of(context)!.reportProblem,
+                            AppLocalizations.of(context)!.reportIssue,
                           style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                               color: Colors.white, fontWeight: FontWeight.bold
                           ),
@@ -191,5 +198,45 @@ class _QrScanPageState extends State<QrScanPage> {
 
     );
   }
-}
 
+  void showSimpleDialog2(BuildContext context,
+      String textLabel,
+      String imageAssetPath,
+      Color color) {
+    shouldShowDialog = true;
+    // Pause the scanner
+    _scannerController.stop();
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return WillPopScope(
+          onWillPop: () async {
+            // Prevent the user from dismissing the dialog with the back button
+            return false;
+          },
+          child: SimpleNotificationDialog(
+            textLabel: textLabel,
+            imageAssetPath: imageAssetPath,
+            color: color,
+          ),
+        );
+      },
+    ).then((_) {
+      shouldShowDialog = false;
+      // Resume the scanner when the dialog is closed
+      _scannerController.start();
+    });
+
+    // Close the dialog after 2 seconds
+    Future.delayed(Duration(seconds: 2)).then((_) {
+      if (shouldShowDialog && Navigator.of(context).canPop()) {
+        Navigator.of(context).pop();
+        shouldShowDialog = false;
+        // Resume the scanner after closing the dialog
+        _scannerController.start();
+      }
+    });
+  }
+}

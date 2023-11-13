@@ -16,6 +16,7 @@ class TasksRepository with ChangeNotifier {
   Task _currentTask = Task.empty;
   List<Task> _tasks = [];
   bool runningGetTasksAPI = false;
+  int _tasksCompletedPercent = 0;
 
   Future<List<Task>> getTasks() async {
     return _tasks;
@@ -28,7 +29,9 @@ class TasksRepository with ChangeNotifier {
       //_tasks.clear();
       //_currentTask = Task.empty;
       List<Task> t_tasks = [];
+      // num of tasks
       int res = 0;
+      _tasksCompletedPercent = 0;
       final response = await http.get(
         Uri.parse('https://teamcoord.ru:8190/tasks'),
         headers: <String, String>{
@@ -41,20 +44,32 @@ class TasksRepository with ChangeNotifier {
         if(jsonArray.length > 0) {
           List<Task> _v_tasks = [];
           List<String> activeStatuses = ["planned", "started", "reqstop", "reqnoqr"];
+
+          String completedStatus = "finished";
+          String reqStopStatus = "reqstop";
+          int num_reqstop = 0;
+          int num_completed =  0;
+
           int curTaskItr = -1;
           int cnt = 0;
           for (var jsonObject in jsonArray) {
             String state = jsonObject['state'];
+            String coperformers = jsonObject['coperformers'];
+            coperformers.replaceAll(';', '\n');
             DateTime dtstart = DateTime.parse(jsonObject['dtstart']).toLocal();
             int id = jsonObject['id'];
             if(activeStatuses.contains(state) && curTaskItr == -1) {
               curTaskItr = cnt;
             }
             cnt++;
+
+            if(state == completedStatus) num_completed++;
+            if(state == reqStopStatus) num_reqstop++;
+
             _v_tasks.add(Task(
               id: id,
               tName: jsonObject['name'],
-              tDesc: jsonObject['description'],
+              tDesc: stringToList(jsonObject['description']),
               tZone: jsonObject['zone'],
               tZoneQr: jsonObject['zone_qr'],
               tObject: jsonObject['object'],
@@ -65,6 +80,7 @@ class TasksRepository with ChangeNotifier {
               tDateEnd: jsonObject['dtend'] != null ? DateTime.parse(jsonObject['dtend']).toLocal() : null,
               tDateFact: jsonObject['dtstart_fact'] != null ? DateTime.parse(jsonObject['dtstart_fact']).toLocal() : null,
               tDateEndFact: jsonObject['dtend_fact'] != null ? DateTime.parse(jsonObject['dtend_fact']).toLocal() : null,
+              tCoperformers: transformCoperformers(jsonObject['coperformers']),
             ));
           }
           t_tasks..addAll(_v_tasks);
@@ -76,24 +92,64 @@ class TasksRepository with ChangeNotifier {
           }
           _tasks = t_tasks;
           res = _tasks.length;
+          if((_tasks.length - num_reqstop) > 0) {
+            _tasksCompletedPercent = (num_completed / (_tasks.length - num_reqstop) * 100).round();
+          }
         } else {
+          _tasks.clear();
+          _currentTask = Task.empty;
+        }
+        else {
           _tasks.clear();
           _currentTask = Task.empty;
         }
       } else {
         //_tasks.clear();
         //_currentTask = Task.empty;
+        //runningGetTasksAPI = false;
         // TODO show error
         //throw Exception('Failed to get task list.');
-        int res = 0;
       }
       runningGetTasksAPI = false;
       return res;
   }
 
+  String transformCoperformers(String coperformers) {
+    if (coperformers.isEmpty) {
+      return coperformers; // Return the original string if it's empty
+    }
+
+    // Split the coperformers string by the ';' delimiter
+    List<String> usernames = coperformers.split(';');
+
+    // Add a Unicode character (e.g., '◈') before each username and join them with '\n'
+    String transformedString = usernames.map((username) => ' • $username').join('\n');
+
+    return transformedString;
+  }
+  String stringToList(String input) {
+    if (input.isEmpty) {
+      return input; // Replace with the desired character
+    }
+
+    List<String> lines = input.split('\n');
+
+    // Process each line in the list
+    List<String> transformedLines = lines.where((line) => line.isNotEmpty).map((line) {
+      return ' • $line'; // Replace '◈' with the Unicode character you want to use
+    }).toList();
+
+    return transformedLines.join('\n');
+  }
+
   int getNumTasks()  {
     return _tasks.length;
   }
+
+  int getTasksCompletedPercent() {
+    return _tasksCompletedPercent;
+  }
+
 
   bool areListsEqual(List<Task> list1, List<Task> list2) {
     // Check if the lists have the same length

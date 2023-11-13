@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-
+// [dialog with handler]
 void showCustomDialog (
     BuildContext context,
     String textLabel,
@@ -13,7 +13,7 @@ void showCustomDialog (
     //barrierColor: Colors.transparent,
     barrierColor: Colors.black.withOpacity(0.5),
     builder: (context) {
-            return FutureBuilderExample(
+            return mFutureBuilder(
               textLabel: textLabel,
               imageAssetPath: imageAssetPath,
               futureHandler: futureHandler,
@@ -22,31 +22,24 @@ void showCustomDialog (
   );
 }
 
-class FutureBuilderExample extends StatefulWidget {
+class mFutureBuilder extends StatefulWidget {
   final String textLabel;
   final String imageAssetPath;
   final Future<String> Function(BuildContext context) futureHandler;
 
-  const FutureBuilderExample(
+  const mFutureBuilder(
       {super.key, required this.textLabel, required this.imageAssetPath, required this.futureHandler,}
   );
 
   @override
-  State<FutureBuilderExample> createState() => _FutureBuilderExampleState();
+  State<mFutureBuilder> createState() => _mFutureBuilderState();
 }
 
-class _FutureBuilderExampleState extends State<FutureBuilderExample> {
-  //Future<String> Function(BuildContext) futureHandler;
-
+class _mFutureBuilderState extends State<mFutureBuilder> {
   @override
   void initState() {
     super.initState();
-    //futureHandler = widget.futureHandler;
   }
-  /*final Future<String> _calculation = Future<String>.delayed(
-    const Duration(seconds: 2),
-        () => 'Data Loaded',
-  );*/
 
   @override
   Widget build(BuildContext context) {
@@ -80,18 +73,8 @@ class _FutureBuilderExampleState extends State<FutureBuilderExample> {
                     ),
                   ),
                 ),
-              /*const Icon(
-                Icons.check_circle_outline,
-                color: Colors.green,
-                size: 60,
-              ),
-
-              Padding(
-                padding: const EdgeInsets.only(top: 16),
-                child: Text('Result: ${snapshot.data}'),
-              ),*/
             ];
-            if (context != null && mounted && snapshot.data!='NoNav') {
+            if (mounted && snapshot.data!='NoNav') {
               Future.delayed(Duration(seconds: 2)).then((_) {
                 if(mounted)
                   Navigator.of(context).pop();

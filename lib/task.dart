@@ -294,6 +294,35 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  Icon(Icons.group, size: 28,
+                                    color: Color(0xFF85C3FF),),
+                                  SizedBox(width: 16),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment
+                                        .start,
+                                    children: [
+                                      Text(
+                                        AppLocalizations.of(context)!.coperformers,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),),
+                                      Text(widget.task.tCoperformers),
+                                    ],),
+                                ],
+                              ),
+                            ),
+                            Divider(thickness: 1,
+                              height: 1,
+                              color: Color(0xFFC2E1FF),
+                              indent: 16,
+                              endIndent: 16,),
+                            Padding(
+                              padding: EdgeInsets.all(16),
+                              child:
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
                                   Icon(Icons.description, size: 28,
                                     color: Color(0xFF85C3FF),),
                                   SizedBox(width: 16),
@@ -484,7 +513,6 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
                                 AppLocalizations.of(context)!.taskWaitAction,
                                 'assets/icons/tick-square.png',
                                     (BuildContext context) async {
-                                  // Ensure the futureHandler returns a Future<String>
                                   await Future.delayed(Duration(seconds: 2));
                                   await Provider.of<UserRepository>(
                                       context, listen: false)
@@ -656,7 +684,7 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
                                   children: [
                                     Text(
                                       AppLocalizations.of(context)!
-                                          .reportProblem,
+                                          .reportIssue,
                                       style: Theme
                                           .of(context)
                                           .textTheme
@@ -816,7 +844,6 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
     //);
   }
 
-
   Widget displayPhotosForTask(Task task, BuildContext context) {
     return FutureBuilder<List<Photo>>(
       future: Provider.of<PhotoRepository>(context, listen: false).getCurrentPhotos(task.id),
@@ -937,7 +964,6 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
       },
     );
   }
-
 
   void openImageGallery(BuildContext context, List<Photo> photos,
       int initialIndex) {

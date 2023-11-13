@@ -275,7 +275,7 @@ class _HomePageState extends State<HomePage> {
                           color: Color(0xFF85C3FF), //colorScheme.primary,
                           onColor: colorScheme.onPrimary,
                         ),
-
+// == No active tasks
                         Visibility(
                             visible: _curTask.isEmpty(),
                             child: Column(
@@ -293,7 +293,7 @@ class _HomePageState extends State<HomePage> {
                                             fontWeight: FontWeight.bold)),
                                   ),
                                 ])),
-                        // == Current task info
+// == Current task info
                         Visibility(
                           visible: !_curTask.isEmpty(),
                           child: Row(
@@ -351,14 +351,27 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ]),
                         ),
+// == Current task widget operations
                         Visibility(
                           visible: _numTasks > 0,
                           child: Column(children: [
                             Padding(
                               padding: const EdgeInsets.symmetric(
-                                  horizontal: 16.0, vertical: 8.0),
+                                  horizontal: 16.0, vertical: 4.0),
                               child: Divider(color: Color(0xFFC2E1FF)),
                             ),
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(16, 4, 8, 16),
+                              child: Align(alignment: AlignmentDirectional.centerStart, child: Text('${AppLocalizations.of(context)!.tasksCompletedPercent} ${_tasksRepo.getTasksCompletedPercent()}',
+                                style: TextStyle(
+                                    color: Color(0xFF66727F),
+                                    fontSize: 16)),),
+                            ),
+                            /*Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16.0, vertical: 8.0),
+                              child: Divider(color: Color(0xFFC2E1FF)),
+                            ),*/
                             Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 16.0),
@@ -433,6 +446,17 @@ class _HomePageState extends State<HomePage> {
               ),*/
                       ]),
                     ),
+// == % of completed tasks
+                    /*Visibility(
+                      visible: _numTasks > 0,
+                      child:
+                      Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 24),
+                              child: Text(
+                                '${AppLocalizations.of(context)!.tasksCompletedPercent} ${_tasksRepo.getTasksCompletedPercent()}'),
+                            ),
+                    ),*/
+
                     Flexible(
                       child: Container(
                         width: double.infinity,
@@ -505,7 +529,7 @@ class _HomePageState extends State<HomePage> {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Text(
-                                    AppLocalizations.of(context)!.reportProblem,
+                                    AppLocalizations.of(context)!.reportIssue,
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyLarge!
