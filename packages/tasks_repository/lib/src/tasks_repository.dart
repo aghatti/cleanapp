@@ -95,9 +95,6 @@ class TasksRepository with ChangeNotifier {
           if((_tasks.length - num_reqstop) > 0) {
             _tasksCompletedPercent = (num_completed / (_tasks.length - num_reqstop) * 100).round();
           }
-        } else {
-          _tasks.clear();
-          _currentTask = Task.empty;
         }
         else {
           _tasks.clear();
