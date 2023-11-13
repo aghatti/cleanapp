@@ -76,13 +76,16 @@ class TasksRepository with ChangeNotifier {
           }
           _tasks = t_tasks;
           res = _tasks.length;
+        } else {
+          _tasks.clear();
+          _currentTask = Task.empty;
         }
       } else {
         //_tasks.clear();
         //_currentTask = Task.empty;
-        runningGetTasksAPI = false;
         // TODO show error
-        throw Exception('Failed to get task list.');
+        //throw Exception('Failed to get task list.');
+        int res = 0;
       }
       runningGetTasksAPI = false;
       return res;
@@ -153,7 +156,7 @@ class TasksRepository with ChangeNotifier {
       return 0;
     } else {
       // TODO show error
-      throw Exception('Failed to make request to start task.');
+      //throw Exception('Failed to make request to start task.');
     }
     return res;
   }
@@ -174,7 +177,7 @@ class TasksRepository with ChangeNotifier {
       return 0;
     } else {
       // TODO show error
-      throw Exception('Failed to make request to start task with no QR.');
+      //throw Exception('Failed to make request to start task with no QR.');
     }
     return res;
   }
@@ -194,7 +197,7 @@ class TasksRepository with ChangeNotifier {
       return 0;
     } else {
       // TODO show error
-      throw Exception('Failed stop task.');
+      //throw Exception('Failed stop task.');
     }
     return res;
   }
@@ -214,7 +217,7 @@ class TasksRepository with ChangeNotifier {
       return 0;
     } else {
       // TODO show error
-      throw Exception('Failed finish task.');
+      //throw Exception('Failed finish task.');
     }
     return res;
   }

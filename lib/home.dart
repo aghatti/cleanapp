@@ -40,7 +40,7 @@ class _HomePageState extends State<HomePage> {
     //  return; // Function is already running
     //}
 
-    if (!mounted) {
+    if (!mounted || _isFetching) {
       return; // Avoid running when the widget is not mounted
     }
 
