@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 
+
+class ConstSettings {
+  static int imageQuality = 90;
+  static double maxPhotoSide = 2000;
+}
+
 class TaskStatus {
   final int code;
   final String name;

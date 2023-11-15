@@ -8,6 +8,7 @@ import 'package:flutter/foundation.dart';
 import 'dart:convert';
 import 'dart:io';
 import 'package:authentication_repository/authentication_repository.dart';
+import 'package:TeamCoord/constants/constants.dart';
 
 class PhotoRepository with ChangeNotifier {
   static final PhotoRepository _instance = PhotoRepository._internal();
@@ -26,7 +27,7 @@ class PhotoRepository with ChangeNotifier {
   
   Future<void> captureAndStorePhoto(int taskId) async {
 		final ImagePicker _picker = ImagePicker();
-		final XFile? image = await _picker.pickImage(source: ImageSource.camera);
+		final XFile? image = await _picker.pickImage(source: ImageSource.camera, maxWidth: ConstSettings.maxPhotoSide, maxHeight: ConstSettings.maxPhotoSide, imageQuality: ConstSettings.imageQuality);
 		//final image = await ImagePicker().getImage(source: ImageSource.camera);
 		if (image == null) return; // User canceled the capture
 			// Store the photo in a directory
