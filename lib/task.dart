@@ -342,7 +342,7 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
                                 ],
                               ),
                             ),
-                            // PHOTO SECTION
+// [PHOTO SECTION (begin)]
                             if(widget.task.tStatus == 'started' ||
                                 widget.task.tStatus == 'finished') ... [
                               Divider(thickness: 1,
@@ -351,7 +351,7 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
                                 indent: 16,
                                 endIndent: 16,),
                               Padding(
-                                padding: EdgeInsets.all(16),
+                                padding: EdgeInsets.fromLTRB(16,16,16,0),
                                 child:
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
@@ -360,22 +360,12 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
                                     Icon(Icons.view_cozy_rounded, size: 28,
                                       color: Color(0xFF85C3FF),),
                                     SizedBox(width: 16),
-
                                     Flexible(child:
                                       Column(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       crossAxisAlignment: CrossAxisAlignment.stretch,
                                       children: [
                                       Text(AppLocalizations.of(context)!.photos, style: TextStyle(fontWeight: FontWeight.bold),),
-                                      SizedBox(height: 8),
-
-                                    Consumer<PhotoRepository>(
-                                      builder: (context, photoRepository, child) {
-                                        // You can access photoRepository here, which is an instance of PhotoRepository
-                                          print('Consumer builder called');
-                                          return displayPhotosForTask(widget.task, context);
-                                      },
-                                    ),
                                     ]),),
                                     //displayPhotosForTask(widget.task.id, context),
 
@@ -404,8 +394,19 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
                                   ],
                                 ),
                               ),
-                            ],
+                              Consumer<PhotoRepository>(
+                                builder: (context, photoRepository, child) {
+                                  // You can access photoRepository here, which is an instance of PhotoRepository
+                                  print('Consumer builder called');
+                                  return displayPhotosForTask(widget.task, context);
+                                },
+                              ),
+                              /*Padding(
+                              padding: EdgeInsets.fromLTRB(0,0,0,0),
+                              child: ),*/
 
+                            ],
+// [PHOTO SECTION (end)]
                             SizedBox(height: 10),
                           ]),
 

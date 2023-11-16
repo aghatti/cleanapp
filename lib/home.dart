@@ -24,6 +24,7 @@ class _HomePageState extends State<HomePage> {
   final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
   late String authToken = '';
   late Timer _timer;
+  bool _timer_running = false;
 
   User _usr = User.empty;
   DateTime _curDt = DateTime.now();
@@ -36,33 +37,36 @@ class _HomePageState extends State<HomePage> {
   bool _isFetching = false;
   // Update data for UI and then run by timer repeatedly
   Future<void> fetchAndRefresh() async {
-    //if (_isFetching) {
-    //  return; // Function is already running
-    //}
+    if (_isFetching) {
+      return; // Function is already running
+    }
 
-    if (!mounted || _isFetching) {
+    if (!mounted) {
       return; // Avoid running when the widget is not mounted
     }
 
-    _isFetching = true;
-    if(authToken.isEmpty) authToken = await _userRepo.getAuthToken();
-
-    if (authToken.isNotEmpty) {
-      final int numTasks = await _tasksRepo.getTasksAPI(auth_token: authToken);
-      // Add a delay of 500 milliseconds before updating the UI
-      await Future.delayed(const Duration(milliseconds: 500));
-      if (mounted) {
-        setState(() {
-          _numTasks = numTasks;
-          _curTask = _tasksRepo.getCurrentTask();
-        });
+    try {
+      _isFetching = true;
+      if(authToken.isEmpty) authToken = await _userRepo.getAuthToken();
+      if (authToken.isNotEmpty) {
+        final int numTasks = await _tasksRepo.getTasksAPI(auth_token: authToken);
+        // Add a delay of 500 milliseconds before updating the UI
+        await Future.delayed(const Duration(milliseconds: 500));
+        if (mounted) {
+          setState(() {
+            _numTasks = numTasks;
+            _curTask = _tasksRepo.getCurrentTask();
+          });
+        }
+          /*_timer = Timer.periodic(Duration(seconds: 10), (timer) {
+            // Fetch and update the task data periodically
+            fetchAndRefresh();
+          });*/
       }
-      _timer = Timer.periodic(Duration(seconds: 10), (timer) {
-        // Fetch and update the task data periodically
-        fetchAndRefresh();
-      });
+    } catch(e) {}
+    finally {
+      _isFetching = false;
     }
-    _isFetching = false;
   }
 
   @override
@@ -74,7 +78,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-
+    _isFetching = false;
 
     _userRepo.getUser().then((User usr) {
       if (mounted) {
@@ -84,6 +88,10 @@ class _HomePageState extends State<HomePage> {
       }
     });
     fetchAndRefresh();
+    _timer = Timer.periodic(Duration(seconds: 10), (timer) {
+      // Fetch and update the task data periodically
+      fetchAndRefresh();
+    });
   }
 
   @override

@@ -113,10 +113,10 @@ class _TasksListState extends State<TasksList> {
           });
         }
       }
-      _timer = Timer.periodic(Duration(seconds: 15), (timer) {
+      /*_timer = Timer.periodic(Duration(seconds: 15), (timer) {
         // Fetch and update the task data periodically
         fetchAndRefresh();
-      });
+      });*/
       _isFetching = false;
     }
   }
@@ -175,7 +175,10 @@ class _TasksListState extends State<TasksList> {
       }
     });
     fetchAndRefresh();
-
+    _timer = Timer.periodic(Duration(seconds: 15), (timer) {
+      // Fetch and update the task data periodically
+      fetchAndRefresh();
+    });
     //_tasksRepo.generateDemoTasks();
     // TODO (remove) moved to Future function
     /*_userRepo.getAuthToken().then((String value) => setState(()
