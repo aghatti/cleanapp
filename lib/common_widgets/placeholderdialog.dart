@@ -37,7 +37,7 @@ class PlaceholderDialog extends StatelessWidget {
       ),
       titleTextStyle: appStyle.textTheme.bodyLarge,
       content:
-      ConstrainedBox(constraints: BoxConstraints(maxWidth: 150, maxHeight: 150),
+      ConstrainedBox(constraints: const BoxConstraints(maxWidth: 150, maxHeight: 150),
         child:
         message == null
             ? null

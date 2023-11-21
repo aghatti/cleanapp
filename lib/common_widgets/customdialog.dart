@@ -13,7 +13,7 @@ void showCustomDialog (
     //barrierColor: Colors.transparent,
     barrierColor: Colors.black.withOpacity(0.5),
     builder: (context) {
-            return mFutureBuilder(
+            return MyFutureBuilder(
               textLabel: textLabel,
               imageAssetPath: imageAssetPath,
               futureHandler: futureHandler,
@@ -22,20 +22,20 @@ void showCustomDialog (
   );
 }
 
-class mFutureBuilder extends StatefulWidget {
+class MyFutureBuilder extends StatefulWidget {
   final String textLabel;
   final String imageAssetPath;
   final Future<String> Function(BuildContext context) futureHandler;
 
-  const mFutureBuilder(
+  const MyFutureBuilder(
       {super.key, required this.textLabel, required this.imageAssetPath, required this.futureHandler,}
   );
 
   @override
-  State<mFutureBuilder> createState() => _mFutureBuilderState();
+  State<MyFutureBuilder> createState() => MyFutureBuilderState();
 }
 
-class _mFutureBuilderState extends State<mFutureBuilder> {
+class MyFutureBuilderState extends State<MyFutureBuilder> {
   @override
   void initState() {
     super.initState();
@@ -55,19 +55,19 @@ class _mFutureBuilderState extends State<mFutureBuilder> {
                   Card(
                   color: Colors.white,
                   child: Padding(
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     child: SizedBox(
                       width: 180,
                       height: 180,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
                           Image.asset(widget.imageAssetPath),
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
                           Text(widget.textLabel,
                               textAlign: TextAlign.center,
-                              style: TextStyle(fontWeight: FontWeight.bold)),
+                              style: const TextStyle(fontWeight: FontWeight.bold)),
                         ],
                       ),
                     ),
@@ -75,9 +75,10 @@ class _mFutureBuilderState extends State<mFutureBuilder> {
                 ),
             ];
             if (mounted && snapshot.data!='NoNav') {
-              Future.delayed(Duration(seconds: 2)).then((_) {
-                if(mounted)
+              Future.delayed(const Duration(seconds: 2)).then((_) {
+                if(mounted) {
                   Navigator.of(context).pop();
+                }
               });
             }
           } else if (snapshot.hasError) {

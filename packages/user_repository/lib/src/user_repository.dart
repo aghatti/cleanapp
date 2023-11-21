@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:user_repository/src/models/models.dart';
 import 'package:uuid/uuid.dart';
@@ -50,7 +51,7 @@ class UserRepository {
       _access_token = await storage.read(key: '_access_token') ?? '';
       // _readAll();
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
     return _access_token;
   }

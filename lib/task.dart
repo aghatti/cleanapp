@@ -1,6 +1,7 @@
 
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'common_widgets/customappbar.dart';
@@ -13,10 +14,10 @@ import 'package:provider/provider.dart';
 import 'constants/constants.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
-import 'package:flutter/painting.dart';
+//import 'package:flutter/painting.dart';
 
 class TaskPage extends StatefulWidget {
-  TaskPage({super.key, required this.task, required this.par});
+  const TaskPage({super.key, required this.task, required this.par});
 
   final Task task;
   final String par;
@@ -27,13 +28,13 @@ class TaskPage extends StatefulWidget {
 
 class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin {
   final UserRepository _userRepo = UserRepository();
-  //final TasksRepository _tasksRepo = TasksRepository();
+  final TasksRepository _tasksRepo = TasksRepository();
 
   List<Photo> cachedPhotos = [];
 
   User _usr = User.empty;
-  Color statusBg = Color(0xFFEBE8FB);
-  Color statusColor = Color(0xFF0B1F33);
+  Color statusBg = const Color(0xFFEBE8FB);
+  Color statusColor = const Color(0xFF0B1F33);
   IconData statusIcon = Icons.drafts_outlined;
 
   @override
@@ -42,10 +43,10 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
   void reinitializeVars() {
     if (!widget.task.isEmpty()) {
       statusBg =
-          Color(TaskStatusList.StatusesMap[widget.task.tStatus]!.statusBg);
+          Color(TaskStatusList.statusesMap[widget.task.tStatus]!.statusBg);
       statusColor =
-          Color(TaskStatusList.StatusesMap[widget.task.tStatus]!.statusColor);
-      statusIcon = TaskStatusList.GetIconByStatus(widget.task.tStatus);
+          Color(TaskStatusList.statusesMap[widget.task.tStatus]!.statusColor);
+      statusIcon = TaskStatusList.getIconByStatus(widget.task.tStatus);
     }
   }
 
@@ -87,12 +88,12 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
             children: [
               // == Task header (begin)
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 0),
+                padding: const EdgeInsets.symmetric(horizontal: 0),
                 child: Container(
-                  color: this.statusBg,
-                  constraints: BoxConstraints(minHeight: 80),
+                  color: statusBg,
+                  constraints: const BoxConstraints(minHeight: 80),
                   child: Padding(
-                    padding: EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(16),
                     child:
                     Row(
                         children: [
@@ -102,7 +103,7 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
                                 .textTheme
                                 .bodyLarge!
                                 .copyWith(
-                              color: this.statusColor,
+                              color: statusColor,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -110,7 +111,7 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
                           Expanded(
                             child:
                             Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 16),
+                              padding: const EdgeInsets.symmetric(horizontal: 16),
                               child:
                               Text(widget.task.tName,
                                 style: Theme
@@ -118,7 +119,7 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
                                     .textTheme
                                     .bodyLarge!
                                     .copyWith(
-                                  color: this.statusColor,
+                                  color: statusColor,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -133,7 +134,7 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
                     ),),),
               ),
               // == Task header (end)
-              SizedBox(height: 15),
+              const SizedBox(height: 15),
 
               // Task content (begin)
               Expanded(
@@ -151,16 +152,16 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
                             if(widget.task.tStatus == 'stopped' ||
                                 widget.task.tStatus == 'failed') ...[
                               Padding(
-                                padding: EdgeInsets.all(16),
+                                padding: const EdgeInsets.all(16),
                                 child:
                                 Center(
                                   child:
                                   Text(
                                     AppLocalizations.of(context)!.taskCanceled,
-                                    style: TextStyle(fontSize: 20),),
+                                    style: const TextStyle(fontSize: 20),),
                                 ),
                               ),
-                              Divider(thickness: 1,
+                              const Divider(thickness: 1,
                                 height: 1,
                                 color: Color(0xFFC2E1FF),
                                 indent: 16,
@@ -169,16 +170,16 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
                             if(widget.task.tStatus == 'reqstop' ||
                                 widget.task.tStatus == 'reqnoqr') ...[
                               Padding(
-                                padding: EdgeInsets.all(16),
+                                padding: const EdgeInsets.all(16),
                                 child:
                                 Center(
                                   child:
                                   Text(AppLocalizations.of(context)!
                                       .taskWaitAction,
-                                    style: TextStyle(fontSize: 20),),
+                                    style: const TextStyle(fontSize: 20),),
                                 ),
                               ),
-                              Divider(thickness: 1,
+                              const Divider(thickness: 1,
                                 height: 1,
                                 color: Color(0xFFC2E1FF),
                                 indent: 16,
@@ -188,15 +189,15 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
                               visible: widget.task.tStatus == 'finished',
                               child:
                               Padding(
-                                padding: EdgeInsets.all(16),
+                                padding: const EdgeInsets.all(16),
                                 child:
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Icon(Icons.access_time_outlined,
+                                    const Icon(Icons.access_time_outlined,
                                       color: Color(0xFF85C3FF),),
-                                    SizedBox(width: 16),
+                                    const SizedBox(width: 16),
                                     Column(
                                         mainAxisAlignment: MainAxisAlignment
                                             .start,
@@ -204,13 +205,12 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
                                             .start,
                                         children: [
                                           Text(AppLocalizations.of(context)!
-                                              .leadTime, style: TextStyle(
+                                              .leadTime, style: const TextStyle(
                                               fontWeight: FontWeight.bold),),
-                                          Text(Utils.getTimeFromDate(
-                                              widget.task.tDate) + ' - ' +
-                                              Utils.getTimeFromDate(
+                                          Text('${Utils.getTimeFromDate(
+                                              widget.task.tDate)} - ${Utils.getTimeFromDate(
                                                   widget.task.tDate.add(
-                                                      Duration(minutes: 15)))),
+                                                      const Duration(minutes: 15)))}'),
                                         ]),
                                   ],
                                 ),
@@ -219,22 +219,22 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
                             Visibility(
                               visible: widget.task.tStatus == 'finished',
                               child:
-                              Divider(thickness: 1,
+                              const Divider(thickness: 1,
                                 height: 1,
                                 color: Color(0xFFC2E1FF),
                                 indent: 16,
                                 endIndent: 16,),
                             ),
                             Padding(
-                              padding: EdgeInsets.all(16),
+                              padding: const EdgeInsets.all(16),
                               child:
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Icon(Icons.location_pin, size: 28,
+                                  const Icon(Icons.location_pin, size: 28,
                                     color: Color(0xFF85C3FF),),
-                                  SizedBox(width: 16),
+                                  const SizedBox(width: 16),
                                   Expanded(child:
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
@@ -243,30 +243,29 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
                                     children: [
                                       Text(
                                         AppLocalizations.of(context)!.location,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             fontWeight: FontWeight.bold),),
-                                      Text(widget.task.tAddress + '\n' +
-                                          widget.task.tZone),
+                                      Text('${widget.task.tAddress}\n${widget.task.tZone}'),
                                     ],),
                                   ),
                                 ],
                               ),
                             ),
-                            Divider(thickness: 1,
+                            const Divider(thickness: 1,
                               height: 1,
                               color: Color(0xFFC2E1FF),
                               indent: 16,
                               endIndent: 16,),
                             Padding(
-                              padding: EdgeInsets.all(16),
+                              padding: const EdgeInsets.all(16),
                               child:
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Icon(Icons.person_outline, size: 28,
+                                  const Icon(Icons.person_outline, size: 28,
                                     color: Color(0xFF85C3FF),),
-                                  SizedBox(width: 16),
+                                  const SizedBox(width: 16),
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment
@@ -274,29 +273,28 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
                                     children: [
                                       Text(
                                         AppLocalizations.of(context)!.performer,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             fontWeight: FontWeight.bold),),
-                                      Text(_usr.uName.toString() + ' ' +
-                                          _usr.uSurname.toString()),
+                                      Text('${_usr.uName} ${_usr.uSurname}'),
                                     ],),
                                 ],
                               ),
                             ),
-                            Divider(thickness: 1,
+                            const Divider(thickness: 1,
                               height: 1,
                               color: Color(0xFFC2E1FF),
                               indent: 16,
                               endIndent: 16,),
                             Padding(
-                              padding: EdgeInsets.all(16),
+                              padding: const EdgeInsets.all(16),
                               child:
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Icon(Icons.group, size: 28,
+                                  const Icon(Icons.group, size: 28,
                                     color: Color(0xFF85C3FF),),
-                                  SizedBox(width: 16),
+                                  const SizedBox(width: 16),
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment
@@ -304,28 +302,28 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
                                     children: [
                                       Text(
                                         AppLocalizations.of(context)!.coperformers,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             fontWeight: FontWeight.bold),),
                                       Text(widget.task.tCoperformers),
                                     ],),
                                 ],
                               ),
                             ),
-                            Divider(thickness: 1,
+                            const Divider(thickness: 1,
                               height: 1,
                               color: Color(0xFFC2E1FF),
                               indent: 16,
                               endIndent: 16,),
                             Padding(
-                              padding: EdgeInsets.all(16),
+                              padding: const EdgeInsets.all(16),
                               child:
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Icon(Icons.description, size: 28,
+                                  const Icon(Icons.description, size: 28,
                                     color: Color(0xFF85C3FF),),
-                                  SizedBox(width: 16),
+                                  const SizedBox(width: 16),
 
                                   Flexible(child:
                                   Column(
@@ -334,7 +332,7 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
                                         .start,
                                     children: [
                                       Text(AppLocalizations.of(context)!
-                                          .description, style: TextStyle(
+                                          .description, style: const TextStyle(
                                           fontWeight: FontWeight.bold),),
                                       Text(widget.task.tDesc),
                                     ],),
@@ -345,27 +343,27 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
 // [PHOTO SECTION (begin)]
                             if(widget.task.tStatus == 'started' ||
                                 widget.task.tStatus == 'finished') ... [
-                              Divider(thickness: 1,
+                              const Divider(thickness: 1,
                                 height: 1,
                                 color: Color(0xFFC2E1FF),
                                 indent: 16,
                                 endIndent: 16,),
                               Padding(
-                                padding: EdgeInsets.fromLTRB(16,16,16,0),
+                                padding: const EdgeInsets.fromLTRB(16,16,16,0),
                                 child:
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Icon(Icons.view_cozy_rounded, size: 28,
+                                    const Icon(Icons.view_cozy_rounded, size: 28,
                                       color: Color(0xFF85C3FF),),
-                                    SizedBox(width: 16),
+                                    const SizedBox(width: 16),
                                     Flexible(child:
                                       Column(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       crossAxisAlignment: CrossAxisAlignment.stretch,
                                       children: [
-                                      Text(AppLocalizations.of(context)!.photos, style: TextStyle(fontWeight: FontWeight.bold),),
+                                      Text(AppLocalizations.of(context)!.photos, style: const TextStyle(fontWeight: FontWeight.bold),),
                                     ]),),
                                     //displayPhotosForTask(widget.task.id, context),
 
@@ -380,7 +378,7 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
                                             borderRadius: BorderRadius.circular(
                                                 12),
                                           ),
-                                          backgroundColor: Color(0xFF7E7BF4),
+                                          backgroundColor: const Color(0xFF7E7BF4),
                                         ),
                                         //color: Colors.white,
                                         onPressed: () {
@@ -397,7 +395,7 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
                               Consumer<PhotoRepository>(
                                 builder: (context, photoRepository, child) {
                                   // You can access photoRepository here, which is an instance of PhotoRepository
-                                  print('Consumer builder called');
+                                  debugPrint('Consumer builder called');
                                   return displayPhotosForTask(widget.task, context);
                                 },
                               ),
@@ -407,7 +405,7 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
 
                             ],
 // [PHOTO SECTION (end)]
-                            SizedBox(height: 10),
+                            const SizedBox(height: 10),
                           ]),
 
 
@@ -422,7 +420,7 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
               //const CurrentTaskCard(),
               // == Task action buttons (begin)
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
                 child:
                 Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -434,13 +432,13 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
                           // == Begin task with QR
                           FilledButton(
                             style: FilledButton.styleFrom(
-                              backgroundColor: Color(0xFF7ACB82),
+                              backgroundColor: const Color(0xFF7ACB82),
                               foregroundColor: Colors.white,
                               elevation: 2,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),
                               ),
-                              minimumSize: Size(100, 56),
+                              minimumSize: const Size(100, 56),
                               //elevation: 5.0,
                             ),
                             onPressed: () {
@@ -450,28 +448,18 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
                                 'assets/icons/tick-square.png',
                                     (BuildContext context) async {
                                   // Ensure the futureHandler returns a Future<String>
-                                  await Future.delayed(Duration(seconds: 2));
-                                  await Provider.of<UserRepository>(
-                                      context, listen: false)
-                                      .getAuthToken()
-                                      .then((auth_token) {
+                                  await Future.delayed(const Duration(seconds: 2));
+                                  final String auth_token = await _userRepo.getAuthToken();
                                     if (auth_token.isNotEmpty) {
-                                      Provider.of<TasksRepository>(
-                                          context, listen: false).startTask(
-                                          auth_token: auth_token,
-                                          task_id: widget.task.id).then((
-                                          result) {
-                                            widget.task.setStartedState();
-                                            reinitializeVars();
-                                            setState(() {
-                                            });
-                                        /*Navigator.pushNamedAndRemoveUntil(
-                                            context, '/tasklist',
-                                            ModalRoute.withName('/home'));*/
-                                        return 'NoNav';
-                                      });
+                                      final result = await _tasksRepo.startTask(
+                                      auth_token: auth_token,
+                                      task_id: widget.task.id);
+                                      widget.task.setStartedState();
+                                        reinitializeVars();
+                                        setState(() {});
+                                      return 'NoNav';
                                     }
-                                  });
+
                                   return 'Callback started';
                                 },
                               );
@@ -495,17 +483,17 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
                               ],
                             ),
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           // == Cancel planned task if entered with QR
                           OutlinedButton(
                             style: OutlinedButton.styleFrom(
-                              foregroundColor: Color(0xFF85C3FF),
-                              side: BorderSide(width: 2.0, color: Color(
+                              foregroundColor: const Color(0xFF85C3FF),
+                              side: const BorderSide(width: 2.0, color: Color(
                                   0xFF85C3FF)),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),
                               ),
-                              minimumSize: Size(100, 56),
+                              minimumSize: const Size(100, 56),
                               //elevation: 5.0,
                             ),
                             onPressed: () {
@@ -514,24 +502,20 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
                                 AppLocalizations.of(context)!.taskWaitAction,
                                 'assets/icons/tick-square.png',
                                     (BuildContext context) async {
-                                  await Future.delayed(Duration(seconds: 2));
-                                  await Provider.of<UserRepository>(
-                                      context, listen: false)
-                                      .getAuthToken()
-                                      .then((auth_token) {
+                                  await Future.delayed(const Duration(seconds: 2));
+                                  final String auth_token = await _userRepo.getAuthToken();
                                     if (auth_token.isNotEmpty) {
-                                      Provider.of<TasksRepository>(
-                                          context, listen: false).stopTask(
+
+                                      final result = await _tasksRepo.stopTask(
                                           auth_token: auth_token,
-                                          task_id: widget.task.id).then((
-                                          auth_token) {
+                                          task_id: widget.task.id);
+                                      if(mounted) {
                                         Navigator.pushNamedAndRemoveUntil(
                                             context, '/tasklist',
                                             ModalRoute.withName('/home'));
-                                        return 'NoNav';
-                                      });
+                                      }
+                                      return 'NoNav';
                                     }
-                                  });
                                   return 'Callback stopped';
                                 },
                               );
@@ -547,7 +531,7 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
                                       .textTheme
                                       .bodyLarge!
                                       .copyWith(
-                                      color: Color(0xFF7B7B7B),
+                                      color: const Color(0xFF7B7B7B),
                                       fontWeight: FontWeight.bold
                                   ),
                                 ),
@@ -560,13 +544,13 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
                               widget.task.tStatus == 'planned') ... [
                             FilledButton(
                               style: FilledButton.styleFrom(
-                                backgroundColor: Color(0xFF7ACB82),
+                                backgroundColor: const Color(0xFF7ACB82),
                                 foregroundColor: Colors.white,
                                 elevation: 2,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12),
                                 ),
-                                minimumSize: Size(100, 56),
+                                minimumSize: const Size(100, 56),
                                 //elevation: 5.0,
                               ),
                               onPressed: () {
@@ -586,27 +570,27 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
                                         fontWeight: FontWeight.bold),
                                     //style: TextStyle(color: Color(0xFF7B7B7B))
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 10,
                                   ),
-                                  Icon( // <-- Icon
+                                  const Icon( // <-- Icon
                                     Icons.qr_code_scanner,
                                     size: 24.0,
                                   ),
                                 ],
                               ),
                             ),
-                            SizedBox(height: 10),
+                            const SizedBox(height: 10),
                             // == Request start of task with no QR
                             OutlinedButton(
                               style: OutlinedButton.styleFrom(
-                                foregroundColor: Color(0xFF85C3FF),
-                                side: BorderSide(
+                                foregroundColor: const Color(0xFF85C3FF),
+                                side: const BorderSide(
                                     width: 2.0, color: Color(0xFF85C3FF)),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12),
                                 ),
-                                minimumSize: Size(100, 56),
+                                minimumSize: const Size(100, 56),
                                 //elevation: 5.0,
                               ),
                               onPressed: () {
@@ -616,25 +600,18 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
                                   'assets/icons/tick-square.png',
                                       (BuildContext context) async {
                                     // Ensure the futureHandler returns a Future<String>
-                                    await Future.delayed(Duration(seconds: 2));
-                                    await Provider.of<UserRepository>(
-                                        context, listen: false)
-                                        .getAuthToken()
-                                        .then((auth_token) {
+                                    await Future.delayed(const Duration(seconds: 2));
+                                    final String auth_token = await _userRepo.getAuthToken();
                                       if (auth_token.isNotEmpty) {
-                                        Provider.of<TasksRepository>(
-                                            context, listen: false)
-                                            .startTaskNoQr(
+                                        final result = await _tasksRepo.startTaskNoQr(
                                             auth_token: auth_token,
-                                            task_id: widget.task.id)
-                                            .then((auth_token) {
+                                            task_id: widget.task.id);
                                           /*Navigator.pushNamedAndRemoveUntil(
                                               context, '/tasklist',
                                               ModalRoute.withName('/home'));*/
-                                        });
-                                        return 'NoNav';
+                                            return 'NoNav';
                                       }
-                                    });
+
                                     return 'Callback begin no QR';
                                   },
                                 );
@@ -650,7 +627,7 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
                                         .textTheme
                                         .bodyLarge!
                                         .copyWith(
-                                        color: Color(0xFF7B7B7B),
+                                        color: const Color(0xFF7B7B7B),
                                         fontWeight: FontWeight.bold
                                     ),
                                   ),
@@ -666,10 +643,10 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
                               // TODO report problem
                               OutlinedButton(
                                 style: OutlinedButton.styleFrom(
-                                  foregroundColor: Color(0xFF85C3FF),
-                                  side: BorderSide(
+                                  foregroundColor: const Color(0xFF85C3FF),
+                                  side: const BorderSide(
                                       width: 2.0, color: Color(0xFF85C3FF)),
-                                  minimumSize: Size(100, 56),
+                                  minimumSize: const Size(100, 56),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12),
                                   ),
@@ -691,14 +668,14 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
                                           .textTheme
                                           .bodyLarge!
                                           .copyWith(
-                                          color: Color(0xFF7B7B7B),
+                                          color: const Color(0xFF7B7B7B),
                                           fontWeight: FontWeight.bold
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 10,
                                     ),
-                                    Icon( // <-- Icon
+                                    const Icon( // <-- Icon
                                       Icons.error_outline,
                                       size: 24.0,
                                     ),
@@ -710,13 +687,13 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
                               if(widget.task.tStatus == 'started') ... [
                                 FilledButton(
                                   style: FilledButton.styleFrom(
-                                    backgroundColor: Color(0xFF7E7BF4),
+                                    backgroundColor: const Color(0xFF7E7BF4),
                                     foregroundColor: Colors.white,
                                     elevation: 2,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(12),
                                     ),
-                                    minimumSize: Size(100, 56),
+                                    minimumSize: const Size(100, 56),
                                   ),
                                   onPressed: () {
                                     showCustomDialog(
@@ -726,26 +703,19 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
                                       'assets/icons/tick-square.png',
                                           (BuildContext context) async {
                                         // Ensure the futureHandler returns a Future<String>
-                                        await Future.delayed(
-                                            Duration(seconds: 2));
-                                        await Provider.of<UserRepository>(
-                                            context, listen: false)
-                                            .getAuthToken()
-                                            .then((auth_token) {
-                                          if (auth_token.isNotEmpty) {
-                                            Provider.of<TasksRepository>(
-                                                context, listen: false)
-                                                .finishTask(
-                                                auth_token: auth_token,
-                                                task_id: widget.task.id)
-                                                .then((auth_token) {
-                                              Navigator.pushNamedAndRemoveUntil(
-                                                  context, '/tasklist',
-                                                  ModalRoute.withName('/home'));
-                                            });
-                                            return 'NoNav';
+                                        await Future.delayed(const Duration(seconds: 2));
+                                        final String auth_token = await _userRepo.getAuthToken();
+                                        if (auth_token.isNotEmpty) {
+                                          final result = await _tasksRepo.finishTask(
+                                              auth_token: auth_token,
+                                              task_id: widget.task.id);
+                                          if(mounted) {
+                                            Navigator.pushNamedAndRemoveUntil(
+                                                context, '/tasklist',
+                                                ModalRoute.withName('/home'));
                                           }
-                                        });
+                                          return 'NoNav';
+                                        }
                                         return 'Callback finished';
                                       },
                                     );
@@ -770,17 +740,17 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
                                     ],
                                   ),
                                 ),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 10),
                                 // == Cancel started task
                                 OutlinedButton(
                                   style: OutlinedButton.styleFrom(
-                                    foregroundColor: Color(0xFF85C3FF),
-                                    side: BorderSide(
+                                    foregroundColor: const Color(0xFF85C3FF),
+                                    side: const BorderSide(
                                         width: 2.0, color: Color(0xFF85C3FF)),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(12),
                                     ),
-                                    minimumSize: Size(100, 56),
+                                    minimumSize: const Size(100, 56),
                                     //elevation: 5.0,
                                   ),
                                   onPressed: () {
@@ -791,26 +761,19 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
                                       'assets/icons/tick-square.png',
                                           (BuildContext context) async {
                                         // Ensure the futureHandler returns a Future<String>
-                                        await Future.delayed(
-                                            Duration(seconds: 2));
-                                        await Provider.of<UserRepository>(
-                                            context, listen: false)
-                                            .getAuthToken()
-                                            .then((auth_token) {
-                                          if (auth_token.isNotEmpty) {
-                                            Provider.of<TasksRepository>(
-                                                context, listen: false)
-                                                .stopTask(
-                                                auth_token: auth_token,
-                                                task_id: widget.task.id)
-                                                .then((auth_token) {
-                                              Navigator.pushNamedAndRemoveUntil(
-                                                  context, '/tasklist',
-                                                  ModalRoute.withName('/home'));
-                                            });
-                                            return 'NoNav';
+                                        await Future.delayed(const Duration(seconds: 2));
+                                        final String auth_token = await _userRepo.getAuthToken();
+                                        if (auth_token.isNotEmpty) {
+                                          final result = await _tasksRepo.stopTask(
+                                              auth_token: auth_token,
+                                              task_id: widget.task.id);
+                                          if(mounted) {
+                                            Navigator.pushNamedAndRemoveUntil(
+                                                context, '/tasklist',
+                                                ModalRoute.withName('/home'));
                                           }
-                                        });
+                                          return 'NoNav';
+                                        }
                                         return 'Callback finished';
                                       },
                                     );
@@ -827,7 +790,7 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
                                             .textTheme
                                             .bodyLarge!
                                             .copyWith(
-                                            color: Color(0xFF7B7B7B),
+                                            color: const Color(0xFF7B7B7B),
                                             fontWeight: FontWeight.bold
                                         ),
                                       ),
@@ -850,11 +813,12 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
       future: Provider.of<PhotoRepository>(context, listen: false).getCurrentPhotos(task.id),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
+          return const CircularProgressIndicator();
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else if (!snapshot.hasData || snapshot.data == null || snapshot.data!.isEmpty) {
-          return Text('No photos available for this task.');
+          return Text(AppLocalizations.of(context)!
+              .noPhotosAvailable);
         } else {
           //Provider.of<PhotoRepository>(context, listen: false).notifyListeners();
           cachedPhotos = snapshot.data!;
@@ -883,7 +847,7 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
                         showDeleteConfirmationDialog(context, photo, snapshot);
                       },
                       child: Padding(
-                        padding: EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(8),
                         child: Stack(
                           children: [
                             Card(
@@ -894,10 +858,10 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
                               child: Container(
                                 height: 80,
                                 width: 80,
-                                decoration: BoxDecoration(),
+                                decoration: const BoxDecoration(),
                                 child: FittedBox(
-                                  child: Image.file(File(photo.photoPath)),
                                   fit: BoxFit.fill,
+                                  child: Image.file(File(photo.photoPath)),
                                 ),
                               ),
                             ),
@@ -906,12 +870,12 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
                                 top: 0,
                                 right: 0,
                                 child: Container(
-                                  padding: EdgeInsets.all(4),
-                                  decoration: BoxDecoration(
+                                  padding: const EdgeInsets.all(4),
+                                  decoration: const BoxDecoration(
                                     color: Colors.green,
                                     shape: BoxShape.circle,
                                   ),
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.check,
                                     color: Colors.white,
                                     size: 16,
@@ -939,15 +903,15 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Confirm Delete'),
-          content: Text('Are you sure you want to delete this photo?'),
+          title: const Text('Confirm Delete'),
+          content: const Text('Are you sure you want to delete this photo?'),
           actions: <Widget>[
             TextButton(
               onPressed: () {
                 // Dismiss the dialog
                 Navigator.of(context).pop();
               },
-              child: Text('Cancel'),
+              child: const Text('Cancel'),
             ),
             TextButton(
               onPressed: () async {
@@ -958,7 +922,7 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
                 imageCache!.clearLiveImages();
                 PaintingBinding.instance.imageCache.clear();*/
               },
-              child: Text('Delete'),
+              child: const Text('Delete'),
             ),
           ],
         );
@@ -985,8 +949,8 @@ class _TaskPageState extends State<TaskPage> with AutomaticKeepAliveClientMixin 
                 maxScale: PhotoViewComputedScale.covered * 2,
               );
             },
-            scrollPhysics: BouncingScrollPhysics(),
-            backgroundDecoration: BoxDecoration(
+            scrollPhysics: const BouncingScrollPhysics(),
+            backgroundDecoration: const BoxDecoration(
               color: Colors.black,
             ),
             pageController: PageController(initialPage: initialIndex),

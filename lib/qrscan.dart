@@ -1,11 +1,11 @@
-import 'dart:typed_data';
+//import 'dart:typed_data';
 
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:intl/intl.dart';
+//import 'package:intl/intl.dart';
 import 'package:tasks_repository/tasks_repository.dart';
-import 'package:user_repository/user_repository.dart';
+//import 'package:user_repository/user_repository.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'supplemental/screenarguments.dart';
 import 'common_widgets/customappbar.dart';
@@ -15,12 +15,12 @@ class QrScanPage extends StatefulWidget {
   const QrScanPage({Key? key}) : super(key: key);
 
   @override
-  _QrScanPageState createState() => _QrScanPageState();
+  State<QrScanPage> createState() => _QrScanPageState();
 }
 
 class _QrScanPageState extends State<QrScanPage> {
-  UserRepository _userRepo = UserRepository();
-  TasksRepository _tasksRepo = TasksRepository();
+  //UserRepository _userRepo = UserRepository();
+  final TasksRepository _tasksRepo = TasksRepository();
   final MobileScannerController _scannerController = MobileScannerController(detectionSpeed: DetectionSpeed.normal,
     facing: CameraFacing.back,
     detectionTimeoutMs: 500,
@@ -39,11 +39,11 @@ class _QrScanPageState extends State<QrScanPage> {
 
   @override
   Widget build(BuildContext context) {
-    Color selectedColor = Theme.of(context).primaryColor;
-    ThemeData lightTheme = ThemeData(
+    //Color selectedColor = Theme.of(context).primaryColor;
+    /*ThemeData lightTheme = ThemeData(
       colorSchemeSeed: selectedColor,
       brightness: Brightness.light,
-    );
+    );*/
     //ColorScheme colorScheme = lightTheme.colorScheme;
 
     return Scaffold(
@@ -107,18 +107,18 @@ class _QrScanPageState extends State<QrScanPage> {
           ),
 
           Padding(
-          padding: EdgeInsets.all(24),
+          padding: const EdgeInsets.all(24),
           child:
           Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 Center(
                 child:
                           Text(
                               AppLocalizations.of(context)!.scanQrMessage,
-                              style: TextStyle(color: Color(0xFFFFFFFF)),
+                              style: const TextStyle(color: Color(0xFFFFFFFF)),
                               textAlign: TextAlign.center,
                           ),
                 ),
@@ -131,12 +131,12 @@ class _QrScanPageState extends State<QrScanPage> {
 
               OutlinedButton(
                     style: OutlinedButton.styleFrom(
-                      foregroundColor: Color(0xFFFFFFFF),
-                      side: BorderSide(width: 2.0, color: Color(0xFFFFFFFF)),
+                      foregroundColor: const Color(0xFFFFFFFF),
+                      side: const BorderSide(width: 2.0, color: Color(0xFFFFFFFF)),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      minimumSize: Size(100, 56),
+                      minimumSize: const Size(100, 56),
                       //elevation: 5.0,
                     ),
                     onPressed: () {
@@ -152,25 +152,25 @@ class _QrScanPageState extends State<QrScanPage> {
                               color: Colors.white, fontWeight: FontWeight.bold
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
-                        Icon( // <-- Icon
+                        const Icon( // <-- Icon
                           Icons.error_outline,
                           size: 24.0,
                         ),
                       ],
                     ),
                   ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               OutlinedButton(
                 style: OutlinedButton.styleFrom(
-                  foregroundColor: Color(0xFFFFFFFF),
-                  side: BorderSide(width: 2.0, color: Color(0xFFFFFFFF)),
+                  foregroundColor: const Color(0xFFFFFFFF),
+                  side: const BorderSide(width: 2.0, color: Color(0xFFFFFFFF)),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  minimumSize: Size(100, 56),
+                  minimumSize: const Size(100, 56),
                   //elevation: 5.0,
                 ),
                 onPressed: () {
@@ -189,7 +189,7 @@ class _QrScanPageState extends State<QrScanPage> {
                   ],
                 ),
               ),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
             ],
           ),
           ),
@@ -230,7 +230,7 @@ class _QrScanPageState extends State<QrScanPage> {
     });
 
     // Close the dialog after 2 seconds
-    Future.delayed(Duration(seconds: 2)).then((_) {
+    Future.delayed(const Duration(seconds: 2)).then((_) {
       if (shouldShowDialog && Navigator.of(context).canPop()) {
         Navigator.of(context).pop();
         shouldShowDialog = false;

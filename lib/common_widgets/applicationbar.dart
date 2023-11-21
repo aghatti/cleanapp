@@ -12,7 +12,6 @@ class ApplicationBar extends AppBar {
   }) : super(automaticallyImplyLeading: autoLeading);
   //preferredSize = Size.fromHeight(56.0)
 
-  @override
   Widget build(BuildContext context) {
     //double height = Scaffold.of(context).appBarMaxHeight ?? 56;
     return AppBar(
@@ -21,7 +20,7 @@ class ApplicationBar extends AppBar {
       title:
       InkWell(
         onTap: () {
-          Navigator.of(context!).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
+          Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -29,18 +28,18 @@ class ApplicationBar extends AppBar {
           children: [
 //Spacer(),
             Image.asset('assets/cleanapp_logo_blue.png', height: 24),
-            SizedBox(width: 10),
+            const SizedBox(width: 10),
             Text(AppLocalizations.of(context)!.order,
-              style: TextStyle(fontStyle: FontStyle.normal, fontSize: 27, color: Color(0xFF0B1F33)),
+              style: const TextStyle(fontStyle: FontStyle.normal, fontSize: 27, color: Color(0xFF0B1F33)),
             ),
-            SizedBox(width: 10),
+            const SizedBox(width: 10),
 //Spacer(flex: 2),
           ],),
       ),
 
 // disable leading button (back button)
 //automaticallyImplyLeading: false,
-      iconTheme: IconThemeData(
+      iconTheme: const IconThemeData(
         color: Color(0xFF0B1F33), //change your color here
       ),
       //backgroundColor: Colors.black,

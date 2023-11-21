@@ -31,7 +31,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
             () => Navigator.pushReplacementNamed(context, '/'),
     );*/
     _controller =
-        AnimationController(duration: Duration(seconds: 3), vsync: this)
+        AnimationController(duration: const Duration(seconds: 3), vsync: this)
           ..repeat(reverse: true);
     _colorTween =
         ColorTween(begin: widget.primaryColor, end: widget.secondaryColor)
@@ -72,7 +72,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
         child: AnimatedBuilder(
           animation: _colorTween,
           builder: (BuildContext _, Widget? __) {
-            return Container(
+            return SizedBox(
               width: 160,
               height: 160,
               child: //Image.asset('assets/3.0x/cleanapp_logo_transparent.png'),

@@ -44,11 +44,11 @@ class StartPage extends StatelessWidget {
                   minimumSize: const Size.fromHeight(50), // NEW
                 ),*/
                 style: FilledButton.styleFrom(
-                  backgroundColor: Color(0xFF7E7BF4),
+                  backgroundColor: const Color(0xFF7E7BF4),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  minimumSize: Size(100, 56),
+                  minimumSize: const Size(100, 56),
                   //elevation: 5.0,
                 ),
                 onPressed: () {

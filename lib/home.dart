@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -15,7 +16,8 @@ class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
+  State<HomePage> createState() => _HomePageState();
+
 }
 
 class _HomePageState extends State<HomePage> {
@@ -24,10 +26,10 @@ class _HomePageState extends State<HomePage> {
   final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
   late String authToken = '';
   late Timer _timer;
-  bool _timer_running = false;
+  //bool _timer_running = false;
 
   User _usr = User.empty;
-  DateTime _curDt = DateTime.now();
+  //DateTime _curDt = DateTime.now();
   String localeName = Platform.localeName; //Localizations.localeOf(context).languageCode;
 
   final String _curDtStr = DateFormat.MMMMd(Platform.localeName).format(DateTime.now());
@@ -63,7 +65,9 @@ class _HomePageState extends State<HomePage> {
             fetchAndRefresh();
           });*/
       }
-    } catch(e) {}
+    } catch(e) {
+        debugPrint(e.toString());
+    }
     finally {
       _isFetching = false;
     }
@@ -88,7 +92,7 @@ class _HomePageState extends State<HomePage> {
       }
     });
     fetchAndRefresh();
-    _timer = Timer.periodic(Duration(seconds: 10), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 10), (timer) {
       // Fetch and update the task data periodically
       fetchAndRefresh();
     });
@@ -206,24 +210,22 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     //SizedBox(height: 10),
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 0),
+                      padding: const EdgeInsets.symmetric(horizontal: 0),
                       child: Container(
-                        color: Color(0xFFECEBFB),
-                        constraints: BoxConstraints(minHeight: 80),
+                        color: const Color(0xFFECEBFB),
+                        constraints: const BoxConstraints(minHeight: 80),
                         child: Padding(
-                          padding: EdgeInsets.all(16),
+                          padding: const EdgeInsets.all(16),
                           child: Row(children: [
                             CircleAvatar(
-                              backgroundColor: Color(0xFF85C3FF),
+                              backgroundColor: const Color(0xFF85C3FF),
                               foregroundColor: Colors.white,
                               child: Text(_userRepo.getUserLabel(),
-                                  style: TextStyle(fontSize: 19)),
+                                  style: const TextStyle(fontSize: 19)),
                             ),
-                            SizedBox(width: 16),
+                            const SizedBox(width: 16),
                             Text(
-                              _usr!.uName.toString() +
-                                  ' ' +
-                                  _usr!.uSurname.toString(),
+                              '${_usr.uName} ${_usr.uSurname}',
                               textAlign: TextAlign.left,
                               style: Theme.of(context)
                                   .textTheme
@@ -236,51 +238,45 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 15),
+                    const SizedBox(height: 15),
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         //crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: <Widget>[
                           Expanded(
                             flex: 3,
-                            child: Container(
-                              child: Text(_curDtStr),
-                            ),
+                            child: Text(_curDtStr),
                           ),
                           Expanded(
                             flex: 3,
                             child: Text(
                               AppLocalizations.of(context)!.today,
                               textAlign: TextAlign.center,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                           ),
                           Expanded(
                             flex: 3,
-                            child: Container(
-                              child: Text(
-                                AppLocalizations.of(context)!.tasks +
-                                    ': ' +
-                                    _numTasks.toString(),
-                                softWrap: false,
-                                textAlign: TextAlign.right,
-                              ),
+                            child: Text(
+                              '${AppLocalizations.of(context)!.tasks}: $_numTasks',
+                              softWrap: false,
+                              textAlign: TextAlign.right,
                             ),
                           ),
                         ],
                       ),
                     ),
-                    SizedBox(height: 17),
+                    const SizedBox(height: 17),
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8),
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
                       child: ColorGroup(children: [
                         ColorChip(
                           label: AppLocalizations.of(context)!.currentTask,
-                          color: Color(0xFF85C3FF), //colorScheme.primary,
+                          color: const Color(0xFF85C3FF), //colorScheme.primary,
                           onColor: colorScheme.onPrimary,
                         ),
 // == No active tasks
@@ -297,7 +293,7 @@ class _HomePageState extends State<HomePage> {
                                     child: Text(
                                         AppLocalizations.of(context)!
                                             .noActiveTasks,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             fontWeight: FontWeight.bold)),
                                   ),
                                 ])),
@@ -314,7 +310,7 @@ class _HomePageState extends State<HomePage> {
                                   padding: const EdgeInsets.all(16),
                                   child: Text(
                                       Utils.getTimeFromDate(_curTask.tDate),
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontWeight: FontWeight.bold)),
                                 ),
                                 Expanded(
@@ -326,15 +322,15 @@ class _HomePageState extends State<HomePage> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(_curTask.tName,
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 18)),
                                         Text(_curTask.tAddress,
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                                 color: Color(0xFF66727F),
                                                 fontSize: 16)),
                                         Text(_curTask.tZone,
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                                 color: Color(0xFF66727F),
                                                 fontSize: 16)),
                                         //Text(_curTask.tDesc, style: TextStyle(color: Color(0xFF66727F))),
@@ -363,15 +359,15 @@ class _HomePageState extends State<HomePage> {
                         Visibility(
                           visible: _numTasks > 0,
                           child: Column(children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
+                            const Padding(
+                              padding: EdgeInsets.symmetric(
                                   horizontal: 16.0, vertical: 4.0),
                               child: Divider(color: Color(0xFFC2E1FF)),
                             ),
                             Padding(
                               padding: const EdgeInsets.fromLTRB(16, 4, 8, 16),
                               child: Align(alignment: AlignmentDirectional.centerStart, child: Text('${AppLocalizations.of(context)!.tasksCompletedPercent} ${_tasksRepo.getTasksCompletedPercent()}',
-                                style: TextStyle(
+                                style: const TextStyle(
                                     color: Color(0xFF66727F),
                                     fontSize: 16)),),
                             ),
@@ -397,7 +393,7 @@ class _HomePageState extends State<HomePage> {
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(12),
                                       ),
-                                      minimumSize: Size(100, 56),
+                                      minimumSize: const Size(100, 56),
                                       //elevation: 5.0,
                                     ),
                                     //onPressed: _curTask.isEmpty() ? null : () => Navigator.pushNamed(context, '/tasklist'),
@@ -421,10 +417,10 @@ class _HomePageState extends State<HomePage> {
                                                 fontWeight: FontWeight.bold,
                                               ),
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           width: 10,
                                         ),
-                                        Icon(
+                                        const Icon(
                                           // <-- Icon
                                           Icons.arrow_forward_ios,
                                           size: 24.0,
@@ -437,7 +433,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ]),
                         ),
-                        SizedBox(height: 18),
+                        const SizedBox(height: 18),
                         /*ColorChip(
                   label: 'onPrimary',
                   color: colorScheme.onPrimary,
@@ -474,16 +470,16 @@ class _HomePageState extends State<HomePage> {
                     //const CurrentTaskCard(),
                     Padding(
                       padding:
-                          EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+                          const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             FilledButton(
                               style: FilledButton.styleFrom(
-                                backgroundColor: Color(0xFF7ACB82),
+                                backgroundColor: const Color(0xFF7ACB82),
                                 foregroundColor: Colors.white,
                                 elevation: 2,
-                                minimumSize: Size(100, 56),
+                                minimumSize: const Size(100, 56),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12),
                                 ),
@@ -506,10 +502,10 @@ class _HomePageState extends State<HomePage> {
                                             fontWeight: FontWeight.bold),
                                     //style: TextStyle(color: Color(0xFF7B7B7B))
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 10,
                                   ),
-                                  Icon(
+                                  const Icon(
                                     // <-- Icon
                                     Icons.qr_code_scanner,
                                     size: 24.0,
@@ -517,13 +513,13 @@ class _HomePageState extends State<HomePage> {
                                 ],
                               ),
                             ),
-                            SizedBox(height: 10),
+                            const SizedBox(height: 10),
                             OutlinedButton(
                               style: OutlinedButton.styleFrom(
-                                foregroundColor: Color(0xFF85C3FF),
-                                side: BorderSide(
+                                foregroundColor: const Color(0xFF85C3FF),
+                                side: const BorderSide(
                                     width: 2.0, color: Color(0xFF85C3FF)),
-                                minimumSize: Size(100, 56),
+                                minimumSize: const Size(100, 56),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12),
                                 ),
@@ -542,13 +538,13 @@ class _HomePageState extends State<HomePage> {
                                         .textTheme
                                         .bodyLarge!
                                         .copyWith(
-                                            color: Color(0xFF7B7B7B),
+                                            color: const Color(0xFF7B7B7B),
                                             fontWeight: FontWeight.bold),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 10,
                                   ),
-                                  Icon(
+                                  const Icon(
                                     // <-- Icon
                                     Icons.error_outline,
                                     size: 24.0,
@@ -558,8 +554,8 @@ class _HomePageState extends State<HomePage> {
                             ),
                             TextButton(
                               style: TextButton.styleFrom(
-                                foregroundColor: Color(0xFF7B7B7B),
-                                minimumSize: Size(100, 56),
+                                foregroundColor: const Color(0xFF7B7B7B),
+                                minimumSize: const Size(100, 56),
                                 //elevation: 5.0,
                               ),
                               onPressed: () {
@@ -578,7 +574,7 @@ class _HomePageState extends State<HomePage> {
                                     .textTheme
                                     .bodyLarge!
                                     .copyWith(
-                                        color: Color(0xFF7B7B7B),
+                                        color: const Color(0xFF7B7B7B),
                                         fontWeight: FontWeight.bold),
                               ),
                             ),
@@ -614,7 +610,7 @@ class ColorGroup extends StatelessWidget {
         elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20), // if you need this
-          side: BorderSide(
+          side: const BorderSide(
             color: Color(0xFF85C3FF),
             width: 1,
           ),

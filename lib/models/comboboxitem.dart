@@ -8,7 +8,7 @@ class ComboBoxItem {
   bool operator ==(dynamic other) =>
       other != null &&
           other is ComboBoxItem &&
-          this.value == other.value;
+          value == other.value;
 
   @override
   int get hashCode => value.hashCode;

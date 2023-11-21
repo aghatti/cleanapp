@@ -1,4 +1,4 @@
-package ru.adsc.cleanapp
+package ru.adsc.teamcoord
 
 import io.flutter.embedding.android.FlutterActivity
 

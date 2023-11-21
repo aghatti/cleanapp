@@ -33,7 +33,7 @@ class CustomDialogWidget extends StatelessWidget {
   final String imageAssetPath;
   final Future Function(BuildContext) futureHandler;
 
-  CustomDialogWidget({super.key,
+  const CustomDialogWidget({super.key,
     required this.textLabel,
     required this.imageAssetPath,
     required this.futureHandler,
@@ -51,19 +51,19 @@ class CustomDialogWidget extends StatelessWidget {
             child: Card(
               color: Colors.white,
               child: Padding(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: SizedBox(
                   width: 180,
                   height: 180,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       Image.asset(imageAssetPath),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       Text(textLabel,
                           textAlign: TextAlign.center,
-                          style: TextStyle(fontWeight: FontWeight.bold)),
+                          style: const TextStyle(fontWeight: FontWeight.bold)),
                     ],
                   ),
                 ),

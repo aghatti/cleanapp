@@ -5,10 +5,10 @@
 // 'flutter create' template.
 
 // The application's name. By default this is also the title of the Flutter window.
-PRODUCT_NAME = cleanapp
+PRODUCT_NAME = teamcoord
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = ru.adsc.cleanapp
+PRODUCT_BUNDLE_IDENTIFIER = ru.adsc.teamcoord
 
 // The copyright displayed in application information
 PRODUCT_COPYRIGHT = Copyright © 2023 ru.adsc. All rights reserved.

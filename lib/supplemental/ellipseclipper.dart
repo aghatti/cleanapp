@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 class EllipseClipper extends CustomClipper <Path>{
   @override
   Path getClip(Size size) {
-    var path = new Path();
+    var path = Path();
     path.lineTo(0, size.height - 40.0);
     var firstStart = Offset(size.width / 2, size.height);
     var firstEnd = Offset(size.width, size.height - 40.0);

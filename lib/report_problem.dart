@@ -1,10 +1,10 @@
-import 'package:TeamCoord/common_widgets/_customdialog.dart';
-import 'package:TeamCoord/common_widgets/combobox.dart';
-import 'package:TeamCoord/models/comboboxitem.dart';
+import 'package:team_coord/common_widgets/_customdialog.dart';
+import 'package:team_coord/common_widgets/combobox.dart';
+import 'package:team_coord/models/comboboxitem.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
-import 'package:authentication_repository/authentication_repository.dart';
+//import 'package:provider/provider.dart';
+//import 'package:authentication_repository/authentication_repository.dart';
 import 'package:user_repository/user_repository.dart';
 import 'common_widgets/customappbar.dart';
 
@@ -12,7 +12,7 @@ class ReportProblemPage extends StatefulWidget {
   const ReportProblemPage({Key? key}) : super(key: key);
 
   @override
-  _ReportProblemState createState() => _ReportProblemState();
+  State<ReportProblemPage> createState() => _ReportProblemState();
 }
 
 class _ReportProblemState extends State<ReportProblemPage> {
@@ -23,7 +23,7 @@ class _ReportProblemState extends State<ReportProblemPage> {
 
   late ComboBoxItem _curIssueType;
 
-  UserRepository _userRepo = UserRepository();
+  final UserRepository _userRepo = UserRepository();
   User _usr = User.empty;
 
   List<ComboBoxItem> issue_types = [];
@@ -47,7 +47,7 @@ class _ReportProblemState extends State<ReportProblemPage> {
       appBar: CustomAppBar(autoLeading: true, context: context),
       //backgroundColor: Theme.of(context).primaryColor,
       body: Padding(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           child:
           Form(key: _formKey,
             child:
@@ -55,7 +55,7 @@ class _ReportProblemState extends State<ReportProblemPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Combobox(
               items: issue_types,
               onItemSelected: (ComboBoxItem? selectedValue) {
@@ -66,7 +66,7 @@ class _ReportProblemState extends State<ReportProblemPage> {
               selectedItem: issue_types[0],
               label: AppLocalizations.of(context)!.issueType,
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             TextFormField(
               onChanged: (value) {
                 setState(() {
@@ -93,7 +93,7 @@ class _ReportProblemState extends State<ReportProblemPage> {
                 return null;
               },
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             LimitedBox(
               maxHeight: 200,
               child:
@@ -127,17 +127,17 @@ class _ReportProblemState extends State<ReportProblemPage> {
                 },
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             //SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: FilledButton(
                 style: FilledButton.styleFrom(
-                  backgroundColor: Color(0xFF7E7BF4),
+                  backgroundColor: const Color(0xFF7E7BF4),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  minimumSize: Size(100, 56),
+                  minimumSize: const Size(100, 56),
                   //elevation: 5.0,
                 ),
                 onPressed: () {
@@ -148,18 +148,18 @@ class _ReportProblemState extends State<ReportProblemPage> {
                       'assets/icons/tick-square.png',
                           (BuildContext context) async {
                         // Ensure the futureHandler returns a Future<String>
-                        await Future.delayed(Duration(seconds: 2));
+                        await Future.delayed(const Duration(seconds: 2));
 
-                        final auth_token = await Provider.of<UserRepository>(context, listen: false).getAuthToken();
+                        final String auth_token = await _userRepo.getAuthToken();
                           if (auth_token.isNotEmpty) {
-                            final result = await Provider.of<UserRepository>(
-                                context, listen: false).regIssue(
-                                auth_token: auth_token,
-                                description: issueDesc, name: issueName, type: int.parse(_curIssueType.value));
+                            final int result = await _userRepo.regIssue(auth_token: auth_token, name: issueName, description: issueDesc, type: int.parse(_curIssueType.value));
+
                             if(result==0) {
                               try {
-                                Navigator.pop(context);
-                                Navigator.pop(context);
+                                if(mounted) {
+                                  Navigator.pop(context);
+                                  Navigator.pop(context);
+                                }
                                 return 'NoNav';
                               }
                               catch (e) {
@@ -182,10 +182,10 @@ class _ReportProblemState extends State<ReportProblemPage> {
                           color: Colors.white, fontWeight: FontWeight.bold
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
-                    Icon( // <-- Icon
+                    const Icon( // <-- Icon
                       Icons.error_outline,
                       size: 24.0,
                     ),

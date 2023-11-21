@@ -11,7 +11,7 @@ class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
@@ -35,7 +35,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: ClipPath(
                   clipper: EllipseClipper(),
                   child: Container(
-                    color: Color.fromRGBO(85, 81, 241, 1.0),
+                    color: const Color.fromRGBO(85, 81, 241, 1.0),
                     //height: 200,
                     //alignment: Alignment.center,
                     child: Align(
@@ -128,7 +128,7 @@ class _LoginPageState extends State<LoginPage> {
             Padding(
             padding:
             const EdgeInsets.fromLTRB(26, 8, 26, 0),
-              child: Text(AppLocalizations.of(context)!.authError, style: TextStyle(color: Colors.redAccent)),),
+              child: Text(AppLocalizations.of(context)!.authError, style: const TextStyle(color: Colors.redAccent)),),
               ],),),
             const SizedBox(height: 12.0),
 // [Auth button]
@@ -144,8 +144,8 @@ class _LoginPageState extends State<LoginPage> {
                 child:*/
                 FilledButton(
                   style: FilledButton.styleFrom(
-                    backgroundColor: Color(0xFF7E7BF4),
-                    minimumSize: Size(100, 56),
+                    backgroundColor: const Color(0xFF7E7BF4),
+                    minimumSize: const Size(100, 56),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -167,8 +167,8 @@ class _LoginPageState extends State<LoginPage> {
                                 Provider.of<UserRepository>(
                                     context, listen: false).getUserAPI(
                                     auth_token: value.toString()).then((
-                                    void_val) {
-                                  Navigator.of(context!)
+                                    voidVal) {
+                                  Navigator.of(context)
                                       .pushNamedAndRemoveUntil(
                                       '/home', (Route<dynamic> route) => false);
                                 });

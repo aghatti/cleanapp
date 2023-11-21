@@ -1,22 +1,26 @@
 import 'dart:async';
-
-import 'package:TeamCoord/common_widgets/combobox.dart';
-import 'package:TeamCoord/common_widgets/customappbar.dart';
-import 'package:TeamCoord/models/comboboxitem.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
+
+import 'package:team_coord/common_widgets/combobox.dart';
+import 'package:team_coord/common_widgets/customappbar.dart';
+import 'package:team_coord/models/comboboxitem.dart';
+
+
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
+//import 'package:provider/provider.dart';
 import 'utils/utils.dart';
 import 'package:tasks_repository/tasks_repository.dart';
 import 'package:user_repository/user_repository.dart';
-import 'package:authentication_repository/authentication_repository.dart';
+//import 'package:authentication_repository/authentication_repository.dart';
 import 'supplemental/screenarguments.dart';
 import 'constants/constants.dart';
 
+
 class TasksList extends StatefulWidget {
-  TasksList({Key? key}) : super(key: key);
+  const TasksList({Key? key}) : super(key: key);
 
   @override
   State<TasksList> createState() => _TasksListState();
@@ -54,7 +58,7 @@ class _TasksListState extends State<TasksList> {
       final String auth_token = await _userRepo.getAuthToken();
 
       if (auth_token.isNotEmpty) {
-        final int val = await _tasksRepo.getTasksAPI(auth_token: auth_token);
+        //final int val = await _tasksRepo.getTasksAPI(auth_token: auth_token);
 
         // Add a delay of 500 milliseconds before updating the UI
         //await Future.delayed(Duration(milliseconds: 500));
@@ -175,7 +179,7 @@ class _TasksListState extends State<TasksList> {
       }
     });
     fetchAndRefresh();
-    _timer = Timer.periodic(Duration(seconds: 15), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 15), (timer) {
       // Fetch and update the task data periodically
       fetchAndRefresh();
     });
@@ -244,9 +248,11 @@ class _TasksListState extends State<TasksList> {
       brightness: Brightness.light,
     );*/
     //ColorScheme colorScheme = lightTheme.colorScheme;
-    if (_curObject.value == 'no filter')
-      _curObject = ComboBoxItem(AppLocalizations.of(context)!.withoutFilter, AppLocalizations.of(context)!.withoutFilter);
-    if (_objects.length > 0) {
+    if (_curObject.value == 'no filter') {
+      _curObject = ComboBoxItem(AppLocalizations.of(context)!.withoutFilter,
+          AppLocalizations.of(context)!.withoutFilter);
+    }
+    if (_objects.isNotEmpty) {
       _objects[0] = ComboBoxItem(AppLocalizations.of(context)!.withoutFilter,AppLocalizations.of(context)!.withoutFilter);
     }
 
@@ -290,22 +296,22 @@ class _TasksListState extends State<TasksList> {
 
           Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 0),
+          padding: const EdgeInsets.symmetric(horizontal: 0),
           child: Container(
-            color: Color(0xFFECEBFB),
-            constraints: BoxConstraints(minHeight: 80),
+            color: const Color(0xFFECEBFB),
+            constraints: const BoxConstraints(minHeight: 80),
             child: Padding(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               child: Row(children: [
                 CircleAvatar(
-                  backgroundColor: Color(0xFF85C3FF),
+                  backgroundColor: const Color(0xFF85C3FF),
                   foregroundColor: Colors.white,
                   child: Text(_userRepo.getUserLabel(),
-                      style: TextStyle(fontSize: 19)),
+                      style: const TextStyle(fontSize: 19)),
                 ),
-                SizedBox(width: 16),
+                const SizedBox(width: 16),
                 Text(
-                  _usr.uName.toString() + ' ' + _usr.uSurname.toString(),
+                  '${_usr.uName} ${_usr.uSurname}',
                   textAlign: TextAlign.left,
                   style: Theme.of(context)
                       .textTheme
@@ -317,43 +323,37 @@ class _TasksListState extends State<TasksList> {
           ),
         ),
         Container(
-          color: Color(0xFFFDFBFE),
-          child: SizedBox(height: 15),
+          color: const Color(0xFFFDFBFE),
+          child: const SizedBox(height: 15),
         ),
         Container(
-          color: Color(0xFFFDFBFE),
+          color: const Color(0xFFFDFBFE),
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               //crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Expanded(
                   flex: 3,
-                  child: Container(
-                    child: Text(_curDtStr),
-                  ),
+                  child: Text(_curDtStr),
                 ),
                 Expanded(
                   flex: 3,
                   child: Text(
                     AppLocalizations.of(context)!.today,
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
                 Expanded(
                   flex: 3,
-                  child: Container(
-                    child: Text(
-                      AppLocalizations.of(context)!.tasks +
-                          ': ' +
-                          _numTasks.toString(),
-                      softWrap: false,
-                      textAlign: TextAlign.right,
-                    ),
+                  child: Text(
+                    '${AppLocalizations.of(context)!.tasks}: $_numTasks',
+                    softWrap: false,
+                    textAlign: TextAlign.right,
                   ),
                 ),
               ],
@@ -361,18 +361,18 @@ class _TasksListState extends State<TasksList> {
           ),
         ),
         Container(
-          color: Color(0xFFFDFBFE),
-          child: SizedBox(height: 17),
+          color: const Color(0xFFFDFBFE),
+          child: const SizedBox(height: 17),
         ),
-        Divider(color: Color(0xFFC2E1FF), height: 1, thickness: 1),
+            const Divider(color: Color(0xFFC2E1FF), height: 1, thickness: 1),
         Container(
-          color: Color(0xFFF5F5FD),
-          child: SizedBox(height: 8),
+          color: const Color(0xFFF5F5FD),
+          child: const SizedBox(height: 8),
         ),
         Container(
-          color: Color(0xFFF5F5FD),
+          color: const Color(0xFFF5F5FD),
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 8),
             child: Combobox(
               items: _objects,
               onItemSelected: (ComboBoxItem? selectedValue) {
@@ -387,12 +387,12 @@ class _TasksListState extends State<TasksList> {
           ),
         ),
         Container(
-          color: Color(0xFFF5F5FD),
-          child: SizedBox(height: 8),
+          color: const Color(0xFFF5F5FD),
+          child: const SizedBox(height: 8),
         ),
         Expanded(
           child: Container(
-            color: Color(0xFFF5F5FD),
+            color: const Color(0xFFF5F5FD),
             child: NotificationListener<ScrollEndNotification>(
               onNotification: (scrollEnd) {
                 final metrics = scrollEnd.metrics;
@@ -415,7 +415,7 @@ class _TasksListState extends State<TasksList> {
                 itemBuilder: (BuildContext context, int index) {
                   return GestureDetector(
                     onTap: () {
-                      print('Tapped on item #$index');
+                      debugPrint('Tapped on item #$index');
                       Navigator.pushNamed(context, '/task',
                           arguments: ScreenArguments(
                               _filteredTasks[index], 'entertask'));
@@ -424,12 +424,12 @@ class _TasksListState extends State<TasksList> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 8.0, vertical: 0),
                       child: Card(
-                        color: Color(0xFFFFFFFF),
-                        shadowColor: Color(0xFF000000),
-                        surfaceTintColor: Color(0xFFFFFFFF),
+                        color: const Color(0xFFFFFFFF),
+                        shadowColor: const Color(0xFF000000),
+                        surfaceTintColor: const Color(0xFFFFFFFF),
                         //elevation: 0,
                         child: Padding(
-                          padding: EdgeInsets.symmetric(vertical: 10),
+                          padding: const EdgeInsets.symmetric(vertical: 10),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -445,20 +445,18 @@ class _TasksListState extends State<TasksList> {
                                       child: Text(
                                           Utils.isNotCurrentDay(
                                                   _filteredTasks[index].tDate)
-                                              ? Utils.getDateFormat(
+                                              ? "${Utils.getDateFormat(
                                                       _filteredTasks[index]
                                                           .tDate,
-                                                      "dd/MM") +
-                                                  "\n" +
-                                                  Utils.getTimeFromDate(
+                                                      "dd/MM")}\n${Utils.getTimeFromDate(
                                                       _filteredTasks[index]
-                                                          .tDate)
+                                                          .tDate)}"
                                               : Utils.getTimeFromDate(
                                                   _filteredTasks[index].tDate),
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               color: Color(TaskStatusList
-                                                  .StatusesMap[_filteredTasks[index].tStatus]!
+                                                  .statusesMap[_filteredTasks[index].tStatus]!
                                                   .listColor))),
                                     ),
                                     Expanded(
@@ -472,27 +470,20 @@ class _TasksListState extends State<TasksList> {
                                           children: [
                                             Text(
                                                 _filteredTasks[index].tName +
-                                                    "\n(" +
-                                                    _filteredTasks[index]
-                                                        .tStatus +
-                                                    ":" +
-                                                    _filteredTasks[index]
-                                                        .id
-                                                        .toString() +
-                                                    ")",
+                                                  (kDebugMode
+                                                      ? "\n(${_filteredTasks[index].tStatus}:${_filteredTasks[index].id})"
+                                                      : ""),
                                                 style: TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     color: Color(TaskStatusList
-                                                        .StatusesMap[
+                                                        .statusesMap[
                                                             _filteredTasks[
                                                                     index]
                                                                 .tStatus]!
                                                         .listColor))),
                                             Text(
-                                                _filteredTasks[index].tAddress +
-                                                    '\n' +
-                                                    _filteredTasks[index].tZone,
-                                                style: TextStyle(
+                                                '${_filteredTasks[index].tAddress}\n${_filteredTasks[index].tZone}',
+                                                style: const TextStyle(
                                                     color: Color(0xFF66727F),
                                                     fontSize: 16)),
                                           ],
@@ -512,7 +503,7 @@ class _TasksListState extends State<TasksList> {
                                               borderRadius:
                                                   BorderRadius.circular(12),
                                             ),
-                                            backgroundColor: Color(0xFF7ACB82),
+                                            backgroundColor: const Color(0xFF7ACB82),
                                           ),
                                           //color: Colors.white,
                                           onPressed: () {
@@ -526,11 +517,11 @@ class _TasksListState extends State<TasksList> {
                                         padding: const EdgeInsets.fromLTRB(
                                             16, 5, 20, 5),
                                         child: Icon(
-                                          TaskStatusList.GetIconByStatus(
+                                          TaskStatusList.getIconByStatus(
                                               _filteredTasks[index].tStatus),
                                           //  IconData(TaskStatusList.StatusesMap[_tasks[index].tStatus]!.statusIcon, fontFamily: 'MaterialIcons'),
                                           color: Color(TaskStatusList
-                                              .StatusesMap[_filteredTasks[index]
+                                              .statusesMap[_filteredTasks[index]
                                                   .tStatus]!
                                               .listIconColor),
 
@@ -549,7 +540,7 @@ class _TasksListState extends State<TasksList> {
                 separatorBuilder: (BuildContext context, int index) {
                   //return const Padding(padding: const EdgeInsets.symmetric(horizontal: 8), child: Divider(color: Color(0xFFC2E1FF)));
                   return const Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      padding: EdgeInsets.symmetric(horizontal: 8),
                       child: SizedBox(height: 5));
                 },
               ),

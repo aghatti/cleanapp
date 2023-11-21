@@ -19,7 +19,7 @@ class TaskStatus {
 
 class TaskStatusList {
 
-  static Map<String, TaskStatus> StatusesMap = {
+  static Map<String, TaskStatus> statusesMap = {
     'planned': TaskStatus(2, 'не выполнено', 0xFFEBE8FB,0xFF0B1F33,0xFF0B1F33,0xFF000000,0xe158),
     'started': TaskStatus(3, 'начато', 0xFF85C3FF,0xFFFFFFFF,0xFF85C3FF,0xFF000000,0xf476),
     'finished': TaskStatus(6, 'завершено', 0xFF9FA6AD,0xFFFFFFFF,0xFF9FA6AD,0x55000000,0xef46),
@@ -30,9 +30,9 @@ class TaskStatusList {
   };
 
 
-  static GetIconByStatus(String status_code) {
+  static getIconByStatus(String statusCode) {
     IconData res = Icons.drafts_outlined;
-    switch(status_code) {
+    switch(statusCode) {
       case 'planned':
         res = Icons.check_box_outline_blank;
         break;

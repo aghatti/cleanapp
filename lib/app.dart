@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:authentication_repository/authentication_repository.dart';
 import 'package:tasks_repository/tasks_repository.dart';
-import 'package:user_repository/user_repository.dart';
 import 'package:photo_repository/photo_repository.dart';
 
 import 'start.dart';
@@ -24,7 +22,7 @@ class CleaningApp extends StatefulWidget {
 }
 class _CleaningAppState extends State<CleaningApp> with WidgetsBindingObserver {
   final PhotoUploadService _photoUploadService = PhotoUploadService();
-  final TasksUpdateService _tasksUpdateService = TasksUpdateService();
+  //final TasksUpdateService _tasksUpdateService = TasksUpdateService();
     //late final AuthenticationRepository _authenticationRepository;
   //late final UserRepository _userRepository;
 
@@ -80,7 +78,7 @@ class CleaningAppView extends StatefulWidget {
 class _CleaningAppViewState extends State<CleaningAppView> {
   final _navigatorKey = GlobalKey<NavigatorState>();
 
-  NavigatorState get _navigator => _navigatorKey.currentState!;
+  //NavigatorState get _navigator => _navigatorKey.currentState!;
 
   @override
   Widget build(BuildContext context) {
@@ -190,7 +188,7 @@ class _CleaningAppViewState extends State<CleaningAppView> {
           return PageRouteBuilder(
               settings: settings, // Pass this to make popUntil(), pushNamedAndRemoveUntil(), works
               //pageBuilder: (_, __, ___) => const LoginPage(),
-              pageBuilder: (context, animation, secondaryAnimation) => TasksList(),
+              pageBuilder: (context, animation, secondaryAnimation) => const TasksList(),
               //transitionsBuilder: (_, a, __, c) => FadeTransition(opacity: a, child: c)
               transitionsBuilder: (context, animation, secondaryAnimation, child) {
                 const begin = Offset(0.0, 1.0);
@@ -236,13 +234,13 @@ class _CleaningAppViewState extends State<CleaningAppView> {
           );
         }
         // Unknown route
-        //return MaterialPageRoute(builder: (_) => UnknownPage());
+        throw ArgumentError("Unknown route: ${settings.name}");
       },
 
       themeMode: ThemeMode.light,
       // TODO: Customize the theme (103)
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Color.fromRGBO(85, 81, 241, 1.0)),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromRGBO(85, 81, 241, 1.0)),
         useMaterial3: true,
         brightness: Brightness.light,
         fontFamily: 'IBMPlexSans',

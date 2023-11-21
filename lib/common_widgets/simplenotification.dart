@@ -20,16 +20,18 @@ class SimpleNotificationDialog extends StatelessWidget {
         color: Colors.white,
         child: Padding(
           padding: const EdgeInsets.all(0),
-          child: Container(
+          // TODO test
+          //child: Container(
+          child: SizedBox(
           height: 130, // Adjust the height as needed
           width: 130,
           child:
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(height: 1),
+              const SizedBox(height: 1),
               Image.asset(imageAssetPath),
-              SizedBox(height: 1),
+              const SizedBox(height: 1),
               Text(
                 textLabel,
                 textAlign: TextAlign.center,

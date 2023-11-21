@@ -8,7 +8,7 @@ import 'package:flutter/foundation.dart';
 import 'dart:convert';
 import 'dart:io';
 import 'package:authentication_repository/authentication_repository.dart';
-import 'package:TeamCoord/constants/constants.dart';
+import 'package:team_coord/constants/constants.dart';
 
 class PhotoRepository with ChangeNotifier {
   static final PhotoRepository _instance = PhotoRepository._internal();

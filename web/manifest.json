@@ -1,6 +1,6 @@
 {
-    "name": "cleanapp",
-    "short_name": "cleanapp",
+    "name": "teamcoord",
+    "short_name": "teamcoord",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

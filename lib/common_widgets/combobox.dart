@@ -1,8 +1,8 @@
-import 'package:TeamCoord/models/comboboxitem.dart';
+import 'package:team_coord/models/comboboxitem.dart';
 import 'package:flutter/material.dart';
 
 class Combobox extends StatefulWidget {
-  Combobox({
+  const Combobox({
     Key? key,
     required this.items,
     required this.onItemSelected,
@@ -39,18 +39,18 @@ class _ComboboxState extends State<Combobox> {
   }
   @override
   Widget build(BuildContext context) {
-    ThemeData appStyle = Theme.of(context);
+    //ThemeData appStyle = Theme.of(context);
 
     return
       DropdownButtonFormField<ComboBoxItem>(
         decoration: InputDecoration (
           enabledBorder:  OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(width: 3, color: Color(0xFFC2E1FF)),
+            borderSide: const BorderSide(width: 3, color: Color(0xFFC2E1FF)),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(width: 3, color: Color(0xFFC2E1FF)),
+            borderSide: const BorderSide(width: 3, color: Color(0xFFC2E1FF)),
           ),
           labelText: widget.label,
         ),

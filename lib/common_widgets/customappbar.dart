@@ -15,7 +15,7 @@ class CustomAppBar extends AppBar {
   InkWell(
   onTap: () {
     if (ModalRoute.of(context)!.settings.name != '/home') {
-      Navigator.of(context!).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
+      Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
     }
   },
   child:
@@ -25,9 +25,9 @@ class CustomAppBar extends AppBar {
       children: [
 //Spacer(),
         Image.asset('assets/cleanapp_logo_blue.png', height: 24),
-        SizedBox(width: 5),
+        const SizedBox(width: 5),
         Text(AppLocalizations.of(context)!.order,
-          style: TextStyle(fontStyle: FontStyle.normal, fontWeight: FontWeight.bold, fontSize: 25,
+          style: const TextStyle(fontStyle: FontStyle.normal, fontWeight: FontWeight.bold, fontSize: 25,
               //color: Color(0xFF0B1F33)
             color: Color(0xFF5551F1)
           ),
@@ -38,7 +38,7 @@ class CustomAppBar extends AppBar {
   ),
 // disable leading button (back button)
 //automaticallyImplyLeading: false,
-    iconTheme: IconThemeData(
+    iconTheme: const IconThemeData(
       color: Color(0xFF0B1F33), //change your color here
     ),
     backgroundColor: Colors.white,
@@ -69,7 +69,7 @@ class CustomAppBar extends AppBar {
 // do something
         },
       ),*/
-      SizedBox(width: 10),
+      const SizedBox(width: 10),
     ],
   );
 }
