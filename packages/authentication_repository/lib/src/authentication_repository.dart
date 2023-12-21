@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 
 enum AuthenticationStatus { unknown, authenticated, unauthenticated }
 
@@ -34,32 +35,42 @@ class AuthenticationRepository {
     map['scope'] = '';
     map['client_id'] = '';
     map['client_secret'] = '';
-
-    final response = await http.post(
-      Uri.parse('https://teamcoord.ru:8190/token'),
-      headers: <String, String>{
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: map,
-    );
-
-    if (response.statusCode == 200) {
-      final storage = new FlutterSecureStorage();
-      String _access_token = jsonDecode(response.body)['access_token'];
-      await storage.write(key: '_access_token', value: _access_token);
-      // If the server did return a 201 CREATED response,
-      // then parse the JSON.
-      //return Album.fromJson(jsonDecode(response.body));
-    } else {
-      // If the server did not return a 201 CREATED response,
-      // then throw an exception.
-      res = -1;
-      //throw Exception('Failed to get token.');
+    try {
+      final response = await http.post(
+        Uri.parse('https://teamcoord.ru:8190/token'),
+        headers: <String, String>{
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: map,
+      ).timeout(const Duration(seconds: 10),
+        onTimeout: () {
+          // Time has run out, do what you wanted to do.
+          return http.Response(
+              'Error', 408); // Request Timeout response status code
+        },);
+      if (response.statusCode == 200) {
+        final storage = new FlutterSecureStorage();
+        String _access_token = jsonDecode(response.body)['access_token'];
+        await storage.write(key: '_access_token', value: _access_token);
+        // If the server did return a 201 CREATED response,
+        // then parse the JSON.
+        //return Album.fromJson(jsonDecode(response.body));
+        await Future.delayed(
+          const Duration(milliseconds: 300),
+              () => _controller.add(AuthenticationStatus.authenticated),
+        );
+      } else {
+        // If the server did not return a 201 CREATED response,
+        // then throw an exception.
+        res = -1;
+        //throw Exception('Failed to get token.');
+      }
     }
-    await Future.delayed(
-      const Duration(milliseconds: 300),
-          () => _controller.add(AuthenticationStatus.authenticated),
-    );
+    catch(error) {
+      res = -1;
+      debugPrint("logInAPI error: {$error}");
+    }
+
     return res;
   }
 
